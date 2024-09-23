@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
-	public class HealthDeclarationRepository(AppDbContext context, UserManager<AppUser> userManager) : IHealthDeclarationRepository
+	public class HealthDeclarationRepository(AppDbContext context) : IHealthDeclarationRepository
 	{
 		public async Task<HealthDeclaration> CreateAsync(HealthDeclaration healthDec)
 		{
@@ -34,6 +34,17 @@ namespace DAL.Repositories
 			}
 
 			return healthDecs;
+		}
+
+		public async Task<HealthDeclaration?> GetByIdAsync(int id)
+		{
+			var healthDec = await context.HealthDeclarations.FindAsync(id);
+			if (healthDec is null)
+			{
+				return null;
+			}
+
+			return healthDec;
 		}
 
 		public async Task<HealthDeclaration?> GetByUserIdAsync(string userId)

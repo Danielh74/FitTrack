@@ -14,7 +14,7 @@ namespace FitTrackAPI.DTOs.Account
 		public string? LastName { get; set; }
 
 		[Required]
-		[Range(1,120)]
+		[Range(1, 120)]
 		public int Age { get; set; }
 
 		[Required]
@@ -30,7 +30,7 @@ namespace FitTrackAPI.DTOs.Account
 
 		[Required]
 		[DataType(DataType.Password)]
-		[Compare("Password", ErrorMessage ="Password does not match")]
+		[Compare("Password", ErrorMessage = "Password does not match")]
 		public string? ValidatePassword { get; set; }
 	}
 }

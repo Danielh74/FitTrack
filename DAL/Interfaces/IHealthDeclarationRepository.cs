@@ -6,6 +6,7 @@ namespace DAL.Interfaces
 	{
 		Task<List<HealthDeclaration>> GetAllAsync();
 		Task<HealthDeclaration?> GetByUserIdAsync(string userId);
+		Task<HealthDeclaration?> GetByIdAsync(int id);
 		Task<HealthDeclaration> CreateAsync(HealthDeclaration healthDec);
 		Task<HealthDeclaration> UpdateAsync(int id, HealthDeclaration healthDec);
 		Task<HealthDeclaration> DeleteAsync(HealthDeclaration healthDec);

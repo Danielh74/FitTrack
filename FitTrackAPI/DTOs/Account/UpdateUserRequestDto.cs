@@ -1,17 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
-using System.Numerics;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace DAL.Models
+namespace FitTrackAPI.DTOs.Account
 {
-	public class AppUser : IdentityUser
+	public class UpdateUserRequestDto
 	{
-		public string FirstName { get; set; } = string.Empty;
-
-		public string LastName { get; set; } = string.Empty;
-
-		public string Gender { get; set; } = string.Empty;
-
 		public string City { get; set; } = string.Empty;
 
 		[Range(5, 120, ErrorMessage = "Please enter a valid age between 5 and 120.")]
@@ -20,7 +12,7 @@ namespace DAL.Models
 		[Range(50, 300, ErrorMessage = "Please enter a valid height between 50 cm and 300 cm.")]
 		public int Height { get; set; }
 
-		[Range(0, 300, ErrorMessage = "Please enter a valid weight up to 300 kg.")]
+		[Range(1, 300, ErrorMessage = "Please enter a valid weight up to 300 kg.")]
 		public double Weight { get; set; }
 
 		[Range(0, double.MaxValue, ErrorMessage = "Only positive inputs are allowed")]
@@ -43,17 +35,5 @@ namespace DAL.Models
 
 		[Range(0, double.MaxValue, ErrorMessage = "Only positive inputs are allowed")]
 		public double ArmCircumference { get; set; } = 0;
-
-		[Range(0, double.MaxValue, ErrorMessage = "Only positive inputs are allowed")]
-		public double BodyFatPrecentage { get; set; } = 0;
-
-		public bool AgreedToTerms { get; set; } = false;
-
-        //Foreign Keys:
-        public int? HealthDeclarationId { get; set; }
-
-		//Navigation props:
-		public HealthDeclaration? HealthDeclaration { get; set; }
-		public List<Plan> Plans { get; set; } = [];
-    }
+	}
 }

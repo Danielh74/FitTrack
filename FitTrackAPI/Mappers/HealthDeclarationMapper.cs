@@ -1,5 +1,5 @@
 ﻿using DAL.Models;
-using FitTrackAPI.DTOs.HealthDeclaration;
+using FitTrackAPI.DTOs.Health_Declaration;
 
 namespace FitTrackAPI.Mappers
 {
@@ -24,7 +24,29 @@ namespace FitTrackAPI.Mappers
 				ChronicIllness = healthDeclaration.ChronicIllness,
 				IsPregnant = healthDeclaration.IsPregnant,
 				AppUserId = healthDeclaration.AppUserId,
-				UserName = healthDeclaration.AppUser.UserName
+				UserName = string.Join(" ", healthDeclaration.AppUser.FirstName, healthDeclaration.AppUser.LastName)
+			};
+		}
+
+		public static HealthDeclaration ToModelFromCreate(this CreateHealthDeclarationDto createDto, string userId)
+		{
+			return new HealthDeclaration
+			{
+				HeartDisease = createDto.HeartDisease,
+				ChestPainInRest = createDto.ChestPainInRest,
+				ChestPainInDaily = createDto.ChestPainInDaily,
+				ChestPainInActivity = createDto.ChestPainInActivity,
+				Dizzy = createDto.Dizzy,
+				LostConsciousness = createDto.LostConsciousness,
+				AsthmaTreatment = createDto.AsthmaTreatment,
+				ShortBreath = createDto.ShortBreath,
+				FamilyDeathHeartDisease = createDto.FamilyDeathHeartDisease,
+				FamilySuddenEarlyAgeDeath = createDto.FamilySuddenEarlyAgeDeath,
+				TrainUnderSupervision = createDto.TrainUnderSupervision,
+				ChronicIllness = createDto.ChronicIllness,
+				IsPregnant = createDto.IsPregnant,
+				DateOfSignature = DateTime.UtcNow,
+				AppUserId = userId
 			};
 		}
 	}

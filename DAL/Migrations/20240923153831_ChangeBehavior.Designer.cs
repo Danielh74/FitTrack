@@ -4,6 +4,7 @@ using DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240923153831_ChangeBehavior")]
+    partial class ChangeBehavior
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -383,15 +386,15 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bbb196e6-120a-4da7-9bcd-0495e248cdad",
-                            ConcurrencyStamp = "5b295c21-f1f2-4cac-9001-b1e1d34319a0",
+                            Id = "ebb6b5ea-0b7f-42c2-9bc1-7d0b9e613244",
+                            ConcurrencyStamp = "3bf75a27-869d-411d-94ad-4599e3de86fd",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "5ef8c2be-cc5f-48ae-8025-303823868456",
-                            ConcurrencyStamp = "6ca2d3b2-dd26-48bb-aaee-f274ee28926a",
+                            Id = "f3a27608-3e24-4387-a84a-3197085d4727",
+                            ConcurrencyStamp = "660b3238-ea6c-4d70-a7dd-34b052682629",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -507,7 +510,8 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.HealthDeclaration", "HealthDeclaration")
                         .WithOne("AppUser")
-                        .HasForeignKey("DAL.Models.AppUser", "HealthDeclarationId");
+                        .HasForeignKey("DAL.Models.AppUser", "HealthDeclarationId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("HealthDeclaration");
                 });

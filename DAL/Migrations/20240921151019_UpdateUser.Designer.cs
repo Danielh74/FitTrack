@@ -4,6 +4,7 @@ using DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240921151019_UpdateUser")]
+    partial class UpdateUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +49,6 @@ namespace DAL.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("City")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -383,15 +385,15 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bbb196e6-120a-4da7-9bcd-0495e248cdad",
-                            ConcurrencyStamp = "5b295c21-f1f2-4cac-9001-b1e1d34319a0",
+                            Id = "8b8992a2-df08-414a-a821-3ad548505040",
+                            ConcurrencyStamp = "c6b3e05a-8d63-4f9e-8ca3-09b8a28fb82a",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "5ef8c2be-cc5f-48ae-8025-303823868456",
-                            ConcurrencyStamp = "6ca2d3b2-dd26-48bb-aaee-f274ee28926a",
+                            Id = "4722c66c-8714-482c-85ce-db25160a584f",
+                            ConcurrencyStamp = "245b8763-d7ab-4ab8-9738-2f66e77b3bcc",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -632,7 +634,8 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Models.HealthDeclaration", b =>
                 {
-                    b.Navigation("AppUser");
+                    b.Navigation("AppUser")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DAL.Models.MuscleGroup", b =>

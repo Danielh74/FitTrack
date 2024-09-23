@@ -5,44 +5,47 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace FitTrackAPI.Services
+namespace FitTrackAPI.Services;
+
+public class TokenService
 {
-	public class TokenService
+	private readonly IConfiguration config;
+	private readonly UserManager<AppUser> userManager;
+	private readonly SymmetricSecurityKey key;
+	public TokenService(IConfiguration _config, UserManager<AppUser> _userManager)
 	{
-		private readonly IConfiguration config;
-		private readonly UserManager<AppUser> userManager;
-		private readonly SymmetricSecurityKey key;
-		public TokenService(IConfiguration _config, UserManager<AppUser> _userManager)
+		config = _config;
+		userManager = _userManager;
+		key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:SigningKey"]));
+	}
+
+	public async Task<string> CreateTokenAsync(AppUser user)
+	{
+		var claims = new List<Claim>
 		{
-			config = _config;
-			userManager = _userManager;
-			key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWT:SigningKey"]));
+			new Claim(JwtRegisteredClaimNames.Email,user.Email)
+		};
+
+		if (await userManager.IsInRoleAsync(user, "Admin"))
+		{
+			claims.Add(new Claim(ClaimTypes.Role, "Admin"));
 		}
 
-		public async Task<string> CreateTokenAsync(AppUser user)
+		var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
+
+		var tokenDescriptor = new SecurityTokenDescriptor
 		{
-			var claims = new List<Claim>
-			{
-				new Claim(JwtRegisteredClaimNames.Email,user.Email),
-				new Claim(JwtRegisteredClaimNames.GivenName,user.UserName),
-			};
+			Subject = new ClaimsIdentity(claims),
+			Expires = DateTime.Now.AddDays(1),
+			SigningCredentials = creds,
+			Issuer = config["JWT:Issuer"],
+			Audience = config["JWT:Audience"]
+		};
 
-			if (await userManager.IsInRoleAsync(user, "Admin"))
-			{
-				claims.Add(new Claim(ClaimTypes.Role, "Admin"));
-			}
+		var tokenHandler = new JwtSecurityTokenHandler();
 
-			var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
+		var token = tokenHandler.CreateToken(tokenDescriptor);
 
-			var token = new JwtSecurityToken(
-				issuer: config["JWT:Issuer"],
-				audience: config["JWTAudience"],
-				expires: DateTime.UtcNow.AddDays(1),
-				claims: claims,
-				signingCredentials: creds
-				);
-
-			return new JwtSecurityTokenHandler().WriteToken(token);
-		}
+		return tokenHandler.WriteToken(token);
 	}
 }
