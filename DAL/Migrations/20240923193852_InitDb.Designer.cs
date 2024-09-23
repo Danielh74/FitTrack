@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240921151019_UpdateUser")]
-    partial class UpdateUser
+    [Migration("20240923193852_InitDb")]
+    partial class InitDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,6 +49,7 @@ namespace DAL.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("City")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -70,6 +71,10 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Goal")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("HealthDeclarationId")
                         .HasColumnType("int");
 
@@ -88,6 +93,9 @@ namespace DAL.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int?>("MenuId")
+                        .HasColumnType("int");
 
                     b.Property<double>("NeckCircumference")
                         .HasColumnType("float");
@@ -136,6 +144,10 @@ namespace DAL.Migrations
                     b.HasIndex("HealthDeclarationId")
                         .IsUnique()
                         .HasFilter("[HealthDeclarationId] IS NOT NULL");
+
+                    b.HasIndex("MenuId")
+                        .IsUnique()
+                        .HasFilter("[MenuId] IS NOT NULL");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -255,6 +267,57 @@ namespace DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HealthDeclarations");
+                });
+
+            modelBuilder.Entity("DAL.Models.Menu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Menus");
+                });
+
+            modelBuilder.Entity("DAL.Models.MenuDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CarbsPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FatsPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MenuId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProteinPoints")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MenuId");
+
+                    b.ToTable("MenuDetails");
                 });
 
             modelBuilder.Entity("DAL.Models.MuscleGroup", b =>
@@ -385,15 +448,15 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "8b8992a2-df08-414a-a821-3ad548505040",
-                            ConcurrencyStamp = "c6b3e05a-8d63-4f9e-8ca3-09b8a28fb82a",
+                            Id = "f6c53209-dcf6-4ff3-b714-cc228a9bdf17",
+                            ConcurrencyStamp = "bf1a3f84-849b-485c-942b-9cffa27d35bd",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "4722c66c-8714-482c-85ce-db25160a584f",
-                            ConcurrencyStamp = "245b8763-d7ab-4ab8-9738-2f66e77b3bcc",
+                            Id = "d5a9a6be-74d8-46b7-92f9-8f90c934b992",
+                            ConcurrencyStamp = "e73769ea-3cac-4342-9cb8-a4724fb87f8f",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -511,7 +574,13 @@ namespace DAL.Migrations
                         .WithOne("AppUser")
                         .HasForeignKey("DAL.Models.AppUser", "HealthDeclarationId");
 
+                    b.HasOne("DAL.Models.Menu", "Menu")
+                        .WithOne("AppUser")
+                        .HasForeignKey("DAL.Models.AppUser", "MenuId");
+
                     b.Navigation("HealthDeclaration");
+
+                    b.Navigation("Menu");
                 });
 
             modelBuilder.Entity("DAL.Models.Exercise", b =>
@@ -534,6 +603,17 @@ namespace DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("Exercise");
+                });
+
+            modelBuilder.Entity("DAL.Models.MenuDetails", b =>
+                {
+                    b.HasOne("DAL.Models.Menu", "Menu")
+                        .WithMany("MenuDetails")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Menu");
                 });
 
             modelBuilder.Entity("DAL.Models.Plan", b =>
@@ -634,8 +714,14 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Models.HealthDeclaration", b =>
                 {
-                    b.Navigation("AppUser")
-                        .IsRequired();
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("DAL.Models.Menu", b =>
+                {
+                    b.Navigation("AppUser");
+
+                    b.Navigation("MenuDetails");
                 });
 
             modelBuilder.Entity("DAL.Models.MuscleGroup", b =>

@@ -13,8 +13,9 @@ namespace DAL.Models
 		public string Gender { get; set; } = string.Empty;
 
 		public string City { get; set; } = string.Empty;
+		public string Goal { get; set; } = string.Empty;
 
-		[Range(5, 120, ErrorMessage = "Please enter a valid age between 5 and 120.")]
+        [Range(5, 120, ErrorMessage = "Please enter a valid age between 5 and 120.")]
 		public int Age { get; set; }
 
 		[Range(50, 300, ErrorMessage = "Please enter a valid height between 50 cm and 300 cm.")]
@@ -51,9 +52,11 @@ namespace DAL.Models
 
         //Foreign Keys:
         public int? HealthDeclarationId { get; set; }
+        public int? MenuId { get; set; }
 
-		//Navigation props:
-		public HealthDeclaration? HealthDeclaration { get; set; }
+        //Navigation props:
+        public HealthDeclaration? HealthDeclaration { get; set; }
 		public List<Plan> Plans { get; set; } = [];
+        public Menu? Menu { get; set; }
     }
 }

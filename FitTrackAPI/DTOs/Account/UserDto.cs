@@ -39,5 +39,6 @@ namespace FitTrackAPI.DTOs.Account
 		public bool AgreedToTerms { get; set; } = false;
 		public int? HealthDeclarationId { get; set; }
 		public List<Plan> Plans { get; set; } = [];
+		public Menu? Menu { get; set; }
 	}
 }

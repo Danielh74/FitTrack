@@ -68,6 +68,10 @@ namespace DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Goal")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("HealthDeclarationId")
                         .HasColumnType("int");
 
@@ -86,6 +90,9 @@ namespace DAL.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int?>("MenuId")
+                        .HasColumnType("int");
 
                     b.Property<double>("NeckCircumference")
                         .HasColumnType("float");
@@ -134,6 +141,10 @@ namespace DAL.Migrations
                     b.HasIndex("HealthDeclarationId")
                         .IsUnique()
                         .HasFilter("[HealthDeclarationId] IS NOT NULL");
+
+                    b.HasIndex("MenuId")
+                        .IsUnique()
+                        .HasFilter("[MenuId] IS NOT NULL");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -253,6 +264,57 @@ namespace DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("HealthDeclarations");
+                });
+
+            modelBuilder.Entity("DAL.Models.Menu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Menus");
+                });
+
+            modelBuilder.Entity("DAL.Models.MenuDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CarbsPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FatsPoints")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MenuId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProteinPoints")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MenuId");
+
+                    b.ToTable("MenuDetails");
                 });
 
             modelBuilder.Entity("DAL.Models.MuscleGroup", b =>
@@ -383,15 +445,15 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "bbb196e6-120a-4da7-9bcd-0495e248cdad",
-                            ConcurrencyStamp = "5b295c21-f1f2-4cac-9001-b1e1d34319a0",
+                            Id = "f6c53209-dcf6-4ff3-b714-cc228a9bdf17",
+                            ConcurrencyStamp = "bf1a3f84-849b-485c-942b-9cffa27d35bd",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "5ef8c2be-cc5f-48ae-8025-303823868456",
-                            ConcurrencyStamp = "6ca2d3b2-dd26-48bb-aaee-f274ee28926a",
+                            Id = "d5a9a6be-74d8-46b7-92f9-8f90c934b992",
+                            ConcurrencyStamp = "e73769ea-3cac-4342-9cb8-a4724fb87f8f",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -509,7 +571,13 @@ namespace DAL.Migrations
                         .WithOne("AppUser")
                         .HasForeignKey("DAL.Models.AppUser", "HealthDeclarationId");
 
+                    b.HasOne("DAL.Models.Menu", "Menu")
+                        .WithOne("AppUser")
+                        .HasForeignKey("DAL.Models.AppUser", "MenuId");
+
                     b.Navigation("HealthDeclaration");
+
+                    b.Navigation("Menu");
                 });
 
             modelBuilder.Entity("DAL.Models.Exercise", b =>
@@ -532,6 +600,17 @@ namespace DAL.Migrations
                         .IsRequired();
 
                     b.Navigation("Exercise");
+                });
+
+            modelBuilder.Entity("DAL.Models.MenuDetails", b =>
+                {
+                    b.HasOne("DAL.Models.Menu", "Menu")
+                        .WithMany("MenuDetails")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Menu");
                 });
 
             modelBuilder.Entity("DAL.Models.Plan", b =>
@@ -633,6 +712,13 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Models.HealthDeclaration", b =>
                 {
                     b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("DAL.Models.Menu", b =>
+                {
+                    b.Navigation("AppUser");
+
+                    b.Navigation("MenuDetails");
                 });
 
             modelBuilder.Entity("DAL.Models.MuscleGroup", b =>

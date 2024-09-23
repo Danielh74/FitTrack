@@ -150,6 +150,8 @@ public class AccountController(
 	public async Task<IActionResult> GetAll()
 	{
 		var users = await userManager.Users
+			.Include(u=> u.Menu)
+				.ThenInclude(m=> m.MenuDetails)
 			.Include(u => u.Plans)
 				.ThenInclude(p => p.PlanDetails)
 			.ToListAsync(); ;

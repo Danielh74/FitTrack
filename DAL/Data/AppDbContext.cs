@@ -14,6 +14,8 @@ namespace DAL.Data
 		public DbSet<Plan> Plans { get; set; }
 		public DbSet<PlanDetails> PlansDetails { get; set; }
 		public DbSet<HealthDeclaration> HealthDeclarations { get; set; }
+		public DbSet<Menu> Menus { get; set; }
+		public DbSet<MenuDetails> MenuDetails { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
@@ -36,6 +38,10 @@ namespace DAL.Data
 				.WithOne(h => h.AppUser)
 				.HasForeignKey<AppUser>(u => u.HealthDeclarationId);
 
+			builder.Entity<AppUser>().HasOne(u => u.Menu)
+				.WithOne(m => m.AppUser)
+				.HasForeignKey<AppUser>(u => u.MenuId);
+
 			builder.Entity<Plan>().HasMany(p => p.PlanDetails)
 				.WithOne(pd => pd.Plan)
 				.HasForeignKey(pd => pd.PlanId);
@@ -47,6 +53,10 @@ namespace DAL.Data
 			builder.Entity<MuscleGroup>().HasMany(m => m.Exercises)
 				.WithOne(e => e.MuscleGroup)
 				.HasForeignKey(e => e.MuscleGroupId);
+
+			builder.Entity<Menu>().HasMany(m => m.MenuDetails)
+				.WithOne(md => md.Menu)
+				.HasForeignKey(md => md.MenuId);
 
 			List<IdentityRole> roles = new List<IdentityRole>
 			{

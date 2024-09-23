@@ -55,6 +55,19 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Menus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Menus", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MuscleGroups",
                 columns: table => new
                 {
@@ -96,20 +109,22 @@ namespace DAL.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Goal = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
                     Height = table.Column<int>(type: "int", nullable: false),
-                    Weight = table.Column<int>(type: "int", nullable: false),
-                    NeckCircumference = table.Column<float>(type: "real", nullable: false),
-                    PecsCircumference = table.Column<float>(type: "real", nullable: false),
-                    WaistCircumference = table.Column<float>(type: "real", nullable: false),
-                    StomachCircumference = table.Column<float>(type: "real", nullable: false),
-                    HipsCircumference = table.Column<float>(type: "real", nullable: false),
-                    ThighsCircumference = table.Column<float>(type: "real", nullable: false),
-                    ArmCircumference = table.Column<float>(type: "real", nullable: false),
-                    BodyFatPrecentage = table.Column<float>(type: "real", nullable: false),
+                    Weight = table.Column<double>(type: "float", nullable: false),
+                    NeckCircumference = table.Column<double>(type: "float", nullable: false),
+                    PecsCircumference = table.Column<double>(type: "float", nullable: false),
+                    WaistCircumference = table.Column<double>(type: "float", nullable: false),
+                    AbdominalCircumference = table.Column<double>(type: "float", nullable: false),
+                    HipsCircumference = table.Column<double>(type: "float", nullable: false),
+                    ThighsCircumference = table.Column<double>(type: "float", nullable: false),
+                    ArmCircumference = table.Column<double>(type: "float", nullable: false),
+                    BodyFatPrecentage = table.Column<double>(type: "float", nullable: false),
                     AgreedToTerms = table.Column<bool>(type: "bit", nullable: false),
                     HealthDeclarationId = table.Column<int>(type: "int", nullable: true),
+                    MenuId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -133,6 +148,35 @@ namespace DAL.Migrations
                         column: x => x.HealthDeclarationId,
                         principalTable: "HealthDeclarations",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_Menus_MenuId",
+                        column: x => x.MenuId,
+                        principalTable: "Menus",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MenuDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Order = table.Column<int>(type: "int", nullable: false),
+                    ProteinPoints = table.Column<int>(type: "int", nullable: false),
+                    CarbsPoints = table.Column<int>(type: "int", nullable: false),
+                    FatsPoints = table.Column<int>(type: "int", nullable: false),
+                    MenuId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MenuDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MenuDetails_Menus_MenuId",
+                        column: x => x.MenuId,
+                        principalTable: "Menus",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -313,8 +357,8 @@ namespace DAL.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "3c89246a-e0eb-49bc-ab07-371656c79660", "8344fdb7-0684-4a55-b2b5-77c2692175d7", "User", "USER" },
-                    { "b7b844ac-4143-4eff-b3ad-f05561ba14f3", "c6f0f8c3-b8fb-43cf-b16f-017dd3886b3f", "Admin", "ADMIN" }
+                    { "d5a9a6be-74d8-46b7-92f9-8f90c934b992", "e73769ea-3cac-4342-9cb8-a4724fb87f8f", "User", "USER" },
+                    { "f6c53209-dcf6-4ff3-b714-cc228a9bdf17", "bf1a3f84-849b-485c-942b-9cffa27d35bd", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
@@ -367,7 +411,15 @@ namespace DAL.Migrations
                 name: "IX_AspNetUsers_HealthDeclarationId",
                 table: "AspNetUsers",
                 column: "HealthDeclarationId",
+                unique: true,
                 filter: "[HealthDeclarationId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_MenuId",
+                table: "AspNetUsers",
+                column: "MenuId",
+                unique: true,
+                filter: "[MenuId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -385,6 +437,11 @@ namespace DAL.Migrations
                 name: "IX_ExercisesDetails_ExerciseId",
                 table: "ExercisesDetails",
                 column: "ExerciseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MenuDetails_MenuId",
+                table: "MenuDetails",
+                column: "MenuId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Plans_AppUserId",
@@ -416,6 +473,9 @@ namespace DAL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "MenuDetails");
+
+            migrationBuilder.DropTable(
                 name: "PlansDetails");
 
             migrationBuilder.DropTable(
@@ -438,6 +498,9 @@ namespace DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "HealthDeclarations");
+
+            migrationBuilder.DropTable(
+                name: "Menus");
         }
     }
 }
