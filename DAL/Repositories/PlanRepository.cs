@@ -50,20 +50,21 @@ namespace DAL.Repositories
 			return plan;
 		}
 
-		public async Task<Plan?> GetByUserIdAsync(string userId)
+		public async Task<List<Plan?>> GetByUserIdAsync(string userId)
 		{
-			var plan = await context.Plans
+			var plans = await context.Plans
 				.Include(p => p.AppUser)
 				.Include(p => p.PlanDetails)
 					.ThenInclude(pd => pd.ExerciseDetails)
 						.ThenInclude(ed => ed.Exercise)
-				.FirstOrDefaultAsync(p=> p.AppUserId == userId);
-			if(plan is null)
+				.Where(p => p.AppUserId == userId)
+				.ToListAsync();
+			if(plans.Count == 0)
 			{
 				return null;
 			}
 
-			return plan;
+			return plans;
 		}
 
 		public async Task<Plan?> UpdateAsync(int id, Plan updatedPlan)

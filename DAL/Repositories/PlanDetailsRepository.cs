@@ -74,15 +74,17 @@ namespace DAL.Repositories
 			return planDetails;
 		}
 
-		public async Task<PlanDetails?> UpdateAsync(int id, PlanDetails planDetailsModel)
+		public async Task<PlanDetails?> UpdateAsync(int planId,int exDetailsId, PlanDetails planDetailsModel)
 		{
-			var currentPlanDetails = await context.PlansDetails.FindAsync(id);
+			var currentPlanDetails = await context.PlansDetails
+				.Include(pd => pd.ExerciseDetails)
+					.ThenInclude(ed => ed.Exercise)
+				.FirstOrDefaultAsync(pd => pd.PlanId == planId && pd.ExerciseDetailsId == exDetailsId);
 			if (currentPlanDetails is null)
 			{
 				return null;
 			}
 
-			currentPlanDetails.ExerciseDetailsId = planDetailsModel.ExerciseDetailsId;
 			currentPlanDetails.OrederInPlan = planDetailsModel.OrederInPlan;
 
 			await context.SaveChangesAsync();

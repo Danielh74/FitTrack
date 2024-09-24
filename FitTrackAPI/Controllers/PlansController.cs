@@ -2,6 +2,7 @@
 using DAL.Models;
 using FitTrackAPI.DTOs.PlanDTOs;
 using FitTrackAPI.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -39,15 +40,16 @@ namespace FitTrackAPI.Controllers
 		}
 
 		[HttpGet("user/{userId}")]
+		[Authorize]
 		public async Task<IActionResult> GetByUserId(string userId)
 		{
-			var plan = await repo.GetByUserIdAsync(userId);
-			if (plan is null)
+			var plans = await repo.GetByUserIdAsync(userId);
+			if (plans is null)
 			{
 				return NotFound();
 			}
 
-			return Ok(plan.ToPlanDto());
+			return Ok(plans.Select(p=> p.ToPlanDto()));
 		}
 
 		[HttpPost]

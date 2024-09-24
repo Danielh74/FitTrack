@@ -24,7 +24,7 @@ namespace FitTrackAPI.Controllers
 		}
 
 		[HttpGet("{planId}&{exDetailsId}")]
-		public async Task<IActionResult> GetByKey([FromRoute]int planId, [FromRoute] int exDetailsId)
+		public async Task<IActionResult> GetByKey([FromRoute] int planId, [FromRoute] int exDetailsId)
 		{
 			var planDetails = await repo.GetByKeyAsync(planId, exDetailsId);
 			if (planDetails is null)
@@ -35,7 +35,7 @@ namespace FitTrackAPI.Controllers
 			return Ok(planDetails.ToDto());
 		}
 
-		[HttpGet("/planDetails/{planId}")]
+		[HttpGet("{planId}")]
 		public async Task<IActionResult> GetByPlanId(int planId)
 		{
 			var planDetails = await repo.GetByPlanIdAsync(planId);
@@ -58,6 +58,36 @@ namespace FitTrackAPI.Controllers
 			var planDetails = await repo.CreateAsync(dto.ToModelFromCreate());
 
 			return Created();
+		}
+
+		[HttpPut("{planId}&{exDetailsId}")]
+		public async Task<IActionResult> Update([FromRoute] int planId, [FromRoute] int exDetailsId, [FromBody] UpdatePlanDetailsRequestDto dto)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			var planDetails = await repo.UpdateAsync(planId,exDetailsId,dto.ToModelFromUpdate());
+			if(planDetails is null)
+			{
+				return NotFound();
+			}
+			return Ok(planDetails.ToDto());
+		}
+
+		[HttpDelete("{planId}&{exDetailsId}")]
+		public async Task<IActionResult> Delete([FromRoute] int planId, [FromRoute] int exDetailsId)
+		{
+			var planDetails = await repo.GetByKeyAsync(planId, exDetailsId);
+			if (planDetails is null)
+			{
+				return NotFound();
+			}
+
+			await repo.DeleteAsync(planDetails);
+
+			return NoContent();
 		}
 	}
 }

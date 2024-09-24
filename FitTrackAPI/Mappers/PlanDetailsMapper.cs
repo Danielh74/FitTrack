@@ -27,5 +27,13 @@ namespace FitTrackAPI.Mappers
 				OrederInPlan = dto.OrderInPlan,
 			};
 		}
+
+		public static PlanDetails ToModelFromUpdate(this UpdatePlanDetailsRequestDto dto)
+		{
+			return new PlanDetails
+			{
+				OrederInPlan = dto.OrderInPlanId
+			};
+		}
 	}
 }
