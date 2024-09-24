@@ -1,5 +1,6 @@
 ﻿using DAL.Models;
 using FitTrackAPI.DTOs.PlanDetails;
+using FitTrackAPI.DTOs.PlanDetailsDTOs;
 
 namespace FitTrackAPI.Mappers
 {
@@ -14,6 +15,16 @@ namespace FitTrackAPI.Mappers
 				Reps = model.ExerciseDetails.Reps,
 				Sets = model.ExerciseDetails.Sets,
 				Description = model.ExerciseDetails.Description,	
+			};
+		}
+
+		public static PlanDetails ToModelFromCreate(this CreatePlanDetailsDto dto)
+		{
+			return new PlanDetails
+			{
+				ExerciseDetailsId = dto.ExerciseDetailsId,
+				PlanId = dto.PlanId,
+				OrederInPlan = dto.OrderInPlan,
 			};
 		}
 	}

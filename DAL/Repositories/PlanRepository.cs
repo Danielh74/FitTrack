@@ -37,9 +37,10 @@ namespace DAL.Repositories
 		public async Task<Plan?> GetByIdAsync(int id)
 		{
 			var plan = await context.Plans
+				.Include(p=> p.AppUser)
 				.Include(p=> p.PlanDetails)
-				.ThenInclude(pd=> pd.ExerciseDetails)
-				.ThenInclude(ed=> ed.Exercise)
+					.ThenInclude(pd=> pd.ExerciseDetails)
+						.ThenInclude(ed=> ed.Exercise)
 				.FirstOrDefaultAsync(p=> p.Id == id);
 			if(plan is null)
 			{
@@ -51,7 +52,12 @@ namespace DAL.Repositories
 
 		public async Task<Plan?> GetByUserIdAsync(string userId)
 		{
-			var plan = await context.Plans.FirstOrDefaultAsync(p=> p.AppUserId == userId);
+			var plan = await context.Plans
+				.Include(p => p.AppUser)
+				.Include(p => p.PlanDetails)
+					.ThenInclude(pd => pd.ExerciseDetails)
+						.ThenInclude(ed => ed.Exercise)
+				.FirstOrDefaultAsync(p=> p.AppUserId == userId);
 			if(plan is null)
 			{
 				return null;

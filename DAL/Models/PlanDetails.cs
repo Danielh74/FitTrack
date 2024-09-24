@@ -4,8 +4,6 @@ namespace DAL.Models
 {
 	public class PlanDetails
 	{
-        [Key]
-        public int Id { get; set; }
         public int PlanId { get; set; }
 		public int ExerciseDetailsId { get; set; }
         public int OrederInPlan { get; set; }

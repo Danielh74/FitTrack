@@ -31,7 +31,7 @@ namespace FitTrackAPI.Controllers
 			var plan = await repo.GetByIdAsync(id);
 			if (plan is null)
 			{
-				return NotFound();
+				return NoContent();
 			}
 
 			return Ok(plan.ToPlanDto());

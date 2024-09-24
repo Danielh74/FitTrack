@@ -20,7 +20,7 @@ namespace FitTrackAPI.Controllers
 		public async Task<IActionResult> GetAll()
 		{
 			var healthDecs = await repo.GetAllAsync();
-			if(healthDecs is null)
+			if(healthDecs.Count == 0)
 			{
 				return NotFound("There are no health declarations in the database");
 			}

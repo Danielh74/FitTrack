@@ -152,11 +152,6 @@ public class AccountsController(
 	{
 		var users = await userManager.Users.ToListAsync(); ;
 
-		if (users is null)
-		{
-			return NotFound();
-		}
-
 		if (users.Count == 0)
 		{
 			return NoContent();
@@ -169,7 +164,6 @@ public class AccountsController(
 	[Authorize(Roles = "Admin")]
 	public async Task<IActionResult> GetById(string id)
 	{
-
 		//Check if can remove the includes after creating plans
 		var user = await userManager.Users
 			.Include(u => u.Menu)
