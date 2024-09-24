@@ -1,5 +1,5 @@
 ﻿using DAL.Models;
-using FitTrackAPI.DTOs.Account;
+using FitTrackAPI.DTOs.AccountDTOs;
 using System.Numerics;
 using System.Reflection;
 
@@ -24,6 +24,7 @@ namespace FitTrackAPI.Mappers
 		{
 			return new UserDto
 			{
+				Id = model.Id,
 				FirstName = model.FirstName,
 				LastName = model.LastName,
 				Gender = model.Gender,
@@ -41,7 +42,22 @@ namespace FitTrackAPI.Mappers
 				BodyFatPrecentage = model.BodyFatPrecentage,
 				AgreedToTerms = model.AgreedToTerms,
 				HealthDeclarationId = model.HealthDeclarationId,
-				Plans = model.Plans
+				Plans = model.Plans.Select(p=> p.ToPlanDto()).ToList(),
+			};
+		}
+
+		public static UserListDto ToListDto(this AppUser model)
+		{
+			return new UserListDto
+			{
+				Id = model.Id,
+				FirstName = model.FirstName,
+				LastName = model.LastName,
+				Gender = model.Gender,
+				City = model.City,
+				Age = model.Age,
+				AgreedToTerms = model.AgreedToTerms,
+				HealthDeclarationId = model.HealthDeclarationId
 			};
 		}
 	}

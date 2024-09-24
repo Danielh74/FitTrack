@@ -70,7 +70,7 @@ namespace DAL.Repositories
 			return isExist;
 		}
 
-		public async Task<Exercise?> UpdateAsync(int id, Exercise exerciseModel)
+		public async Task<Exercise?> UpdateAsync(int id, Exercise updatedExercise)
 		{
 			var currentExercise = await context.Exercises.FindAsync(id);
 			if (currentExercise is null)
@@ -78,8 +78,8 @@ namespace DAL.Repositories
 				return null;
 			}
 
-			currentExercise.Name = exerciseModel.Name;
-			currentExercise.MuscleGroupId = exerciseModel.MuscleGroupId;
+			currentExercise.Name = updatedExercise.Name;
+			currentExercise.MuscleGroupId = updatedExercise.MuscleGroupId;
 
 			await context.SaveChangesAsync();
 

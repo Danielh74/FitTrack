@@ -9,7 +9,7 @@ namespace FitTrackAPI.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class MuscleGroupController(IMuscleGroupRepository repo) : ControllerBase
+	public class MuscleGroupsController(IMuscleGroupRepository repo) : ControllerBase
 	{
 		[HttpGet]
 		public async Task<IActionResult> GetAll([FromQuery] QueryObject query)

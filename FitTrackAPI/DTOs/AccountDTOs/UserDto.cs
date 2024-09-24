@@ -1,12 +1,14 @@
 ﻿using DAL.Models;
 using FitTrackAPI.DTOs.Health_Declaration;
+using FitTrackAPI.DTOs.PlanDTOs;
 using System.ComponentModel.DataAnnotations;
 
-namespace FitTrackAPI.DTOs.Account
+namespace FitTrackAPI.DTOs.AccountDTOs
 {
 	public class UserDto
 	{
-		public string FirstName { get; set; } = string.Empty;
+		public string Id { get; set; } = string.Empty;
+        public string FirstName { get; set; } = string.Empty;
 
 		public string LastName { get; set; } = string.Empty;
 
@@ -38,7 +40,7 @@ namespace FitTrackAPI.DTOs.Account
 
 		public bool AgreedToTerms { get; set; } = false;
 		public int? HealthDeclarationId { get; set; }
-		public List<Plan> Plans { get; set; } = [];
+		public List<PlanDto> Plans { get; set; } = [];
 		public Menu? Menu { get; set; }
 	}
 }

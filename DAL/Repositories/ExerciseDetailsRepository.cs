@@ -58,7 +58,7 @@ namespace DAL.Repositories
 			return exerciseDetails;
 		}
 
-		public async Task<ExerciseDetails?> UpdateAsync(int id, ExerciseDetails exDetails)
+		public async Task<ExerciseDetails?> UpdateAsync(int id, ExerciseDetails updatedExDetails)
 		{
 			var currentExDetails = await context.ExercisesDetails
 				.Include(e => e.Exercise)
@@ -68,9 +68,9 @@ namespace DAL.Repositories
 				return null;
 			}
 
-			currentExDetails.Sets = exDetails.Sets;
-			currentExDetails.Reps = exDetails.Reps;
-			currentExDetails.Description = exDetails.Description;
+			currentExDetails.Sets = updatedExDetails.Sets;
+			currentExDetails.Reps = updatedExDetails.Reps;
+			currentExDetails.Description = updatedExDetails.Description;
 
 			await context.SaveChangesAsync();
 

@@ -11,7 +11,7 @@ namespace FitTrackAPI.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class ExerciseController(IExerciseRepository exerciseRepo, IMuscleGroupRepository muscleGroupRepo) : ControllerBase
+	public class ExercisesController(IExerciseRepository exerciseRepo, IMuscleGroupRepository muscleGroupRepo) : ControllerBase
 	{
 		[HttpGet]
 		public async Task<IActionResult> GetAll([FromQuery] QueryObject query)

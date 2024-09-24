@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FitTrackAPI.DTOs.Account
+namespace FitTrackAPI.DTOs.AccountDTOs
 {
 	public class UpdateUserRequestDto
 	{

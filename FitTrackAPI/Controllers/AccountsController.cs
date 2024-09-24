@@ -1,5 +1,5 @@
 ﻿using DAL.Models;
-using FitTrackAPI.DTOs.Account;
+using FitTrackAPI.DTOs.AccountDTOs;
 using FitTrackAPI.Helpers;
 using FitTrackAPI.Mappers;
 using FitTrackAPI.Services;
@@ -15,7 +15,7 @@ namespace FitTrackAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AccountController(
+public class AccountsController(
 	UserManager<AppUser> userManager,
 	SignInManager<AppUser> signInManager,
 	TokenService tokenService) : ControllerBase
@@ -92,7 +92,7 @@ public class AccountController(
 		double updatedBodyFat = 0;
 		if (userDto.Height > 0 && userDto.Weight > 0)
 		{
-			updatedBodyFat = Calculations.BodyFatPercentage(
+			updatedBodyFat = Utils.BodyFatPercentage(
 				 userDto.WaistCircumference,
 				 userDto.HipsCircumference,
 				 userDto.NeckCircumference,
@@ -123,6 +123,7 @@ public class AccountController(
 	}
 
 	[HttpDelete]
+	[Authorize]
 	public async Task<IActionResult> Delete()
 	{
 		var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
@@ -149,12 +150,7 @@ public class AccountController(
 	[Authorize(Roles = "Admin")]
 	public async Task<IActionResult> GetAll()
 	{
-		var users = await userManager.Users
-			.Include(u=> u.Menu)
-				.ThenInclude(m=> m.MenuDetails)
-			.Include(u => u.Plans)
-				.ThenInclude(p => p.PlanDetails)
-			.ToListAsync(); ;
+		var users = await userManager.Users.ToListAsync(); ;
 
 		if (users is null)
 		{
@@ -166,7 +162,30 @@ public class AccountController(
 			return NoContent();
 		}
 
-		return Ok(users.Select(u => u.ToDto()));
+		return Ok(users.Select(u => u.ToListDto()));
+	}
+
+	[HttpGet("{id}")]
+	[Authorize(Roles = "Admin")]
+	public async Task<IActionResult> GetById(string id)
+	{
+
+		//Check if can remove the includes after creating plans
+		var user = await userManager.Users
+			.Include(u => u.Menu)
+				.ThenInclude(m => m.MenuDetails)
+			.Include(u => u.Plans)
+				.ThenInclude(p => p.PlanDetails)
+					.ThenInclude(pd => pd.ExerciseDetails)
+						.ThenInclude(ed => ed.Exercise)
+			.FirstOrDefaultAsync(u => u.Id == id);
+
+		if (user is null)
+		{
+			return NotFound();
+		}
+
+		return Ok(user.ToDto());
 	}
 }
 

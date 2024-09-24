@@ -1,5 +1,6 @@
 ﻿using DAL.Models;
 using FitTrackAPI.DTOs.Health_Declaration;
+using FitTrackAPI.Helpers;
 
 namespace FitTrackAPI.Mappers
 {
@@ -24,7 +25,7 @@ namespace FitTrackAPI.Mappers
 				ChronicIllness = healthDeclaration.ChronicIllness,
 				IsPregnant = healthDeclaration.IsPregnant,
 				AppUserId = healthDeclaration.AppUserId,
-				UserName = string.Join(" ", healthDeclaration.AppUser.FirstName, healthDeclaration.AppUser.LastName)
+				UserName = Utils.UserFullName(healthDeclaration.AppUser.FirstName, healthDeclaration.AppUser.LastName)
 			};
 		}
 

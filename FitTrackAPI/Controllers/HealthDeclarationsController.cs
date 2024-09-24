@@ -13,7 +13,7 @@ namespace FitTrackAPI.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class HealthDeclarationController(IHealthDeclarationRepository repo, UserManager<AppUser> userManager) : ControllerBase
+	public class HealthDeclarationsController(IHealthDeclarationRepository repo, UserManager<AppUser> userManager) : ControllerBase
 	{
 		[HttpGet]
 		[Authorize(Roles = "Admin")]

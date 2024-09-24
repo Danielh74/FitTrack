@@ -61,6 +61,8 @@ namespace FitTrackAPI
 			builder.Services.AddScoped<IMuscleGroupRepository, MuscleGroupRepository>();
 			builder.Services.AddScoped<IExerciseDetailsRepository, ExerciseDetailsRepository>();
 			builder.Services.AddScoped<IHealthDeclarationRepository, HealthDeclarationRepository>();
+			builder.Services.AddScoped<IPlanRepository, PlanRepository>();
+			builder.Services.AddScoped<TokenService>();
 			builder.Services.AddScoped<TokenService>();
 
 			builder.Services.AddControllers();

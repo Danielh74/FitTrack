@@ -58,7 +58,7 @@ namespace DAL.Repositories
 			return healthDec;
 		}
 
-		public async Task<HealthDeclaration> UpdateAsync(int id, HealthDeclaration healthDec)
+		public async Task<HealthDeclaration> UpdateAsync(int id, HealthDeclaration updatedHealthDec)
 		{
 			var currentHealthDec = await context.HealthDeclarations.FindAsync(id);
 			if (currentHealthDec is null)
@@ -66,19 +66,19 @@ namespace DAL.Repositories
 				return null;
 			}
 
-			currentHealthDec.HeartDisease = healthDec.HeartDisease;
-			currentHealthDec.ChestPainInRest = healthDec.ChestPainInRest;
-			currentHealthDec.ChestPainInDaily = healthDec.ChestPainInDaily;
-			currentHealthDec.ChestPainInActivity = healthDec.ChestPainInActivity;
-			currentHealthDec.Dizzy = healthDec.Dizzy;
-			currentHealthDec.LostConsciousness = healthDec.LostConsciousness;
-			currentHealthDec.AsthmaTreatment = healthDec.AsthmaTreatment;
-			currentHealthDec.ShortBreath = healthDec.ShortBreath;
-			currentHealthDec.FamilyDeathHeartDisease = healthDec.FamilyDeathHeartDisease;
-			currentHealthDec.FamilySuddenEarlyAgeDeath = healthDec.FamilySuddenEarlyAgeDeath;
-			currentHealthDec.TrainUnderSupervision = healthDec.TrainUnderSupervision;
-			currentHealthDec.ChronicIllness = healthDec.ChronicIllness;
-			currentHealthDec.IsPregnant = healthDec.IsPregnant;
+			currentHealthDec.HeartDisease = updatedHealthDec.HeartDisease;
+			currentHealthDec.ChestPainInRest = updatedHealthDec.ChestPainInRest;
+			currentHealthDec.ChestPainInDaily = updatedHealthDec.ChestPainInDaily;
+			currentHealthDec.ChestPainInActivity = updatedHealthDec.ChestPainInActivity;
+			currentHealthDec.Dizzy = updatedHealthDec.Dizzy;
+			currentHealthDec.LostConsciousness = updatedHealthDec.LostConsciousness;
+			currentHealthDec.AsthmaTreatment = updatedHealthDec.AsthmaTreatment;
+			currentHealthDec.ShortBreath = updatedHealthDec.ShortBreath;
+			currentHealthDec.FamilyDeathHeartDisease = updatedHealthDec.FamilyDeathHeartDisease;
+			currentHealthDec.FamilySuddenEarlyAgeDeath = updatedHealthDec.FamilySuddenEarlyAgeDeath;
+			currentHealthDec.TrainUnderSupervision = updatedHealthDec.TrainUnderSupervision;
+			currentHealthDec.ChronicIllness = updatedHealthDec.ChronicIllness;
+			currentHealthDec.IsPregnant = updatedHealthDec.IsPregnant;
 
 			await context.SaveChangesAsync();
 
