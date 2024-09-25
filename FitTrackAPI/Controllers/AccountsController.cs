@@ -77,7 +77,7 @@ public class AccountsController(
 		{
 			return BadRequest(ModelState);
 		}
-		var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+		var userEmail = User.FindFirstValue(ClaimTypes.Email);
 		if (userEmail is null)
 		{
 			return NotFound("Email of the user was not found in the claims");
@@ -126,7 +126,7 @@ public class AccountsController(
 	[Authorize]
 	public async Task<IActionResult> Delete()
 	{
-		var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+		var userEmail = User.FindFirstValue(ClaimTypes.Email);
 		if (userEmail is null)
 		{
 			return NotFound("Email of the user was not found in the claims");

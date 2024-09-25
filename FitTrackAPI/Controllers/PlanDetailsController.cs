@@ -4,11 +4,13 @@ using DAL.Helpers;
 using FitTrackAPI.Mappers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FitTrackAPI.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize(Roles = "Admin")]
 	public class PlanDetailsController(IPlanDetailsRepository repo) : ControllerBase
 	{
 		[HttpGet]

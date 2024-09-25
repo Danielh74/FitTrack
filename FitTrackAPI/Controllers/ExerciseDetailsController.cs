@@ -2,6 +2,7 @@
 using DAL.Interfaces;
 using FitTrackAPI.DTOs.ExerciseDetails;
 using FitTrackAPI.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace FitTrackAPI.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize(Roles = "Admin")]
 	public class ExerciseDetailsController(IExerciseDetailsRepository exDetailsRepo, IExerciseRepository exerciseRepo) : ControllerBase
 	{
 		[HttpGet]

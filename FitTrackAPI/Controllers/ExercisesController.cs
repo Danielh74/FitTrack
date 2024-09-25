@@ -3,6 +3,7 @@ using DAL.Interfaces;
 using DAL.Models;
 using FitTrackAPI.DTOs.Exercise;
 using FitTrackAPI.Mappers;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
@@ -11,6 +12,7 @@ namespace FitTrackAPI.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize( Roles = "Admin")]
 	public class ExercisesController(IExerciseRepository exerciseRepo, IMuscleGroupRepository muscleGroupRepo) : ControllerBase
 	{
 		[HttpGet]
