@@ -37,7 +37,7 @@ namespace FitTrackAPI.Controllers
 			var muscleGroup = await repo.GetByIdAsync(id);
 			if (muscleGroup is null)
 			{
-				return NotFound($"Muscle group with id: {id} was not found");
+				return NoContent();
 			}
 
 			return Ok(muscleGroup.ToDto());
@@ -54,7 +54,7 @@ namespace FitTrackAPI.Controllers
 			var updatedMuscleGroup = await repo.UpdateAsync(id,mgDto.ToModelFromUpdate());
 			if(updatedMuscleGroup is null)
 			{
-				return NotFound($"Muscle group with id: {id} wa not found");
+				return NoContent();
 			}
 
 			return Ok(updatedMuscleGroup.ToDto());
@@ -82,12 +82,12 @@ namespace FitTrackAPI.Controllers
 			var muscleGroup = await repo.GetByIdAsync(id);
 			if(muscleGroup is null)
 			{
-				return NotFound($"Muscle group with id: {id} was not found");
+				return NoContent();
 			}
 
 			await repo.DeleteAsync(muscleGroup);
 
-			return NoContent();
+			return Ok("Item deleted successfully");
 		}
 	}
 }

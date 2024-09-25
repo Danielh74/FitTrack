@@ -22,7 +22,7 @@ namespace FitTrackAPI.Controllers
 			}
 
 			var exDetailsList = await exDetailsRepo.GetAllAsync(query);
-			if (exDetailsList.Count == 0)
+			if (exDetailsList is null)
 			{
 				return NoContent();
 			}
@@ -41,7 +41,7 @@ namespace FitTrackAPI.Controllers
 			var exDetails = await exDetailsRepo.GetByIdAsync(id);
 			if (exDetails is null)
 			{
-				return NotFound("Exercise details were not found");
+				return NoContent();
 			}
 
 			return Ok(exDetails.ToDto());
@@ -58,7 +58,7 @@ namespace FitTrackAPI.Controllers
 			var isExists = await exerciseRepo.IsExists(exDetailsDto.ExerciseName);
 			if (!isExists)
 			{
-				return NotFound("Exercise does not exist");
+				return NoContent();
 			}
 
 			var exDetailsModel = await exDetailsDto.ToModelFromCreate(exerciseRepo);
@@ -78,7 +78,7 @@ namespace FitTrackAPI.Controllers
 			var updatedModel = await exDetailsRepo.UpdateAsync(id, exDetailsDto.ToModelFromUpdate());
 			if(updatedModel is null)
 			{
-				return NotFound($"Exercise details with id: {id} was not found");
+				return NoContent();
 			}
 
 			return Ok(updatedModel.ToDto());
@@ -95,11 +95,11 @@ namespace FitTrackAPI.Controllers
 			var exDetails = await exDetailsRepo.GetByIdAsync(id);
 			if (exDetails is null)
 			{
-				return NotFound($"Exercise details with id: {id} was not found");
+				return NoContent();
 			}
 			await exDetailsRepo.DeleteAsync(exDetails);
 			
-			return NoContent();
+			return Ok("Item deleted successfully");
 		}
 	}
 }

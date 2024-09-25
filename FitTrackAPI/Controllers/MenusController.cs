@@ -32,7 +32,7 @@ namespace FitTrackAPI.Controllers
 			var menu = await repo.GetByIdAsync(id);
 			if (menu is null)
 			{
-				return NotFound();
+				return NoContent();
 			}
 
 			return Ok(menu.ToDto());
@@ -45,7 +45,7 @@ namespace FitTrackAPI.Controllers
 			var menu = await repo.GetByUserIdAsync(userId);
 			if (menu is null)
 			{
-				return NotFound();
+				return NoContent();
 			}
 
 			var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -78,12 +78,12 @@ namespace FitTrackAPI.Controllers
 			var menu = await repo.GetByIdAsync(id);
 			if (menu is null)
 			{
-				return NotFound();
+				return NoContent();
 			}
 
 			await repo.DeleteAsync(menu);
 
-			return NoContent();
+			return Ok("Item deleted successfully");
 		}
 	}
 }

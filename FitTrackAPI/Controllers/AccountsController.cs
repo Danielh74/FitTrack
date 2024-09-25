@@ -146,6 +146,24 @@ public class AccountsController(
 		return Ok("User was deleted successfully");
 	}
 
+	[HttpDelete("{id}")]
+	[Authorize(Roles ="Admin")]
+	public async Task<IActionResult> DeleteById(string id)
+	{
+		var user = await userManager.Users.FirstOrDefaultAsync(u=> u.Id == id);
+		if (user is null)
+		{
+			return NotFound("User not found");
+		}
+
+		var result = await userManager.DeleteAsync(user);
+		if (!result.Succeeded)
+		{
+			return StatusCode(500, "Failed to delete user");
+		}
+		return Ok("User was deleted successfully");
+	}
+
 	[HttpGet]
 	[Authorize(Roles = "Admin")]
 	public async Task<IActionResult> GetAll()
@@ -164,7 +182,6 @@ public class AccountsController(
 	[Authorize(Roles = "Admin")]
 	public async Task<IActionResult> GetById(string id)
 	{
-		//Check if can remove the includes after creating plans
 		var user = await userManager.Users
 			.Include(u => u.Menu)
 				.ThenInclude(m => m.MenuDetails)

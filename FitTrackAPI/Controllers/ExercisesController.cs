@@ -39,7 +39,7 @@ namespace FitTrackAPI.Controllers
 			var exercise = await exerciseRepo.GetByIdAsync(id);
 			if (exercise is null)
 			{
-				return NotFound("No exercise with this id");
+				return NoContent();
 			}
 
 			return Ok(exercise.ToDto());
@@ -55,7 +55,7 @@ namespace FitTrackAPI.Controllers
 
 			if (!await muscleGroupRepo.MuscleGroupExist(exerciseDto.MuscleGroupName))
 			{
-				return NotFound("Muscle group does not exist");
+				return NoContent();
 			}
 
 			var exercise = await exerciseDto.ToModelFromCreate(muscleGroupRepo);
@@ -75,14 +75,14 @@ namespace FitTrackAPI.Controllers
 
 			if (!await muscleGroupRepo.MuscleGroupExist(exerciseDto.MuscleGroupName))
 			{
-				return NotFound("Muscle group does not exist");
+				return NoContent();
 			}
 
 			var exercise = await exerciseRepo.UpdateAsync(id, await exerciseDto.ToModelFromUpdate(muscleGroupRepo));
 
 			if (exercise is null)
 			{
-				return NotFound($"Exercise with id: {id} was not found");
+				return NoContent();
 			}
 
 			return Ok(exercise.ToDto());
@@ -99,12 +99,12 @@ namespace FitTrackAPI.Controllers
 			var exercise = await exerciseRepo.GetByIdAsync(id);
 			if (exercise is null)
 			{
-				return NotFound($"Exercise with id: {id} was not found");
+				return NoContent();
 			}
 
 			await exerciseRepo.DeleteAsync(exercise);
 
-			return NoContent();
+			return Ok("Item deleted successfully");
 		}
 	}
 }

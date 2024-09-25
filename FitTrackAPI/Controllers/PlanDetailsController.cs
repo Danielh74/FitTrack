@@ -73,7 +73,7 @@ namespace FitTrackAPI.Controllers
 			var planDetails = await repo.UpdateAsync(planId,exDetailsId,dto.ToModelFromUpdate());
 			if(planDetails is null)
 			{
-				return NotFound();
+				return NoContent();
 			}
 			return Ok(planDetails.ToDto());
 		}
@@ -84,12 +84,12 @@ namespace FitTrackAPI.Controllers
 			var planDetails = await repo.GetByKeyAsync(planId, exDetailsId);
 			if (planDetails is null)
 			{
-				return NotFound();
+				return NoContent();
 			}
 
 			await repo.DeleteAsync(planDetails);
 
-			return NoContent();
+			return Ok("Item deleted successfully");
 		}
 	}
 }

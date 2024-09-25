@@ -60,7 +60,7 @@ namespace FitTrackAPI.Controllers
 			var menuDetails = await repo.UpdateAsync(id,updateDto.ToModelFromUpdate());
 			if (menuDetails is null)
 			{
-				return NotFound();
+				return NoContent();
 			}
 
 			return Ok(menuDetails.ToDto());
@@ -73,12 +73,12 @@ namespace FitTrackAPI.Controllers
 			var menuDetails = await repo.GetByIdAsync(id);
 			if (menuDetails is null)
 			{
-				return NotFound();
+				return NoContent();
 			}
 
 			await repo.DeleteAsync(menuDetails);
 
-			return Ok();
+			return Ok("Item deleted successfully");
 		}
 	}
 }

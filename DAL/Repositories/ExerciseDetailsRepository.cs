@@ -27,23 +27,29 @@ namespace DAL.Repositories
 
 		public async Task<List<ExerciseDetails>> GetAllAsync(QueryObject query)
 		{
-			var exDetailsList = context.ExercisesDetails
+			var exDetailsQuery = context.ExercisesDetails
 				.Include(ed => ed.Exercise).AsQueryable();
 
 			if (!string.IsNullOrWhiteSpace(query.ExerciseName))
 			{
-				exDetailsList = exDetailsList.Where(e => e.Exercise.Name.Contains(query.ExerciseName));
+				exDetailsQuery = exDetailsQuery.Where(e => e.Exercise.Name.Contains(query.ExerciseName));
 			}
 			if (!string.IsNullOrWhiteSpace(query.SortBy))
 			{
 				if (query.SortBy.Equals("ExerciseName", StringComparison.OrdinalIgnoreCase))
 				{
-					exDetailsList = query.IsDecsending ? exDetailsList.OrderByDescending(e => e.Exercise.Name)
-						: exDetailsList.OrderBy(e => e.Exercise.Name);
+					exDetailsQuery = query.IsDecsending ? exDetailsQuery.OrderByDescending(e => e.Exercise.Name)
+						: exDetailsQuery.OrderBy(e => e.Exercise.Name);
 				}
 			}
 
-			return await exDetailsList.ToListAsync();
+			var exDetailsList = await exDetailsQuery.ToListAsync();
+			if(exDetailsList.Count == 0)
+			{
+				return null;
+			}
+
+			return exDetailsList;
 		}
 
 		public async Task<ExerciseDetails?> GetByIdAsync(int id)

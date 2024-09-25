@@ -42,7 +42,7 @@ namespace FitTrackAPI.Controllers
 
 		}
 
-		[HttpGet("user/{userId}")]
+		[HttpGet("{userId}")]
 		[Authorize]
 		public async Task<IActionResult> GetByUserId(string userId)
 		{
@@ -51,7 +51,7 @@ namespace FitTrackAPI.Controllers
 			var plans = await repo.GetByUserIdAsync(userId);
 			if (plans is null)
 			{
-				return NotFound();
+				return NoContent();
 			}
 
 			if(!plans.TrueForAll(p=> p.AppUserId == currentUserId || !User.IsInRole("Admin")))
@@ -88,7 +88,7 @@ namespace FitTrackAPI.Controllers
 			var plan = await repo.UpdateAsync(id,planDto.ToModelFromUpdate());
 			if (plan is null)
 			{
-				return NotFound("Specified plan was not found");
+				return NoContent();
 			}
 
 			return Ok(plan.ToPlanDto());
@@ -101,12 +101,12 @@ namespace FitTrackAPI.Controllers
 			var plan = await repo.GetByIdAsync(id);
 			if (plan is null)
 			{
-				return NotFound();
+				return NoContent();
 			}
 
 			await repo.DeleteAsync(plan);
 
-			return NoContent();
+			return Ok("Item deleted successfully");
 		}
 	}
 }

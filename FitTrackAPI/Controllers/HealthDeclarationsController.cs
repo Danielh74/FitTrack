@@ -20,9 +20,9 @@ namespace FitTrackAPI.Controllers
 		public async Task<IActionResult> GetAll()
 		{
 			var healthDecs = await repo.GetAllAsync();
-			if(healthDecs.Count == 0)
+			if(healthDecs is null)
 			{
-				return NotFound("There are no health declarations in the database");
+				return NoContent();
 			}
 
 			return Ok(healthDecs.Select(h=> h.ToDto()));
@@ -36,7 +36,7 @@ namespace FitTrackAPI.Controllers
 
 			if(healthDec is null)
 			{
-				return NotFound("Could not find health declaration with the user id");
+				return NoContent();
 			}
 
 			return Ok(healthDec.ToDto());
@@ -54,13 +54,13 @@ namespace FitTrackAPI.Controllers
 			var userEmail = User.FindFirstValue(ClaimTypes.Email);
 			if (userEmail is null)
 			{
-				return NotFound("Email of the user was not found in the claims");
+				return NoContent();
 			}
 
 			var user = await userManager.FindByEmailAsync(userEmail);
 			if (user is null)
 			{
-				return NotFound("User not found");
+				return NoContent();
 			}
 
 			if (user.HealthDeclarationId is not null)
@@ -85,7 +85,7 @@ namespace FitTrackAPI.Controllers
 			var healthDec = await repo.GetByIdAsync(id);
 			if (healthDec is null)
 			{
-				return NotFound();
+				return NoContent();
 			}
 
 			var user = await userManager.Users.FirstOrDefaultAsync(u => u.HealthDeclarationId == id);
@@ -97,7 +97,7 @@ namespace FitTrackAPI.Controllers
 
 			await repo.DeleteAsync(healthDec);
 
-			return NoContent();
+			return Ok("Item deleted successfully");
 		}
 	}
 }
