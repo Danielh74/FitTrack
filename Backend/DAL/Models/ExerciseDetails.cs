@@ -7,10 +7,8 @@ namespace DAL.Models
 		[Key]
 		public int Id { get; set; }
 
-		[Required]
 		public int Reps { get; set; }
 
-		[Required]
 		public int Sets { get; set; }
 
 		public string Description { get; set; } = string.Empty;
@@ -19,7 +17,7 @@ namespace DAL.Models
 		public int ExerciseId { get; set; }
 
         //Navigation property:
-        public Exercise Exercise { get; set; }
+        public Exercise? Exercise { get; set; }
 		public List<PlanDetails> PlanDetails { get; set; } = [];
 	}
 }

@@ -22,6 +22,8 @@ namespace FitTrackAPI.DTOs.AccountDTOs
 
 		public double Weight { get; set; }
 
+		public string Goal { get; set; } = string.Empty;
+
 		public double NeckCircumference { get; set; } = 0;
 
 		public double PecsCircumference { get; set; } = 0;

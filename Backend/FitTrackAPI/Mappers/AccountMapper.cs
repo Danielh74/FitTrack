@@ -10,13 +10,14 @@ namespace FitTrackAPI.Mappers
 		public static AppUser ToUser(this RegisterDto dto)
 		{
 			return new AppUser 
-			{
+			{ 
 				FirstName = dto.FirstName,
 				LastName = dto.LastName,
 				Email = dto.Email,
 				Age = dto.Age,
 				Gender = dto.Gender,
-				UserName = dto.Email
+				Goal = dto.Goal,
+				AgreedToTerms = dto.AgreedToTerms,
 			};
 		}
 
@@ -30,6 +31,7 @@ namespace FitTrackAPI.Mappers
 				Gender = model.Gender,
 				City = model.City,
 				Age = model.Age,
+				Goal = model.Goal,
 				Height = model.Height,
 				Weight = model.Weight,
 				NeckCircumference = model.NeckCircumference,

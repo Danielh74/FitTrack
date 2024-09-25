@@ -9,7 +9,7 @@ namespace DAL.Models
         public int OrederInPlan { get; set; }
 
         //Navigation properties:
-        public ExerciseDetails ExerciseDetails { get; set; }
-		public Plan Plan { get; set; }
+        public ExerciseDetails? ExerciseDetails { get; set; }
+		public Plan? Plan { get; set; }
 	}
 }

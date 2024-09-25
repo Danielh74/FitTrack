@@ -104,6 +104,7 @@ public class AccountsController(
 		user.Age = userDto.Age;
 		user.Height = userDto.Height;
 		user.Weight = userDto.Weight;
+		user.Goal = userDto.Goal;
 		user.NeckCircumference = userDto.NeckCircumference;
 		user.PecsCircumference = userDto.PecsCircumference;
 		user.WaistCircumference = userDto.WaistCircumference;

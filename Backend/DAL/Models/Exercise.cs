@@ -7,7 +7,6 @@ namespace DAL.Models;
     [Key]
     public int Id { get; set; }
 
-    [Required]
     public string Name { get; set; } = string.Empty;
 
     //Foreign key:
@@ -15,7 +14,7 @@ namespace DAL.Models;
 
     //Navigation property:
     public List<ExerciseDetails> ExerciseDetails { get; set; } = [];
-	public MuscleGroup MuscleGroup { get; set; }
+	public MuscleGroup? MuscleGroup { get; set; }
 
 }
 
