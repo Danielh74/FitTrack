@@ -1,6 +1,7 @@
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
-const baseUrl = import.meta.env.VITE_BASE_URL + "/account";
+const baseUrl = import.meta.env.VITE_BASE_URL + "/accounts";
 
 interface RegisterProps {
     firstName: string,
@@ -14,12 +15,23 @@ interface RegisterProps {
     agreedToTerms: boolean
 }
 
-const register = (props: RegisterProps) => {
-    return axios.post(`${baseUrl}/register`, { props });
+interface TokenProps {
+    aud: string
+    email: string
+    exp: number
+    iat: number
+    iss: string
+    nameid: string
+    nbf: number
+    role: string
+}
+
+const register = async (props: RegisterProps) => {
+    return await axios.post(`${baseUrl}/register`, { props });
 };
 
-const login = (email: string, password: string) => {
-    return axios.post(`${baseUrl}/login`, { email, password })
+const login = async (email: string, password: string) => {
+    return await axios.post(`${baseUrl}/login`, { email, password })
         .then((response) => {
             if (response.data.token) {
                 localStorage.setItem("token", JSON.stringify(response.data));
@@ -28,6 +40,18 @@ const login = (email: string, password: string) => {
         });
 };
 
-export const auth = { register, login }
+const userInfo = async (token: string) => {
+    const userId: TokenProps = jwtDecode<TokenProps>(token);
+
+    return await axios.get(`${baseUrl}/${userId.nameid}`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+        .then((response) => response.data
+        );
+}
+
+export const auth = { register, login, userInfo }
 
 

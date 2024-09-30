@@ -54,12 +54,12 @@ function RegisterPage() {
 
         auth.register(e)
             .then(() => {
-                dialogs.success("Registration Successfull")
+                dialogs.SuccessAlert("Registration Successfull")
                     .then(() => {
                         navigate("/login")
                     })
             }).catch((error) => {
-                dialogs.error(error)
+                dialogs.errorAlert(error)
             }).finally(() => {
                 setIsLoading(false)
             });

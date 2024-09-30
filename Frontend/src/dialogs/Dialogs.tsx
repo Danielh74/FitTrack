@@ -1,6 +1,6 @@
 import Swal from "sweetalert2"
 
-const showSuccessDialog = (message: string) => {
+const showSuccessAlert = (message: string) => {
     return Swal.fire({
         icon: "success",
         title: "Success",
@@ -9,7 +9,7 @@ const showSuccessDialog = (message: string) => {
     })
 };
 
-const showErrorDialog = (message: string) => {
+const showErrorAlert = (message: string) => {
     return Swal.fire({
         icon: "error",
         title: "Error",
@@ -18,4 +18,34 @@ const showErrorDialog = (message: string) => {
     })
 };
 
-export const dialogs = { success: showSuccessDialog, error: showErrorDialog };
+const showSuccessToast = (message: string) => {
+    return Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: message,
+        showConfirmButton: false,
+        color: "white",
+        background: "green",
+        width: 500,
+        heightAuto: false,
+        iconColor: "white",
+        timer: 2000
+    });
+};
+
+const showErrorToast = (message: string) => {
+    return Swal.fire({
+        position: "top-end",
+        icon: "error",
+        title: message,
+        showConfirmButton: false,
+        color: "white",
+        background: "red",
+        width: 500,
+        heightAuto: false,
+        iconColor: "white",
+        timer: 2000
+    })
+};
+
+export const dialogs = { SuccessAlert: showSuccessAlert, SuccessToast: showSuccessToast, errorAlert: showErrorAlert, errorToast: showErrorToast };

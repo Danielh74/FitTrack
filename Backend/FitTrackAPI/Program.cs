@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Security.Claims;
 using System.Text;
 
 namespace FitTrackAPI
@@ -32,7 +33,8 @@ namespace FitTrackAPI
 				options.Password.RequireUppercase = true;
 				options.Password.RequireLowercase = true;
 				options.Password.RequireDigit = true;
-			}).AddEntityFrameworkStores<AppDbContext>();
+			}).AddEntityFrameworkStores<AppDbContext>()
+			.AddDefaultTokenProviders();
 
 			builder.Services.AddAuthentication(options =>
 			{
@@ -130,7 +132,6 @@ namespace FitTrackAPI
 
 			app.UseAuthentication();
 			app.UseAuthorization();
-
 
 			app.MapControllers();
 

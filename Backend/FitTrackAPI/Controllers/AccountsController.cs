@@ -179,10 +179,16 @@ public class AccountsController(
 		return Ok(users.Select(u => u.ToListDto()));
 	}
 
-	[HttpGet("{id}")]
-	[Authorize(Roles = "Admin")]
-	public async Task<IActionResult> GetById(string id)
+	[HttpGet("{userId}")]
+	[Authorize]
+	public async Task<IActionResult> GetById(string userId)
 	{
+		var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+		if ((currentUserId != userId) && (!User.IsInRole("Admin")))
+		{
+			return Forbid();
+		}
+
 		var user = await userManager.Users
 			.Include(u => u.Menu)
 				.ThenInclude(m => m.MenuDetails)
@@ -190,7 +196,7 @@ public class AccountsController(
 				.ThenInclude(p => p.PlanDetails)
 					.ThenInclude(pd => pd.ExerciseDetails)
 						.ThenInclude(ed => ed.Exercise)
-			.FirstOrDefaultAsync(u => u.Id == id);
+			.FirstOrDefaultAsync(u => u.Id == userId);
 
 		if (user is null)
 		{
