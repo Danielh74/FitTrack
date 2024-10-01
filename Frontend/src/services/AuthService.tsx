@@ -33,23 +33,20 @@ const register = async (props: RegisterProps) => {
 const login = async (email: string, password: string) => {
     return await axios.post(`${baseUrl}/login`, { email, password })
         .then((response) => {
-            if (response.data.token) {
-                localStorage.setItem("token", JSON.stringify(response.data));
-            }
-            return response;
+            return response.data;
         });
 };
 
 const userInfo = async (token: string) => {
     const userId: TokenProps = jwtDecode<TokenProps>(token);
-
     return await axios.get(`${baseUrl}/${userId.nameid}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     })
-        .then((response) => response.data
-        );
+        .then((response) => {
+            return response.data
+        });
 }
 
 export const auth = { register, login, userInfo }

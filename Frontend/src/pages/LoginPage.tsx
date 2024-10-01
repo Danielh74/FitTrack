@@ -7,6 +7,7 @@ import Card from "../components/Card";
 import { dialogs } from "../dialogs/Dialogs";
 import Loader from "../components/Loader";
 import { AuthContext } from "../contexts/AuthContext";
+import { AxiosError } from "axios";
 
 const LoginPage = () => {
     interface LoginProps {
@@ -36,15 +37,17 @@ const LoginPage = () => {
         auth.login(email, password)
             .then((response) => {
                 dialogs.SuccessToast("Login Successfull")
-                    .then(() => {
-                        login(response.data.token);
-                        navigate("/");
+                    .then(async () => {
+                        const userData = await auth.userInfo(response.token);
+                        login(response.token, userData);
+
+                        navigate("/dashboard");
                     })
             }).catch((error) => {
                 setError(error.message);
-                dialogs.errorToast(error)
+                dialogs.errorToast(error);
             }).finally(() => {
-                setIsLoading(false)
+                setIsLoading(false);
             });
     }
 

@@ -1,32 +1,12 @@
-import { createContext, useState } from "react"
-import { auth } from "../services/AuthService"
+import { createContext, useEffect, useState } from "react";
+import { auth } from "../services/AuthService";
+import { User } from "../types/Types";
+
 
 interface AuthContextType {
     isLoggedIn: boolean,
     token: string,
-    user: {
-        id: string
-        firstName: string
-        lastName: string
-        age: number
-        gender: string
-        city: string
-        goal: string
-        height: number
-        weight: number
-        abdominalCircumference: number
-        agreedToTerms: boolean
-        armCircumference: number
-        bodyFatPrecentage: number
-        healthDeclarationId: number | null
-        hipsCircumference: number
-        menu: [] | null
-        neckCircumference: number
-        pecsCircumference: number
-        plans: []
-        thighsCircumference: number
-        waistCircumference: number
-    }
+    user: User,
     login: (token: string) => void,
     logout: () => void
 }
@@ -35,11 +15,11 @@ const initialValues: AuthContextType = {
     isLoggedIn: false,
     token: "",
     user: {
-        id: "2d922a5f-347d-4d58-b861-3a67e917af3a",
-        firstName: "Avner",
-        lastName: "Hazan",
-        age: 26,
-        gender: "Male",
+        id: "",
+        firstName: "",
+        lastName: "",
+        age: 0,
+        gender: "",
         city: "",
         goal: "",
         height: 0,
@@ -66,20 +46,23 @@ const AuthContext = createContext(initialValues);
 function AuthProvider({ children }) {
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
     const [token, setToken] = useState(localStorage.getItem("token") ?? "");
-    const [user, setUser] = useState(initialValues.user);
+    const [user, setUser] = useState<User>(JSON.parse(localStorage.getItem("user")) ?? initialValues.user);
 
-    const login = async (token: string) => {
+    const login = async (token: string, userData: User) => {
         localStorage.setItem("token", token);
+        setUser(userData);
+        localStorage.setItem("user", JSON.stringify(userData));
         setIsLoggedIn(true);
         setToken(token);
-        setUser(await auth.userInfo(token));
         console.log(user);
     };
 
     const logout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         setIsLoggedIn(false);
         setToken("");
+        setUser(initialValues.user);
     };
 
 

@@ -55,13 +55,13 @@ public class AccountsController(
 		var user = await userManager.FindByEmailAsync(loginDto.Email);
 		if (user is null)
 		{
-			return Unauthorized();
+			return Unauthorized("User does not exist.");
 		}
 
 		var signInResult = await signInManager.PasswordSignInAsync(user, loginDto.Password, false, false);
 		if (!signInResult.Succeeded)
 		{
-			return Unauthorized();
+			return Unauthorized("User does not exist.");
 		}
 
 		var token = await tokenService.CreateTokenAsync(user);
