@@ -4,22 +4,21 @@ import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 import { auth } from "../services/AuthService";
 import Card from "../components/Card";
-import { dialogs } from "../dialogs/Dialogs";
 import Loader from "../components/Loader";
 import { AuthContext } from "../contexts/AuthContext";
-import { AxiosError } from "axios";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
-    interface LoginProps {
+    interface LoginInputs {
         email: string,
         password: string
     }
 
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string>();
+    const [error, setError] = useState<string | null>(null);
 
     const navigate = useNavigate();
-    const { login } = useContext(AuthContext)
+    const { loginUser } = useContext(AuthContext)
 
     const validationSchema = Yup.object({
         email: Yup.string().email("Invalid email").required("Email is required").matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Invalid email"),
@@ -31,24 +30,27 @@ const LoginPage = () => {
         password: ""
     };
 
-    const handleSubmit = ({ email, password }: LoginProps) => {
+    const handleSubmit = async ({ email, password }: LoginInputs) => {
         setIsLoading(true);
+        setError(null);
 
-        auth.login(email, password)
-            .then((response) => {
-                dialogs.SuccessToast("Login Successfull")
-                    .then(async () => {
-                        const userData = await auth.userInfo(response.token);
-                        login(response.token, userData);
-
-                        navigate("/dashboard");
-                    })
-            }).catch((error) => {
-                setError(error.message);
-                dialogs.errorToast(error);
-            }).finally(() => {
-                setIsLoading(false);
-            });
+        try {
+            const response = await auth.login(email, password);
+            if (response.status === 200) {
+                toast.success("Login Successful")
+                const userData = await auth.userInfo(response.data.token);
+                loginUser(response.data.token, userData);
+                navigate("/dashboard");
+            } else if (response.status === 401) {
+                setError(response.response.data);
+                toast.error(response.response.data);
+            }
+        } catch (error) {
+            toast.error(error.message || "An unexpected error occurred");
+            setError(error.response?.data || "An unexpected error occurred");
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
@@ -85,7 +87,7 @@ const LoginPage = () => {
                                 component="span"
                                 className="text-sm text-red-500" />
                         </div>
-                        {error ?? <div>{error}</div>}
+                        {error && <div className="text-red-600">{error}</div>}
                         {isLoading ? <Loader /> : <button type="submit" className="w-full mt-4 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</button>}
                     </Card>
                 </Form>

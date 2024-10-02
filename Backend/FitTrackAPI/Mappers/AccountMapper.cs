@@ -14,6 +14,7 @@ namespace FitTrackAPI.Mappers
 				FirstName = dto.FirstName,
 				LastName = dto.LastName,
 				Email = dto.Email,
+				UserName = dto.Email,
 				Age = dto.Age,
 				Gender = dto.Gender,
 				Goal = dto.Goal,

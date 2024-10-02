@@ -1,72 +1,57 @@
-import { createContext, useEffect, useState } from "react";
-import { auth } from "../services/AuthService";
-import { User } from "../types/Types";
+import { createContext, ReactNode, useEffect, useState } from "react";
+import { User } from "../models/User";
 
 
 interface AuthContextType {
     isLoggedIn: boolean,
-    token: string,
-    user: User,
-    login: (token: string) => void,
-    logout: () => void
+    token: string | null,
+    user: User | null,
+    loginUser: (token: string, userData: User) => void,
+    logoutUser: () => void
 }
-
+interface Props {
+    children: ReactNode
+}
 const initialValues: AuthContextType = {
     isLoggedIn: false,
-    token: "",
-    user: {
-        id: "",
-        firstName: "",
-        lastName: "",
-        age: 0,
-        gender: "",
-        city: "",
-        goal: "",
-        height: 0,
-        weight: 0,
-        abdominalCircumference: 0,
-        agreedToTerms: false,
-        armCircumference: 0,
-        bodyFatPrecentage: 0,
-        healthDeclarationId: null,
-        hipsCircumference: 0,
-        menu: null,
-        neckCircumference: 0,
-        pecsCircumference: 0,
-        plans: [],
-        thighsCircumference: 0,
-        waistCircumference: 0
-    },
-    login: () => { },
-    logout: () => { }
+    token: null,
+    user: null,
+    loginUser: () => { },
+    logoutUser: () => { }
 }
 
 const AuthContext = createContext(initialValues);
 
-function AuthProvider({ children }) {
-    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-    const [token, setToken] = useState(localStorage.getItem("token") ?? "");
-    const [user, setUser] = useState<User>(JSON.parse(localStorage.getItem("user")) ?? initialValues.user);
+function AuthProvider({ children }: Props) {
+    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+    const [token, setToken] = useState<string | null>(null);
+    const [user, setUser] = useState<User | null>(null);
 
-    const login = async (token: string, userData: User) => {
+    useEffect(() => {
+        setIsLoggedIn(!!localStorage.getItem("token"))
+        setToken(localStorage.getItem("token") ?? null)
+        setUser(JSON.parse(localStorage.getItem("user")) ?? null)
+    }, []);
+
+    const loginUser = (token: string, userData: User) => {
         localStorage.setItem("token", token);
         setUser(userData);
         localStorage.setItem("user", JSON.stringify(userData));
         setIsLoggedIn(true);
         setToken(token);
-        console.log(user);
+        console.log(userData);
     };
 
-    const logout = () => {
+    const logoutUser = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         setIsLoggedIn(false);
         setToken("");
-        setUser(initialValues.user);
+        setUser(null);
     };
 
 
-    return <AuthContext.Provider value={{ isLoggedIn, token, user, login, logout }}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{ isLoggedIn, token, user, loginUser, logoutUser }}>{children}</AuthContext.Provider>
 };
 
 export { AuthContext, AuthProvider }

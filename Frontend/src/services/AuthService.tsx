@@ -27,14 +27,21 @@ interface TokenProps {
 }
 
 const register = async (props: RegisterProps) => {
-    return await axios.post(`${baseUrl}/register`, { props });
-};
+    try {
+        const response = await axios.post(`${baseUrl}/register`, props);
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 const login = async (email: string, password: string) => {
-    return await axios.post(`${baseUrl}/login`, { email, password })
-        .then((response) => {
-            return response.data;
-        });
+    try {
+        const response = await axios.post(`${baseUrl}/login`, { email, password });
+        return response;
+    } catch (error) {
+        return error;
+    }
 };
 
 const userInfo = async (token: string) => {

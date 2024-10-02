@@ -9,7 +9,7 @@ import Loader from "../components/Loader";
 
 function RegisterPage() {
 
-    interface RegisterProps {
+    interface RegisterInputs {
         firstName: string,
         lastName: string,
         age: number,
@@ -49,20 +49,24 @@ function RegisterPage() {
         agreedToTerms: false
     };
 
-    const handleSubmit = (e: RegisterProps) => {
+    const handleSubmit = async (inputs: RegisterInputs) => {
         setIsLoading(true);
+        try {
+            const response = await auth.register(inputs);
+            if (response.status === 200) {
+                dialogs.SuccessAlert("Registration Successful");
+                navigate("/login");
+            } else if (response.status === 400) {
+                dialogs.errorAlert("One or more validation errors occurred.");
+            } else if (response.status >= 500) {
+                dialogs.errorAlert("Server error");
+            }
 
-        auth.register(e)
-            .then(() => {
-                dialogs.SuccessAlert("Registration Successfull")
-                    .then(() => {
-                        navigate("/login")
-                    })
-            }).catch((error) => {
-                dialogs.errorAlert(error)
-            }).finally(() => {
-                setIsLoading(false)
-            });
+        } catch (error) {
+            dialogs.errorAlert(error);
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (
@@ -211,8 +215,6 @@ function RegisterPage() {
                 )}
             </Formik>
         </div>
-
-
     )
 }
 

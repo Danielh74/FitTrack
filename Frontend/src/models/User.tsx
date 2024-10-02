@@ -1,3 +1,6 @@
+import { Menu } from "./Menu"
+import { Plan } from "./Plan"
+
 export interface User {
     id: string
     firstName: string
@@ -22,32 +25,7 @@ export interface User {
     waistCircumference: number
 };
 
-export interface Menu {
-    id: number
-    userName: string
-    menuDetails: MenuDetails[]
-};
 
-export interface MenuDetails {
-    order: number
-    name: string
-    proteinPoints: number
-    carbsPoints: number
-    fatsPoints: number
-};
 
-export interface Plan {
-    id: number
-    userName: string
-    name: string
-    planDetails: PlanDetails[]
-};
 
-export interface PlanDetails {
-    orderInPlan: number
-    exerciseName: string
-    reps: number
-    sets: number
-    description: string
-};
 

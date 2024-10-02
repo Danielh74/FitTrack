@@ -32,7 +32,7 @@ public class AccountsController(
 		var result = await userManager.CreateAsync(user, registerDto.Password);
 		if (!result.Succeeded)
 		{
-			return BadRequest(result.Errors);
+			return BadRequest("Error while creating a user");
 		}
 
 		var roleResult = await userManager.AddToRoleAsync(user, "User");

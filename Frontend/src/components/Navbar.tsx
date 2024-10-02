@@ -6,7 +6,7 @@ import { AuthContext } from "../contexts/AuthContext";
 
 function Navbar() {
     const { darkMode, toggle } = useContext(DarkModeContext);
-    const { isLoggedIn, logout, user } = useContext(AuthContext);
+    const { isLoggedIn, logoutUser, user } = useContext(AuthContext);
     return (
         <nav id="app-nav" className="flex gap-3 p-2 bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-slate-100 items-center">
             <NavLink to="/" className="p-2">
@@ -19,8 +19,8 @@ function Navbar() {
                 <NavLink to="/register" className="p-2">Register</NavLink>
             </div>
                 : <div className="hidden sm:flex items-center">
-                    <div>Hello {user.firstName} {user.lastName}</div>
-                    <NavLink to="/" className="p-2"><button onClick={logout}>Logout</button></NavLink>
+                    <div>Welcome, {user.firstName} {user.lastName}</div>
+                    <NavLink to="/" className="p-2"><button onClick={logoutUser}>Logout</button></NavLink>
                 </div>
             }
 
