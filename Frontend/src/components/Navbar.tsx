@@ -2,11 +2,11 @@ import { useContext } from "react"
 import { FaHome, FaMoon, FaSun } from "react-icons/fa"
 import { NavLink } from "react-router-dom"
 import { DarkModeContext } from "../contexts/DarkModeContext"
-import { AuthContext } from "../contexts/AuthContext";
+import useAuth from "../hooks/useAuth";
 
 function Navbar() {
     const { darkMode, toggle } = useContext(DarkModeContext);
-    const { isLoggedIn, logoutUser, user } = useContext(AuthContext);
+    const { isLoggedIn, logoutUser, user } = useAuth();
     return (
         <nav id="app-nav" className="flex gap-3 p-2 bg-slate-100 text-slate-900 dark:bg-slate-900 dark:text-slate-100 items-center">
             <NavLink to="/" className="p-2">

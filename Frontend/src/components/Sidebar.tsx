@@ -1,8 +1,7 @@
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
-type Props = {}
 
-const Sidebar = (props: Props) => {
+const Sidebar = () => {
     return (
         <nav className=" bg-blue-400 block py-4 px-6 top-0 bottom-0 w-64 rounded-r-xl h-screen shadow-xl left-0 flex-row flex-nowrap md:z-10 z-9999 transition-all duration-300 ease-in-out transform md:translate-x-0 -translate-x-full">
 

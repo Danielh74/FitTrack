@@ -1,12 +1,12 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import { useContext, useState } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 import { auth } from "../services/AuthService";
 import Card from "../components/Card";
 import Loader from "../components/Loader";
-import { AuthContext } from "../contexts/AuthContext";
 import { toast } from "react-toastify";
+import useAuth from "../hooks/useAuth";
 
 const LoginPage = () => {
     interface LoginInputs {
@@ -18,7 +18,7 @@ const LoginPage = () => {
     const [error, setError] = useState<string | null>(null);
 
     const navigate = useNavigate();
-    const { loginUser } = useContext(AuthContext)
+    const { loginUser } = useAuth();
 
     const validationSchema = Yup.object({
         email: Yup.string().email("Invalid email").required("Email is required").matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Invalid email"),

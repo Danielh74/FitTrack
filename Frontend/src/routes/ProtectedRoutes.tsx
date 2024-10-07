@@ -1,13 +1,13 @@
-import { ReactNode, useContext } from 'react'
-import { AuthContext } from '../contexts/AuthContext';
+import { ReactNode } from 'react'
 import { Navigate } from 'react-router-dom';
+import useAuth from '../hooks/useAuth';
 
 interface Props {
     children: ReactNode
 }
 
 export const AuthRoute = ({ children }: Props) => {
-    const { isLoggedIn } = useContext(AuthContext)
+    const { isLoggedIn } = useAuth();
     if (isLoggedIn) {
         return children;
     }
@@ -15,7 +15,7 @@ export const AuthRoute = ({ children }: Props) => {
 };
 
 export const NotAuthRoute = ({ children }: Props) => {
-    const { isLoggedIn } = useContext(AuthContext)
+    const { isLoggedIn } = useAuth();
     if (isLoggedIn) {
         return <Navigate to="/" />
     }
