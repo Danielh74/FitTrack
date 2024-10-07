@@ -1,6 +1,7 @@
 ﻿using DAL.Models;
 using FitTrackAPI.DTOs.Health_Declaration;
 using FitTrackAPI.DTOs.PlanDTOs;
+using FitTrackAPI.DTOs.WeightDTOs;
 using System.ComponentModel.DataAnnotations;
 
 namespace FitTrackAPI.DTOs.AccountDTOs
@@ -20,7 +21,7 @@ namespace FitTrackAPI.DTOs.AccountDTOs
 
 		public int Height { get; set; }
 
-		public double Weight { get; set; }
+		public List<WeightDto> Weight { get; set; } = [];
 
 		public string Goal { get; set; } = string.Empty;
 

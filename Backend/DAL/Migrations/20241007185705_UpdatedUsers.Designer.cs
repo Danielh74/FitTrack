@@ -4,6 +4,7 @@ using DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241007185705_UpdatedUsers")]
+    partial class UpdatedUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -422,9 +425,8 @@ namespace DAL.Migrations
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("TimeStamp")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
 
                     b.Property<double>("Value")
                         .HasColumnType("float");
@@ -465,15 +467,15 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "98eb412d-9c9b-4a4d-bf5b-ba3451765294",
-                            ConcurrencyStamp = "4b6f1b8a-a2a8-49ea-b5c7-2593735be0f2",
+                            Id = "784aff2a-8e53-4eaa-96b7-d0946276e6dd",
+                            ConcurrencyStamp = "8cb99d5d-240d-4d95-a2e9-af0192d15c05",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "0eb03bdf-397b-49c2-8f3c-95d3204313b3",
-                            ConcurrencyStamp = "2766d4b7-37ff-49a3-bbd4-21c3810d8aad",
+                            Id = "95e0238b-608a-4387-819a-0da8632c7c07",
+                            ConcurrencyStamp = "4396576c-f749-4915-8bd5-b1befa97d600",
                             Name = "User",
                             NormalizedName = "USER"
                         });

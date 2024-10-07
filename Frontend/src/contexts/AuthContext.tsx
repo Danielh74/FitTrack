@@ -1,5 +1,8 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { User } from "../models/User";
+import { auth } from "../services/AuthService";
+import { toast } from "react-toastify";
+import Loader from "../components/Loader";
 
 
 interface AuthContextType {
@@ -26,17 +29,33 @@ function AuthProvider({ children }: Props) {
     const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [token, setToken] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        setIsLoggedIn(!!localStorage.getItem("token"))
-        setToken(localStorage.getItem("token") ?? null)
-        setUser(JSON.parse(localStorage.getItem("user")) ?? null)
+        const fetchUserData = async () => {
+            const storedToken = localStorage.getItem("token");
+            if (storedToken) {
+                try {
+                    const userData = await auth.userInfo(storedToken);
+                    setIsLoggedIn(true);
+                    setToken(storedToken);
+                    setUser(userData);
+                } catch (err) {
+                    toast.error(err);
+                }
+            } else {
+                setIsLoggedIn(false);
+                setToken(null);
+                setUser(null);
+            }
+            setIsLoading(false);
+        }
+        fetchUserData();
     }, []);
 
     const loginUser = (token: string, userData: User) => {
         localStorage.setItem("token", token);
         setUser(userData);
-        localStorage.setItem("user", JSON.stringify(userData));
         setIsLoggedIn(true);
         setToken(token);
         console.log(userData);
@@ -44,12 +63,15 @@ function AuthProvider({ children }: Props) {
 
     const logoutUser = () => {
         localStorage.removeItem("token");
-        localStorage.removeItem("user");
         setIsLoggedIn(false);
         setToken("");
         setUser(null);
     };
 
+    if (isLoading)
+        return <div className="flex justify-center items-center h-screen w-screen">
+            <Loader />
+        </div>
 
     return <AuthContext.Provider value={{ isLoggedIn, token, user, loginUser, logoutUser }}>{children}</AuthContext.Provider>
 };

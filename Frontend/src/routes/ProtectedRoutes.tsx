@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { Navigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 
@@ -7,17 +7,25 @@ interface Props {
 }
 
 export const AuthRoute = ({ children }: Props) => {
-    const { isLoggedIn } = useAuth();
-    if (isLoggedIn) {
-        return children;
-    }
-    return <Navigate to="/login" />
+    const { isLoggedIn, user } = useAuth();
+
+    useEffect(() => {
+        if (!isLoggedIn) {
+            <Navigate to="/login" />
+        }
+    }, [isLoggedIn]);
+
+    return isLoggedIn && user ? children : <Navigate to="/login" />
 };
 
 export const NotAuthRoute = ({ children }: Props) => {
-    const { isLoggedIn } = useAuth();
-    if (isLoggedIn) {
-        return <Navigate to="/" />
-    }
-    return children;
+    const { isLoggedIn, user } = useAuth();
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            <Navigate to="/dashboard" />
+        }
+    }, [isLoggedIn]);
+
+    return !isLoggedIn && !user ? children : <Navigate to="/dashboard" />;
 };

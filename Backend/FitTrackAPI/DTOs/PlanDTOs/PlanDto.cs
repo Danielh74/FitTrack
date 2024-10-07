@@ -7,6 +7,7 @@ namespace FitTrackAPI.DTOs.PlanDTOs
 	{
 		public int Id { get; set; }
 		public string UserName { get; set; } = string.Empty;
+		public bool IsCompleted { get; set; } = false;
 		public string Name { get; set; } = string.Empty;
 		public List<PlanDetailsDto> PlanDetails { get; set; } = [];
 	}

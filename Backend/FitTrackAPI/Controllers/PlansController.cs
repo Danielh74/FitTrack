@@ -77,7 +77,7 @@ namespace FitTrackAPI.Controllers
 		}
 
 		[HttpPut("{id:int}")]
-		[Authorize(Roles = "Admin")]
+		[Authorize]
 		public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdatePlanRequestDto planDto)
 		{
 			if (!ModelState.IsValid)

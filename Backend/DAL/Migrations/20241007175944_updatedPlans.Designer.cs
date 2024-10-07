@@ -4,6 +4,7 @@ using DAL.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241007175944_updatedPlans")]
+    partial class updatedPlans
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -131,6 +134,9 @@ namespace DAL.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<double>("WaistCircumference")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Weight")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
@@ -411,31 +417,6 @@ namespace DAL.Migrations
                     b.ToTable("PlansDetails");
                 });
 
-            modelBuilder.Entity("DAL.Models.Weight", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TimeStamp")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Value")
-                        .HasColumnType("float");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserId");
-
-                    b.ToTable("Weight");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -465,15 +446,15 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "98eb412d-9c9b-4a4d-bf5b-ba3451765294",
-                            ConcurrencyStamp = "4b6f1b8a-a2a8-49ea-b5c7-2593735be0f2",
+                            Id = "89f90131-f854-4473-9184-f050b59bb8ad",
+                            ConcurrencyStamp = "27a9bf54-8fb8-4e24-8a82-ef43014017bc",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "0eb03bdf-397b-49c2-8f3c-95d3204313b3",
-                            ConcurrencyStamp = "2766d4b7-37ff-49a3-bbd4-21c3810d8aad",
+                            Id = "a8dd0af2-00e3-4f6d-992c-9de208211e82",
+                            ConcurrencyStamp = "300e21a9-791d-48e4-b0fa-bba7122df150",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -661,13 +642,6 @@ namespace DAL.Migrations
                     b.Navigation("Plan");
                 });
 
-            modelBuilder.Entity("DAL.Models.Weight", b =>
-                {
-                    b.HasOne("DAL.Models.AppUser", null)
-                        .WithMany("Weight")
-                        .HasForeignKey("AppUserId");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -722,8 +696,6 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Models.AppUser", b =>
                 {
                     b.Navigation("Plans");
-
-                    b.Navigation("Weight");
                 });
 
             modelBuilder.Entity("DAL.Models.Exercise", b =>

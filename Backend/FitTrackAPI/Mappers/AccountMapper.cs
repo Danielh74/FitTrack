@@ -34,7 +34,7 @@ namespace FitTrackAPI.Mappers
 				Age = model.Age,
 				Goal = model.Goal,
 				Height = model.Height,
-				Weight = model.Weight,
+				Weight = model.Weight.Select(w=> w.ToDto()).ToList(),
 				NeckCircumference = model.NeckCircumference,
 				PecsCircumference = model.PecsCircumference,
 				WaistCircumference = model.WaistCircumference,

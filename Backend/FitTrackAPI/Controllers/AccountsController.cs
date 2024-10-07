@@ -90,7 +90,10 @@ public class AccountsController(
 		}
 
 		double updatedBodyFat = 0;
-		if (userDto.Height > 0 && userDto.Weight > 0)
+		if (userDto.Height > 0 
+			&& userDto.WaistCircumference > 0
+			&& userDto.HipsCircumference > 0 
+			&& userDto.NeckCircumference > 0)
 		{
 			updatedBodyFat = Utils.BodyFatPercentage(
 				 userDto.WaistCircumference,
@@ -103,7 +106,7 @@ public class AccountsController(
 		user.City = userDto.City;
 		user.Age = userDto.Age;
 		user.Height = userDto.Height;
-		user.Weight = userDto.Weight;
+		user.Weight.Add(userDto.Weight);
 		user.Goal = userDto.Goal;
 		user.NeckCircumference = userDto.NeckCircumference;
 		user.PecsCircumference = userDto.PecsCircumference;
@@ -190,6 +193,7 @@ public class AccountsController(
 		}
 
 		var user = await userManager.Users
+			.Include(u=> u.Weight)
 			.Include(u => u.Menu)
 				.ThenInclude(m => m.MenuDetails)
 			.Include(u => u.Plans)

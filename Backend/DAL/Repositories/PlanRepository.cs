@@ -69,13 +69,16 @@ namespace DAL.Repositories
 
 		public async Task<Plan?> UpdateAsync(int id, Plan updatedPlan)
 		{
-			var currentPlan = await context.Plans.FindAsync(id);
+			var currentPlan = await context.Plans
+				.Include(p=> p.AppUser)
+				.FirstOrDefaultAsync(p=> p.Id == id);
 			if(currentPlan is null)
 			{
 				return null;
 			}
 
 			currentPlan.Name = updatedPlan.Name;
+			currentPlan.IsCompleted = updatedPlan.IsCompleted;
 
 			await context.SaveChangesAsync();
 

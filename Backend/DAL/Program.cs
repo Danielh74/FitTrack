@@ -2,6 +2,7 @@ using DAL.Data;
 using DAL.Interfaces;
 using DAL.Models;
 using DAL.Repositories;
+using DAL.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -23,6 +24,7 @@ namespace DAL
 
 			// Add services to the container.
 			builder.Services.AddControllers();
+			builder.Services.AddHostedService<ResetPlansCompletedService>();
 
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();

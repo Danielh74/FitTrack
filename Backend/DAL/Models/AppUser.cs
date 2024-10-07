@@ -13,7 +13,7 @@ namespace DAL.Models
 		public string Goal { get; set; } = string.Empty;
 		public int Age { get; set; }
 		public int Height { get; set; }
-		public double Weight { get; set; }
+		public List<Weight> Weight { get; set; } = [];
 
 		public double NeckCircumference { get; set; } = 0;
 		public double PecsCircumference { get; set; } = 0;

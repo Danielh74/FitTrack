@@ -9,8 +9,10 @@ namespace DAL.Models
 
 		public string Name { get; set; } = string.Empty;
 
-        //Foreign key:
-        public string? AppUserId { get; set; }
+		public bool IsCompleted { get; set; } = false;
+
+		//Foreign key:
+		public string? AppUserId { get; set; }
 
         //Navigation Property:
         public AppUser? AppUser { get; set; }

@@ -10,27 +10,31 @@ namespace FitTrackAPI.Mappers
 		{
 			return new Plan
 			{
-				Name = dto.Name
+				Name = dto.Name,
+				IsCompleted = dto.IsCompleted,
 			};
 		}
 
-		public static PlanListDto ToListDto(this Plan model) 
+		public static PlanListDto ToListDto(this Plan model)
 		{
 			return new PlanListDto
 			{
 				Id = model.Id,
 				Name = model.Name,
-				UserName = Utils.UserFullName(model.AppUser.FirstName, model.AppUser.LastName)
+				UserName = Utils.UserFullName(model.AppUser!.FirstName, model.AppUser.LastName),
+				IsCompleted = model.IsCompleted,
 			};
 		}
 
 		public static PlanDto ToPlanDto(this Plan model)
 		{
-			return new PlanDto{
+			return new PlanDto
+			{
 				Id = model.Id,
-				UserName = Utils.UserFullName(model.AppUser.FirstName, model.AppUser.LastName),
+				UserName = Utils.UserFullName(model.AppUser!.FirstName, model.AppUser.LastName),
 				Name = model.Name,
-				PlanDetails =model.PlanDetails.Select(pd => pd.ToDto()).ToList()
+				PlanDetails = model.PlanDetails.Select(pd => pd.ToDto()).ToList(),
+				IsCompleted = model.IsCompleted,
 			};
 		}
 
@@ -38,7 +42,7 @@ namespace FitTrackAPI.Mappers
 		{
 			return new Plan
 			{
-				Name= dto.Name,
+				Name = dto.Name,
 				AppUserId = dto.UserId
 			};
 		}

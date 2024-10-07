@@ -34,6 +34,9 @@ namespace DAL.Data
 			builder.Entity<AppUser>().HasMany(u => u.Plans)
 				.WithOne(p => p.AppUser);
 
+			builder.Entity<AppUser>().HasMany(u => u.Weight)
+				.WithOne();
+
 			builder.Entity<AppUser>().HasOne(u => u.HealthDeclaration)
 				.WithOne(h => h.AppUser)
 				.HasForeignKey<AppUser>(u => u.HealthDeclarationId);
