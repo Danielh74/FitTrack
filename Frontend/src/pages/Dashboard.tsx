@@ -1,13 +1,9 @@
-import React from 'react'
-import Sidebar from '../components/Sidebar'
 
-type Props = {}
-
-const Dashboard = (props: Props) => {
+const Dashboard = () => {
     return (
 
         <>
-            <Sidebar />
+
         </>
     )
 }

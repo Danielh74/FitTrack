@@ -3,13 +3,19 @@ import './App.css'
 import Navbar from './components/Navbar'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import Sidebar from './components/Sidebar';
 
 function App() {
 
   return (
     <>
       <Navbar />
-      <Outlet />
+      <div>
+        <Sidebar />
+        <div>
+          <Outlet />
+        </div>
+      </div>
       <ToastContainer />
     </>
   )

@@ -5,6 +5,7 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import { AuthRoute, NotAuthRoute } from "./ProtectedRoutes";
 import Dashboard from "../pages/Dashboard";
+import Plans from "../pages/Plans";
 
 export const router = createBrowserRouter([
     {
@@ -13,6 +14,7 @@ export const router = createBrowserRouter([
             { path: "/login", element: <NotAuthRoute><LoginPage /></NotAuthRoute> },
             { path: "/register", element: <NotAuthRoute><RegisterPage /> </NotAuthRoute> },
             { path: "/dashboard", element: <AuthRoute><Dashboard /> </AuthRoute> },
+            { path: "/plans", element: <AuthRoute><Plans /> </AuthRoute> },
         ]
     }
 ]); 

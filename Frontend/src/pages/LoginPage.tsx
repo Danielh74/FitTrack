@@ -54,7 +54,7 @@ const LoginPage = () => {
     }
 
     return (
-        <div className="block w-full h-screen text-gray-900 bg-white border border-t-0 border-gray-200 rounded-t-none shadow-sm sm:text-sm dark:bg-gray-900 dark:border-gray-600 dark:text-white block-canvas">
+        <div className="block w-full h-screen pl-36 pt-20 text-gray-900 bg-white border border-t-0 border-gray-200 rounded-t-none shadow-sm sm:text-sm dark:bg-gray-900 dark:border-gray-600 dark:text-white block-canvas">
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
