@@ -1,5 +1,6 @@
 import { Menu } from "./Menu"
 import { Plan } from "./Plan"
+import { Weight } from "./Weight"
 
 export interface User {
     firstName: string
@@ -9,7 +10,7 @@ export interface User {
     city: string
     goal: string
     height: number
-    weight: number
+    weight: Weight[]
     abdominalCircumference: number
     agreedToTerms: boolean
     armCircumference: number

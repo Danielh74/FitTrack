@@ -6,7 +6,7 @@ function Home() {
 
     return (
         <>
-            <div className="home-bg flex pl-10 pt-20 flex-col h-screen bg-slate-200 dark:bg-blue-900 dark:text-white">
+            <div className="home-bg flex pl-10 pt-20 flex-col h-screen bg-slate-200 dark:bg-blue-900 text-white">
 
                 <h1>Fit Track</h1>
                 <p>This is the home page of Fit Track</p>

@@ -1,41 +1,31 @@
 .home-bg {
     background-image: url('../assets/background.jpg');
     background-size: cover;
-    /* Cover the entire element */
     background-position: center;
-    /* Center the image */
     background-repeat: no-repeat;
-    /* Prevent image repetition */
     height: 100vh;
-    /* Example height */
     width: 100%;
-    /* Example width */
 }
 
 .login-bg {
     background-image: url('../assets/background2.jpeg');
     background-size: cover;
-    /* Cover the entire element */
     background-position: center;
-    /* Center the image */
     background-repeat: repeat;
-    /* Prevent image repetition */
     height: 100vh;
-    /* Example height */
     width: 100%;
-    /* Example width */
 }
 
 .register-bg {
     background-image: url('../assets/background2.jpeg');
     background-size: cover;
-    /* Cover the entire element */
     background-position: center;
-    /* Center the image */
     background-repeat: repeat;
-    /* Prevent image repetition */
     height: 100%;
-    /* Example height */
     width: 100%;
-    /* Example width */
+}
+
+.img {
+    height: 70vh;
+    width: 250px;
 }
