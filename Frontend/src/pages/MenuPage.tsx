@@ -7,7 +7,7 @@ function MenuPage() {
     const [menu, setMenu] = useState<Menu | null>(null);
     useEffect(() => {
         setMenu(user.menu);
-    }, [])
+    }, [user.menu])
 
     return (
         <div className="p-3 h-[calc(100vh-4rem)]">

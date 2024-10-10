@@ -8,7 +8,7 @@ function Plans() {
 
     useEffect(() => {
         setPlans(user.plans);
-    }, [])
+    }, [user.plans])
     return (
         <div className="p-3 h-[calc(100vh-4rem)]">
             {plans ? plans.map((plan, i) => {
