@@ -2,7 +2,6 @@ import { Menu } from "./Menu"
 import { Plan } from "./Plan"
 
 export interface User {
-    id: string
     firstName: string
     lastName: string
     age: number

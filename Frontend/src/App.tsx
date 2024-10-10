@@ -4,18 +4,23 @@ import Navbar from './components/Navbar'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from './components/Sidebar';
+import useAuth from './hooks/useAuth';
 
 function App() {
-
+  const { isLoggedIn } = useAuth();
   return (
     <>
       <Navbar />
-      <div>
-        <Sidebar />
-        <div>
-          <Outlet />
-        </div>
-      </div>
+      {isLoggedIn ?
+        <>
+          <Sidebar />
+          <div className="pl-32 pt-16">
+            <Outlet />
+          </div>
+        </>
+        :
+        <Outlet />
+      }
       <ToastContainer />
     </>
   )

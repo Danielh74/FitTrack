@@ -6,6 +6,8 @@ import RegisterPage from "../pages/RegisterPage";
 import { AuthRoute, NotAuthRoute } from "./ProtectedRoutes";
 import Dashboard from "../pages/Dashboard";
 import Plans from "../pages/Plans";
+import Profile from "../pages/Profile";
+import MenuPage from "../pages/MenuPage";
 
 export const router = createBrowserRouter([
     {
@@ -15,6 +17,8 @@ export const router = createBrowserRouter([
             { path: "/register", element: <NotAuthRoute><RegisterPage /> </NotAuthRoute> },
             { path: "/dashboard", element: <AuthRoute><Dashboard /> </AuthRoute> },
             { path: "/plans", element: <AuthRoute><Plans /> </AuthRoute> },
+            { path: "/profile", element: <AuthRoute><Profile /> </AuthRoute> },
+            { path: "/menu", element: <AuthRoute><MenuPage /> </AuthRoute> },
         ]
     }
 ]); 

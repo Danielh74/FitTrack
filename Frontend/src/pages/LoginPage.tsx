@@ -7,6 +7,7 @@ import Card from "../components/Card";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
+import "../styles/background.scss";
 
 const LoginPage = () => {
     interface LoginInputs {
@@ -54,12 +55,12 @@ const LoginPage = () => {
     }
 
     return (
-        <div className="block w-full h-screen pl-36 pt-20 text-gray-900 bg-white border border-t-0 border-gray-200 rounded-t-none shadow-sm sm:text-sm dark:bg-gray-900 dark:border-gray-600 dark:text-white block-canvas">
+        <div className="login-bg block w-full h-screen pt-20 text-gray-900 bg-white border border-t-0 border-gray-200 rounded-t-none shadow-sm sm:text-sm dark:bg-gray-900 dark:border-gray-600 dark:text-white block-canvas">
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}>
-                <Form className="flex flex-col items-center pt-10">
+                <Form className="flex flex-col items-center pt-20">
                     <Card title="Log-in">
                         <div className="flex flex-col items-start my-2">
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="email">Email</label>

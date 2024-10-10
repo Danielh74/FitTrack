@@ -37,6 +37,7 @@ function AuthProvider({ children }: Props) {
             if (storedToken) {
                 try {
                     const userData = await auth.userInfo(storedToken);
+                    console.log(userData);
                     setIsLoggedIn(true);
                     setToken(storedToken);
                     setUser(userData);
