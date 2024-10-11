@@ -1,5 +1,6 @@
 ﻿using DAL.Models;
 using FitTrackAPI.DTOs.AccountDTOs;
+using FitTrackAPI.DTOs.WeightDTOs;
 using FitTrackAPI.Helpers;
 using FitTrackAPI.Mappers;
 using FitTrackAPI.Services;
@@ -77,13 +78,13 @@ public class AccountsController(
 		{
 			return BadRequest(ModelState);
 		}
-		var userEmail = User.FindFirstValue(ClaimTypes.Email);
-		if (userEmail is null)
+		var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+		if (userId is null)
 		{
 			return NotFound("Email of the user was not found in the claims");
 		}
 
-		var user = await userManager.FindByEmailAsync(userEmail);
+		var user = await userManager.FindByIdAsync(userId);
 		if (user is null)
 		{
 			return NotFound("User not found");
@@ -103,10 +104,12 @@ public class AccountsController(
 				 user.Gender);
 		}
 
+		var updatedWeight = new UpdateWeightRequestDto { Value = userDto.Weight };
+
 		user.City = userDto.City;
 		user.Age = userDto.Age;
 		user.Height = userDto.Height;
-		user.Weight.Add(userDto.Weight);
+		user.Weight.Add(updatedWeight.ToModelFromUpdate());
 		user.Goal = userDto.Goal;
 		user.NeckCircumference = userDto.NeckCircumference;
 		user.PecsCircumference = userDto.PecsCircumference;
@@ -123,7 +126,7 @@ public class AccountsController(
 			return StatusCode(500, result.Errors);
 		}
 
-		return Ok(result);
+		return Ok(user.ToDto());
 	}
 
 	[HttpDelete]

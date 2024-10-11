@@ -2,12 +2,13 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
-import { auth } from "../services/AuthService";
+import { auth } from "../services/UserService";
 import Card from "../components/Card";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import "../styles/background.scss";
+import "../styles/Form.scss";
 
 const LoginPage = () => {
     interface LoginInputs {
@@ -39,7 +40,7 @@ const LoginPage = () => {
             const response = await auth.login(email, password);
             if (response.status === 200) {
                 toast.success("Login Successful")
-                const userData = await auth.userInfo(response.data.token);
+                const userData = await auth.getUserInfo(response.data.token);
                 loginUser(response.data.token, userData);
                 navigate("/dashboard");
             } else if (response.status === 401) {
@@ -69,7 +70,7 @@ const LoginPage = () => {
                                 id="email"
                                 name="email"
                                 placeholder="name@company.com"
-                                className="bg-gray-50 border-2 border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                className="auth-field" />
                             <ErrorMessage
                                 name="email"
                                 component="span"
@@ -82,7 +83,7 @@ const LoginPage = () => {
                                 name="password"
                                 type="password"
                                 placeholder="••••••••"
-                                className="bg-gray-50 border-2 border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                className="auth-field" />
                             <ErrorMessage
                                 name="password"
                                 component="span"

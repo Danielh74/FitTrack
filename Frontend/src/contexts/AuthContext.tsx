@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { User } from "../models/User";
-import { auth } from "../services/AuthService";
+import { auth } from "../services/UserService";
 import { toast } from "react-toastify";
 import Loader from "../components/Loader";
 
@@ -10,7 +10,8 @@ interface AuthContextType {
     token: string | null,
     user: User | null,
     loginUser: (token: string, userData: User) => void,
-    logoutUser: () => void
+    logoutUser: () => void,
+    reloadUser: (data: User) => void
 }
 interface Props {
     children: ReactNode
@@ -20,7 +21,8 @@ const initialValues: AuthContextType = {
     token: null,
     user: null,
     loginUser: () => { },
-    logoutUser: () => { }
+    logoutUser: () => { },
+    reloadUser: () => { }
 }
 
 const AuthContext = createContext(initialValues);
@@ -36,7 +38,7 @@ function AuthProvider({ children }: Props) {
             const storedToken = localStorage.getItem("token");
             if (storedToken) {
                 try {
-                    const userData = await auth.userInfo(storedToken);
+                    const userData = await auth.getUserInfo(storedToken);
                     console.log(userData);
                     setIsLoggedIn(true);
                     setToken(storedToken);
@@ -69,12 +71,16 @@ function AuthProvider({ children }: Props) {
         setUser(null);
     };
 
+    const reloadUser = (data: User) => {
+        setUser(data);
+    };
+
     if (isLoading)
         return <div className="flex justify-center items-center h-screen w-screen">
             <Loader />
         </div>
 
-    return <AuthContext.Provider value={{ isLoggedIn, token, user, loginUser, logoutUser }}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{ isLoggedIn, token, user, reloadUser, loginUser, logoutUser }}>{children}</AuthContext.Provider>
 };
 
 export { AuthContext, AuthProvider }

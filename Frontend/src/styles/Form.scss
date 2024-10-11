@@ -1,0 +1,45 @@
+.body-field {
+    width: 2.5rem;
+    text-align: center;
+}
+
+.body-field:enabled {
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 0.325rem;
+}
+
+.auth-field {
+    background-color: #F9FAFB;
+    border-width: 2px;
+    border-color: #9CA3AF;
+    color: #111827;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+    display: block;
+    width: 100%;
+    padding: 0.625rem;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-field:focus {
+    border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.5);
+}
+
+.dark .auth-field {
+    background-color: #374151;
+    border-color: #4B5563;
+    color: #FFFFFF;
+}
+
+.dark .auth-field::placeholder {
+    color: #9CA3AF;
+}
+
+.dark .auth-field:focus {
+    border-color: #3B82F6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}

@@ -8,17 +8,21 @@ import Dashboard from "../pages/Dashboard";
 import Plans from "../pages/Plans";
 import Profile from "../pages/Profile";
 import MenuPage from "../pages/MenuPage";
+import NotFound from "../pages/NotFound";
 
 export const router = createBrowserRouter([
     {
         path: "", element: <App />, children: [
-            { path: "/", element: <Home /> },
+            { path: "/", element: <NotAuthRoute><Home /></NotAuthRoute> },
             { path: "/login", element: <NotAuthRoute><LoginPage /></NotAuthRoute> },
             { path: "/register", element: <NotAuthRoute><RegisterPage /> </NotAuthRoute> },
             { path: "/dashboard", element: <AuthRoute><Dashboard /> </AuthRoute> },
             { path: "/plans", element: <AuthRoute><Plans /> </AuthRoute> },
             { path: "/profile", element: <AuthRoute><Profile /> </AuthRoute> },
             { path: "/menu", element: <AuthRoute><MenuPage /> </AuthRoute> },
+
         ]
-    }
+
+    },
+    { path: "*", element: <NotFound /> }
 ]); 

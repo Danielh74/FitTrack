@@ -1,4 +1,5 @@
 ﻿using DAL.Models;
+using FitTrackAPI.DTOs.WeightDTOs;
 using System.ComponentModel.DataAnnotations;
 
 namespace FitTrackAPI.DTOs.AccountDTOs
@@ -21,7 +22,7 @@ namespace FitTrackAPI.DTOs.AccountDTOs
 
 		[Required]
 		[Range(1, 300, ErrorMessage = "Please enter a valid weight up to 300 kg.")]
-		public required Weight Weight { get; set; }
+		public double Weight { get; set; }
 
 		[Range(0, double.MaxValue, ErrorMessage = "Only positive inputs are allowed")]
 		public double NeckCircumference { get; set; } = 0;

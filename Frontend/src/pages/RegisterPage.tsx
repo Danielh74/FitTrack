@@ -2,7 +2,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
-import { auth } from "../services/AuthService";
+import { auth } from "../services/UserService";
 import Card from "../components/Card";
 import { dialogs } from "../dialogs/Dialogs";
 import Loader from "../components/Loader";
@@ -85,7 +85,7 @@ function RegisterPage() {
                                         id="firstName"
                                         placeholder="John"
                                         name="firstName"
-                                        className="bg-gray-50 border-2 border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                        className="auth-field" />
                                     <ErrorMessage
                                         name="firstName"
                                         component="span"
@@ -97,7 +97,7 @@ function RegisterPage() {
                                         id="lastName"
                                         placeholder="Doe"
                                         name="lastName"
-                                        className="bg-gray-50 border-2 border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                        className="auth-field" />
                                     <ErrorMessage
                                         name="lastName"
                                         component="span"
@@ -111,7 +111,7 @@ function RegisterPage() {
                                         id="age"
                                         name="age"
                                         placeholder="18"
-                                        className="bg-gray-50 border-2 border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                        className="auth-field" />
                                     <ErrorMessage
                                         name="age"
                                         component="span"
@@ -123,7 +123,7 @@ function RegisterPage() {
                                         as="select"
                                         id="gender"
                                         name="gender"
-                                        className="bg-gray-50 border-2 border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        className="auth-field"
                                         style={{ color: values.gender === '' ? '#9CA3AF' : 'black' }}>
                                         <option value="" className="text-gray-400">Select gender</option>
                                         <option value="Male" className="text-black">Male</option>
@@ -142,7 +142,7 @@ function RegisterPage() {
                                     as="select"
                                     id="goal"
                                     name="goal"
-                                    className="bg-gray-50 border-2 border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    className="auth-field"
                                     style={{ color: values.goal === '' ? '#9CA3AF' : 'black' }}>
                                     <option value="" className="text-gray-500" >Select goal</option>
                                     <option value="Build Mass" className="text-black">Build Mass</option>
@@ -160,7 +160,7 @@ function RegisterPage() {
                                     id="email"
                                     name="email"
                                     placeholder="name@company.com"
-                                    className="bg-gray-50 border-2 border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                    className="auth-field" />
                                 <ErrorMessage
                                     name="email"
                                     component="span"
@@ -173,7 +173,7 @@ function RegisterPage() {
                                     name="password"
                                     type="password"
                                     placeholder="••••••••"
-                                    className="bg-gray-50 border-2 border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                    className="auth-field" />
                                 <ErrorMessage
                                     name="password"
                                     component="span"
@@ -186,7 +186,7 @@ function RegisterPage() {
                                     name="validatePassword"
                                     type="password"
                                     placeholder="••••••••"
-                                    className="bg-gray-50 border-2 border-gray-400 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                    className="auth-field" />
                                 <ErrorMessage
                                     name="validatePassword"
                                     component="span"
