@@ -25,24 +25,24 @@ namespace FitTrackAPI.DTOs.AccountDTOs
 		public double Weight { get; set; }
 
 		[Range(0, double.MaxValue, ErrorMessage = "Only positive inputs are allowed")]
-		public double NeckCircumference { get; set; } = 0;
+		public double NeckCircumference { get; set; }
 
 		[Range(0, double.MaxValue, ErrorMessage = "Only positive inputs are allowed")]
-		public double PecsCircumference { get; set; } = 0;
+		public double PecsCircumference { get; set; }
 
 		[Range(0, double.MaxValue, ErrorMessage = "Only positive inputs are allowed")]
-		public double WaistCircumference { get; set; } = 0;
+		public double WaistCircumference { get; set; }
 
 		[Range(0, double.MaxValue, ErrorMessage = "Only positive inputs are allowed")]
-		public double AbdominalCircumference { get; set; } = 0;
+		public double AbdominalCircumference { get; set; }
 
 		[Range(0, double.MaxValue, ErrorMessage = "Only positive inputs are allowed")]
-		public double HipsCircumference { get; set; } = 0;
+		public double HipsCircumference { get; set; }
 
 		[Range(0, double.MaxValue, ErrorMessage = "Only positive inputs are allowed")]
-		public double ThighsCircumference { get; set; } = 0;
+		public double ThighsCircumference { get; set; }
 
 		[Range(0, double.MaxValue, ErrorMessage = "Only positive inputs are allowed")]
-		public double ArmCircumference { get; set; } = 0;
+		public double ArmCircumference { get; set; }
 	}
 }

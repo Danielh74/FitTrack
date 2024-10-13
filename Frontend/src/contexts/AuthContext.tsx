@@ -1,8 +1,8 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { User } from "../models/User";
 import { auth } from "../services/UserService";
-import { toast } from "react-toastify";
 import Loader from "../components/Loader";
+import { handleApiErrors } from "../utils/Helpers";
 
 
 interface AuthContextType {
@@ -38,13 +38,14 @@ function AuthProvider({ children }: Props) {
             const storedToken = localStorage.getItem("token");
             if (storedToken) {
                 try {
-                    const userData = await auth.getUserInfo(storedToken);
+                    const userData = await auth.getLoggedInUser(storedToken)
                     console.log(userData);
                     setIsLoggedIn(true);
                     setToken(storedToken);
                     setUser(userData);
-                } catch (err) {
-                    toast.error(err);
+                } catch (error) {
+                    const errorMsg = handleApiErrors(error);
+                    console.log(errorMsg)
                 }
             } else {
                 setIsLoggedIn(false);
@@ -52,7 +53,7 @@ function AuthProvider({ children }: Props) {
                 setUser(null);
             }
             setIsLoading(false);
-        }
+        };
         fetchUserData();
     }, []);
 

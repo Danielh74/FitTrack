@@ -6,6 +6,7 @@ import { auth } from "../services/UserService";
 import Card from "../components/Card";
 import { dialogs } from "../dialogs/Dialogs";
 import Loader from "../components/Loader";
+import { handleApiErrors } from "../utils/Helpers";
 
 function RegisterPage() {
 
@@ -52,18 +53,12 @@ function RegisterPage() {
     const handleSubmit = async (inputs: RegisterInputs) => {
         setIsLoading(true);
         try {
-            const response = await auth.register(inputs);
-            if (response.status === 200) {
-                dialogs.SuccessAlert("Registration Successful");
-                navigate("/login");
-            } else if (response.status === 400) {
-                dialogs.errorAlert("One or more validation errors occurred.");
-            } else if (response.status >= 500) {
-                dialogs.errorAlert("Server error");
-            }
-
+            await auth.register(inputs);
+            dialogs.SuccessAlert("Registration Successful");
+            navigate("/login");
         } catch (error) {
-            dialogs.errorAlert(error);
+            const errorMsg = handleApiErrors(error)
+            dialogs.errorAlert(errorMsg);
         } finally {
             setIsLoading(false)
         }
@@ -200,7 +195,7 @@ function RegisterPage() {
                                         className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" />
                                 </div>
                                 <div className="ml-3 text-sm">
-                                    <label className="font-normal text-gray-500 dark:text-gray-300">I accept the </label>
+                                    <label className="font-normal text-white dark:text-gray-300">I accept the </label>
                                     <Link to="#" className="font-medium text-blue-600 hover:underline dark:text-blue-500">Terms and Conditions</Link>
                                 </div>
                                 <ErrorMessage

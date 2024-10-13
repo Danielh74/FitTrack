@@ -5,7 +5,8 @@ import { useState } from "react";
 import "../styles/Form.scss"
 import { auth } from "../services/UserService";
 import { toast } from "react-toastify";
-
+import { handleApiErrors } from "../utils/Helpers";
+import bodyImage from '../assets/body.png';
 interface valuesType {
     neck: number,
     pecs: number,
@@ -51,21 +52,18 @@ const Profile = () => {
 
         };
 
-        await auth.updateUser(updatedValues)
-            .then((response) => {
+        try {
+            const response = await auth.updateUser(updatedValues);
+            if (response.status === 200) {
                 toast.success('Measurements updated successfully');
                 reloadUser(response.data);
-            }).catch((error) => {
-                if (error.status === 400) {
-                    toast.error('Could not update: Wrong inputs');
-                } else if (error.status === 500) {
-                    toast.info("Server error. Try again later");
-                }
-            }).finally(() => {
-                setIsDisabled(true);
-            });
-
-
+            }
+        } catch (error) {
+            const errorMsg = handleApiErrors(error);
+            toast.error(errorMsg)
+        } finally {
+            setIsDisabled(true);
+        }
     };
 
     return (
@@ -114,7 +112,7 @@ const Profile = () => {
                                     </span>
                                 </div>
                                 <div className="flex">
-                                    <img src="/src/assets/body.png" alt="body" className="img" />
+                                    <img src={bodyImage} alt="body" className="img" />
                                 </div>
                                 <div className="flex flex-col">
                                     <span className="flex mt-28 border-b-2 border-black">
@@ -130,7 +128,7 @@ const Profile = () => {
                                         <Field name="hips" disabled={isDisabled} className="body-field" />
                                     </span>
                                     <span className="flex mt-40">
-                                        Body fat: {user.bodyFatPrecentage}%
+                                        Body fat: {user.bodyFatPrecentage === 0 ? "N/A" : user.bodyFatPrecentage + '%'}
                                     </span>
                                 </div>
                             </div>

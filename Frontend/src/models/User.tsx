@@ -25,6 +25,17 @@ export interface User {
     waistCircumference: number
 };
 
+export interface TokenPayload {
+    aud: string
+    email: string
+    exp: number
+    iat: number
+    iss: string
+    nameid: string
+    nbf: number
+    role: string
+};
+
 
 
 

@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import "../styles/background.scss";
 import "../styles/Form.scss";
+import { handleApiErrors } from "../utils/Helpers";
 
 const LoginPage = () => {
     interface LoginInputs {
@@ -32,28 +33,32 @@ const LoginPage = () => {
         password: ""
     };
 
+
+
     const handleSubmit = async ({ email, password }: LoginInputs) => {
         setIsLoading(true);
         setError(null);
 
         try {
             const response = await auth.login(email, password);
-            if (response.status === 200) {
-                toast.success("Login Successful")
-                const userData = await auth.getUserInfo(response.data.token);
-                loginUser(response.data.token, userData);
+            try {
+                const userResponse = await auth.getLoggedInUser(response.data.token);
+                toast.success("Login Successful");
+                loginUser(response.data.token, userResponse);
                 navigate("/dashboard");
-            } else if (response.status === 401) {
-                setError(response.response.data);
-                toast.error(response.response.data);
+            } catch (userError) {
+                const errorMsg = handleApiErrors(userError);
+                toast.error(errorMsg);
+                setError(errorMsg);
             }
         } catch (error) {
-            toast.error(error.message || "An unexpected error occurred");
-            setError(error.response?.data || "An unexpected error occurred");
+            const errorMsg = handleApiErrors(error);
+            toast.error(errorMsg);
+            setError(errorMsg);
         } finally {
             setIsLoading(false);
         }
-    }
+    };
 
     return (
         <div className="login-bg block w-full h-screen pt-20 text-gray-900 bg-white border border-t-0 border-gray-200 rounded-t-none shadow-sm sm:text-sm dark:bg-gray-900 dark:border-gray-600 dark:text-white block-canvas">
@@ -89,7 +94,7 @@ const LoginPage = () => {
                                 component="span"
                                 className="text-sm text-red-500" />
                         </div>
-                        {error && <div className="text-red-600">{error}</div>}
+                        {error && <div className="text-red-500 text-center font-bold">{error}</div>}
                         {isLoading ? <Loader /> : <button type="submit" className="w-full mt-4 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</button>}
                     </Card>
                 </Form>

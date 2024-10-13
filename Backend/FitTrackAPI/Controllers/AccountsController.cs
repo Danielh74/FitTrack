@@ -33,13 +33,13 @@ public class AccountsController(
 		var result = await userManager.CreateAsync(user, registerDto.Password);
 		if (!result.Succeeded)
 		{
-			return BadRequest("Error while creating a user");
+			return BadRequest("Email already in use");
 		}
 
 		var roleResult = await userManager.AddToRoleAsync(user, "User");
 		if (!roleResult.Succeeded)
 		{
-			return StatusCode(500, roleResult.Errors);
+			return StatusCode(statusCode: 500, roleResult.Errors);
 		}
 
 		return Ok();
@@ -192,7 +192,7 @@ public class AccountsController(
 		var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 		if ((currentUserId != userId) && (!User.IsInRole("Admin")))
 		{
-			return Forbid();
+			return Forbid("Forbidden from accessing this information");
 		}
 
 		var user = await userManager.Users
@@ -204,10 +204,10 @@ public class AccountsController(
 					.ThenInclude(pd => pd.ExerciseDetails)
 						.ThenInclude(ed => ed.Exercise)
 			.FirstOrDefaultAsync(u => u.Id == userId);
-
+		
 		if (user is null)
 		{
-			return NotFound();
+			return NotFound("User was not found.");
 		}
 
 		return Ok(user.ToDto());

@@ -25,21 +25,21 @@ namespace FitTrackAPI.DTOs.AccountDTOs
 
 		public string Goal { get; set; } = string.Empty;
 
-		public double NeckCircumference { get; set; } = 0;
+		public double NeckCircumference { get; set; }
 
-		public double PecsCircumference { get; set; } = 0;
+		public double PecsCircumference { get; set; }
 
-		public double WaistCircumference { get; set; } = 0;
+		public double WaistCircumference { get; set; }
 
-		public double AbdominalCircumference { get; set; } = 0;
+		public double AbdominalCircumference { get; set; }
 
-		public double HipsCircumference { get; set; } = 0;
+		public double HipsCircumference { get; set; }
 
-		public double ThighsCircumference { get; set; } = 0;
+		public double ThighsCircumference { get; set; }
 
-		public double ArmCircumference { get; set; } = 0;
+		public double ArmCircumference { get; set; }
 
-		public double BodyFatPrecentage { get; set; } = 0;
+		public double BodyFatPrecentage { get; set; }
 
 		public bool AgreedToTerms { get; set; } = false;
 		public int? HealthDeclarationId { get; set; }
