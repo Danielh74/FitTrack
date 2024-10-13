@@ -62,7 +62,7 @@ function RegisterPage() {
         } finally {
             setIsLoading(false)
         }
-    }
+    };
 
     return (
         <div className="register-bg block w-full pt-20 text-gray-900 bg-white  border border-t-0 border-gray-200 rounded-t-none shadow-sm sm:text-sm dark:bg-gray-900 dark:border-gray-600 dark:text-white block-canvas">
