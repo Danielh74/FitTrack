@@ -3,6 +3,8 @@ import { User } from "../models/User";
 import { auth } from "../services/UserService";
 import Loader from "../components/Loader";
 import { handleApiErrors } from "../utils/Helpers";
+import { dialogs } from "../dialogs/Dialogs";
+import { Navigate } from "react-router-dom";
 
 
 interface AuthContextType {
@@ -37,16 +39,22 @@ function AuthProvider({ children }: Props) {
         const fetchUserData = async () => {
             const storedToken = localStorage.getItem("token");
             if (storedToken) {
-                try {
-                    const userData = await auth.getLoggedInUser(storedToken)
-                    console.log(userData);
-                    setIsLoggedIn(true);
-                    setToken(storedToken);
-                    setUser(userData);
-                } catch (error) {
-                    const errorMsg = handleApiErrors(error);
-                    console.log(errorMsg)
-                }
+                await auth.getLoggedInUser(storedToken)
+                    .then((userData) => {
+                        console.log(userData);
+                        setIsLoggedIn(true);
+                        setToken(storedToken);
+                        setUser(userData);
+                    })
+                    .catch((error) => {
+                        const errorMsg = handleApiErrors(error);
+                        dialogs.errorAlert(errorMsg);
+                        setToken(null);
+                        setUser(null);
+                        setIsLoggedIn(false);
+                        localStorage.removeItem("token");
+                        return <Navigate to="/" />;
+                    });
             } else {
                 setIsLoggedIn(false);
                 setToken(null);

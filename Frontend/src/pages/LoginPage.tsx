@@ -10,6 +10,7 @@ import useAuth from "../hooks/useAuth";
 import "../styles/background.scss";
 import "../styles/Form.scss";
 import { handleApiErrors } from "../utils/Helpers";
+import axios from "axios";
 
 const LoginPage = () => {
     interface LoginInputs {
@@ -35,29 +36,27 @@ const LoginPage = () => {
 
 
 
-    const handleSubmit = async ({ email, password }: LoginInputs) => {
+    const handleSubmit = ({ email, password }: LoginInputs) => {
         setIsLoading(true);
         setError(null);
 
-        try {
-            const response = await auth.login(email, password);
-            try {
-                const userResponse = await auth.getLoggedInUser(response.data.token);
+        axios.post(`${auth.baseUrl}/login`, { email, password }).then((response) => {
+            auth.getLoggedInUser(response.data.token).then((userRes) => {
                 toast.success("Login Successful");
-                loginUser(response.data.token, userResponse);
+                loginUser(response.data.token, userRes);
                 navigate("/dashboard");
-            } catch (userError) {
-                const errorMsg = handleApiErrors(userError);
+            }).catch((userErr) => {
+                const errorMsg = handleApiErrors(userErr);
                 toast.error(errorMsg);
                 setError(errorMsg);
-            }
-        } catch (error) {
+            });
+        }).catch((error) => {
             const errorMsg = handleApiErrors(error);
             toast.error(errorMsg);
             setError(errorMsg);
-        } finally {
+        }).finally(() => {
             setIsLoading(false);
-        }
+        });
     };
 
     return (

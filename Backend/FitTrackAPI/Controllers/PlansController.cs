@@ -56,7 +56,7 @@ namespace FitTrackAPI.Controllers
 
 			if(!plans.TrueForAll(p=> p.AppUserId == currentUserId || !User.IsInRole("Admin")))
 			{
-				return Forbid("You do not have premission to access this data");
+				return Forbid();
 			}
 
 			return Ok(plans.Select(p=> p.ToPlanDto()));

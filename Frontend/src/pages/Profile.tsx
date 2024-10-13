@@ -35,7 +35,7 @@ const Profile = () => {
 
 
 
-    const handleSubmit = async (e: valuesType) => {
+    const handleSubmit = (e: valuesType) => {
         const updatedValues = {
             city: user.city,
             age: user.age,
@@ -52,18 +52,15 @@ const Profile = () => {
 
         };
 
-        try {
-            const response = await auth.updateUser(updatedValues);
-            if (response.status === 200) {
-                toast.success('Measurements updated successfully');
-                reloadUser(response.data);
-            }
-        } catch (error) {
+        auth.updateUser(updatedValues).then((response) => {
+            toast.success('Measurements updated successfully');
+            reloadUser(response.data);
+        }).catch((error) => {
             const errorMsg = handleApiErrors(error);
             toast.error(errorMsg)
-        } finally {
+        }).finally(() => {
             setIsDisabled(true);
-        }
+        });
     };
 
     return (

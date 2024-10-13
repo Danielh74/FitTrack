@@ -7,6 +7,7 @@ import Card from "../components/Card";
 import { dialogs } from "../dialogs/Dialogs";
 import Loader from "../components/Loader";
 import { handleApiErrors } from "../utils/Helpers";
+import axios from "axios";
 
 function RegisterPage() {
 
@@ -50,18 +51,18 @@ function RegisterPage() {
         agreedToTerms: false
     };
 
-    const handleSubmit = async (inputs: RegisterInputs) => {
+    const handleSubmit = (inputs: RegisterInputs) => {
         setIsLoading(true);
-        try {
-            await auth.register(inputs);
+
+        axios.post(`${auth.baseUrl}/register`, inputs).then(() => {
             dialogs.SuccessAlert("Registration Successful");
             navigate("/login");
-        } catch (error) {
+        }).catch((error) => {
             const errorMsg = handleApiErrors(error)
             dialogs.errorAlert(errorMsg);
-        } finally {
+        }).finally(() => {
             setIsLoading(false)
-        }
+        });
     };
 
     return (

@@ -2,20 +2,6 @@ import axios from "axios";
 import { TokenPayload } from "../models/User";
 import { jwtDecode } from "jwt-decode";
 
-const baseUrl = import.meta.env.VITE_BASE_URL + "/accounts";
-
-interface RegisterProps {
-    firstName: string,
-    lastName: string,
-    age: number,
-    gender: string,
-    goal: string,
-    email: string,
-    password: string,
-    validatePassword: string,
-    agreedToTerms: boolean
-}
-
 interface updatedUserProps {
     city: string,
     age: number,
@@ -31,14 +17,7 @@ interface updatedUserProps {
     weight: number
 }
 
-const register = async (props: RegisterProps) => {
-    return await axios.post(`${baseUrl}/register`, props);
-
-}
-
-const login = async (email: string, password: string) => {
-    return await axios.post(`${baseUrl}/login`, { email, password });
-};
+const baseUrl = import.meta.env.VITE_BASE_URL + "/accounts";
 
 const getUserInfo = async (payload: TokenPayload) => {
     return await axios.get(`${baseUrl}/${payload.nameid}`, {
@@ -50,31 +29,29 @@ const getUserInfo = async (payload: TokenPayload) => {
     }).catch((error) => {
         throw error;
     });
-
 };
 
-const getLoggedInUser = async (token: string) => {
+const getLoggedInUser = (token: string) => {
     const payload: TokenPayload = jwtDecode<TokenPayload>(token);
-    return await axios.get(`${baseUrl}/${payload.nameid}`, {
+    return axios.get(`${baseUrl}/${payload.nameid}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     }).then((response) => {
-        return response.data
+        return response.data;
     }).catch((error) => {
         throw error;
     });
-
 };
 
-const updateUser = async (updatedUser: updatedUserProps) => {
-    return await axios.put(`${baseUrl}`, updatedUser, {
+const updateUser = (updatedUser: updatedUserProps) => {
+    return axios.put(`${baseUrl}`, updatedUser, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
     });
 };
 
-export const auth = { register, login, getUserInfo, getLoggedInUser, updateUser }
+export const auth = { baseUrl, getUserInfo, getLoggedInUser, updateUser }
 
 

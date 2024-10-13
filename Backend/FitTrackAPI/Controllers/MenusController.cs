@@ -51,7 +51,7 @@ namespace FitTrackAPI.Controllers
 			var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 			if (menu.UserId != loggedInUserId || !User.IsInRole("Admin"))
 			{
-				return Forbid("You do not have premission to view this data");
+				return Forbid();
 			}
 
 			return Ok(menu.ToDto());

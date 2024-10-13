@@ -175,7 +175,7 @@ public class AccountsController(
 	[Authorize(Roles = "Admin")]
 	public async Task<IActionResult> GetAll()
 	{
-		var users = await userManager.Users.ToListAsync(); ;
+		var users = await userManager.Users.ToListAsync();
 
 		if (users.Count == 0)
 		{
@@ -192,7 +192,7 @@ public class AccountsController(
 		var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 		if ((currentUserId != userId) && (!User.IsInRole("Admin")))
 		{
-			return Forbid("Forbidden from accessing this information");
+			return Forbid();
 		}
 
 		var user = await userManager.Users
