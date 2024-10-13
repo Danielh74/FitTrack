@@ -1,6 +1,14 @@
 .body-field {
-    width: 2.5rem;
+    width: 3rem;
     text-align: center;
+}
+
+.body-select:enabled {
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 0.325rem;
+    margin-left: 0.325rem;
 }
 
 .body-field:enabled {
@@ -8,6 +16,7 @@
     border-color: black;
     border-style: solid;
     border-radius: 0.325rem;
+    margin-left: 0.325rem;
 }
 
 .auth-field {
