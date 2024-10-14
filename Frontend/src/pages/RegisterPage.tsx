@@ -8,6 +8,7 @@ import { dialogs } from "../dialogs/Dialogs";
 import Loader from "../components/Loader";
 import { handleApiErrors } from "../utils/Helpers";
 import axios from "axios";
+import "../styles/Card.scss";
 
 function RegisterPage() {
 
@@ -73,7 +74,7 @@ function RegisterPage() {
                 onSubmit={handleSubmit}>
                 {({ values }) => (
                     <Form className="flex flex-col items-center">
-                        <Card title="Create an account">
+                        <Card title="Create an account" className="auth-card">
                             <div className="flex flex-row">
                                 <div className="flex flex-col gap-2 w-1/2 me-2 text-lg my-2">
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="firstName">First Name</label>
@@ -196,7 +197,7 @@ function RegisterPage() {
                                         className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" />
                                 </div>
                                 <div className="ml-3 text-sm">
-                                    <label className="font-normal text-white dark:text-gray-300">I accept the </label>
+                                    <label className="font-medium text-black dark:text-white">I accept the </label>
                                     <Link to="#" className="font-medium text-blue-600 hover:underline dark:text-blue-500">Terms and Conditions</Link>
                                 </div>
                                 <ErrorMessage
@@ -204,8 +205,10 @@ function RegisterPage() {
                                     component="span"
                                     className="text-sm text-red-500" />
                             </div>
-
                             {isLoading ? <Loader /> : <button type="submit" className="w-full text-white bg-blue-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Register</button>}
+                            <div className="text-sm font-medium text-black pt-3 ps-1 dark:text-white">
+                                Already registered? <Link to="/login" className="text-blue-700 hover:underline dark:text-blue-500">Log-in</Link>
+                            </div>
                         </Card>
                     </Form>
                 )}

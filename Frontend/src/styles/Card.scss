@@ -1,0 +1,43 @@
+.auth-card {
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(4px);
+
+    @media (min-width: 640px) {
+        max-width: 28rem;
+    }
+
+    @media (min-width: 768px) {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    @media (min-width: 1280px) {
+        padding: 1.5rem;
+    }
+}
+
+.dark .auth-card {
+    border-width: 1px;
+    border-color: #374151;
+    background-color: rgba($color: #1F2937, $alpha: 0.3);
+}
+
+.profile-card {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 5px 0px 25px 10px rgba(0, 0, 0, 0.1), 5px 0px 10px 10px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(4px);
+}
+
+.dark .profile-card {
+    border-width: 1px;
+    border-color: #374151;
+    background-color: rgba($color: #1F2937, $alpha: 0.3);
+    color: white;
+}

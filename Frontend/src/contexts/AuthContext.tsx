@@ -49,10 +49,7 @@ function AuthProvider({ children }: Props) {
                     .catch((error) => {
                         const errorMsg = handleApiErrors(error);
                         dialogs.errorAlert(errorMsg);
-                        setToken(null);
-                        setUser(null);
-                        setIsLoggedIn(false);
-                        localStorage.removeItem("token");
+                        logoutUser();
                         return <Navigate to="/" />;
                     });
             } else {

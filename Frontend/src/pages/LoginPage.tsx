@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
 import { auth } from "../services/UserService";
 import Card from "../components/Card";
@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import useAuth from "../hooks/useAuth";
 import "../styles/background.scss";
 import "../styles/Form.scss";
+import "../styles/Card.scss";
 import { handleApiErrors } from "../utils/Helpers";
 import axios from "axios";
 
@@ -65,8 +66,9 @@ const LoginPage = () => {
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}>
+
                 <Form className="flex flex-col items-center pt-20">
-                    <Card title="Log-in">
+                    <Card title="Log-in" className="auth-card">
                         <div className="flex flex-col items-start my-2">
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="email">Email</label>
                             <Field
@@ -95,6 +97,9 @@ const LoginPage = () => {
                         </div>
                         {error && <div className="text-red-500 text-center font-bold">{error}</div>}
                         {isLoading ? <Loader /> : <button type="submit" className="w-full mt-4 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</button>}
+                        <div className="text-sm font-medium text-black pt-3 ps-1 dark:text-white">
+                            Not registered? <Link to="/register" className="text-blue-700 hover:underline dark:text-blue-500">Create account</Link>
+                        </div>
                     </Card>
                 </Form>
             </Formik>

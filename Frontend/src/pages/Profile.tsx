@@ -7,6 +7,11 @@ import { auth } from "../services/UserService";
 import { toast } from "react-toastify";
 import { handleApiErrors } from "../utils/Helpers";
 import bodyImage from '../assets/body.png';
+import Card from "../components/Card";
+import "../styles/Card.scss";
+import { jwtDecode } from "jwt-decode";
+import { TokenPayload } from "../models/User";
+
 interface valuesType {
     city: string,
     age: number,
@@ -23,7 +28,7 @@ interface valuesType {
 }
 
 const Profile = () => {
-    const { user, reloadUser } = useAuth();
+    const { user, reloadUser, token } = useAuth();
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
     const initialValues = {
@@ -72,104 +77,119 @@ const Profile = () => {
     };
 
     return (
-        <div className="p-5 h-[calc(100vh-4rem)]">
+        <div className="p-3 h-[calc(100vh-4rem)]">
             <div className="flex flex-col w-full">
                 <Formik initialValues={initialValues} onSubmit={handleSubmit}>
                     {() => (
                         <Form className="flex flex-col">
                             <div className="flex flex-row justify-between">
                                 <section className="flex flex-col w-1/2">
-                                    <div className="flex flex-row font-semibold text-xl justify-center">
-                                        {user.firstName + " " + user.lastName}
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <div className="flex ms-5 mt-5">
-                                            <label>Age:</label>
-                                            <Field name="age" disabled={isDisabled} className='body-field' />
-                                        </div>
-                                        <div className="flex ms-5 mt-5">
-                                            <label className="me-1">Gender:</label>
-                                            {user.gender}
-                                        </div>
-                                        <div className="flex ms-5 mt-5 ">
-                                            <label>City:</label>
-                                            <Field name="city" disabled={isDisabled} className='body-field' />
-                                        </div>
-                                        <div className="flex ms-5 mt-5">
-                                            <label>Height:</label>
-                                            <Field name="height" disabled={isDisabled} className='body-field' />cm
-                                        </div>
-                                        <div className="flex ms-5 mt-5">
-                                            <label>Goal: </label>
-                                            {isDisabled ?
-                                                <Field
-                                                    as="input"
-                                                    name="goal"
-                                                    className="body-field"
-                                                    disabled={isDisabled}>
-                                                </Field>
-                                                :
-                                                <Field
-                                                    as="select"
-                                                    name="goal"
-                                                    className="body-select"
-                                                    disabled={isDisabled}>
-                                                    <option value="Build Mass" className="text-black">Build Mass</option>
-                                                    <option value="toning" className="text-black">toning</option>
-                                                </Field>
-                                            }
-
-                                        </div>
-                                    </div>
-                                </section>
-                                <section className="flex flex-col w-1/2">
-                                    <div className="flex flex-row justify-end">
-                                        <div className="flex flex-col">
-                                            <span className="flex mt-16 border-b-2 border-black">
-                                                <label>Neck:</label>
-                                                <Field name="neck" disabled={isDisabled} className='body-field' />
-                                            </span>
-                                            <span className="flex mt-9 border-b-2 border-black">
-                                                <label>Arm:</label>
-                                                <Field name="arm" disabled={isDisabled} className="body-field" />
-                                            </span>
-                                            <span className="flex mt-6 border-b-2 border-black">
-                                                <label>Abdominal:</label>
-                                                <Field name="abdominal" disabled={isDisabled} className="body-field" />
-                                            </span>
-                                            <span className="flex mt-8 border-b-2 border-black">
-                                                <label>Thighs:</label>
-                                                <Field name="thighs" disabled={isDisabled} className="body-field" />
-                                            </span>
-                                            <span className="flex mt-32">
-                                                <label>Current weight:</label>
-                                                <Field name="weight" disabled={isDisabled} className="body-field" />
-                                            </span>
-                                        </div>
-                                        <div className="flex">
-                                            <img src={bodyImage} alt="body" className="img" />
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <span className="flex mt-28 border-b-2 border-black">
-                                                <label>Chest:</label>
-                                                <Field name="pecs" disabled={isDisabled} className="body-field" />
-                                            </span>
-                                            <span className="flex mt-4 border-b-2 border-black">
-                                                <label>Waist:</label>
-                                                <Field name="waist" disabled={isDisabled} className="body-field" />
-                                            </span>
-                                            <span className="flex mt-4 border-b-2 border-black">
-                                                <label>Hips:</label>
-                                                <Field name="hips" disabled={isDisabled} className="body-field" />
-                                            </span>
-                                            <span className="flex mt-40">
+                                    <Card title="User info" className="profile-card h-1/2">
+                                        <h1 className="flex flex-row font-medium text-2xl justify-center mb-4">
+                                            {user.firstName + " " + user.lastName}
+                                        </h1>
+                                        <main className="flex flex-col">
+                                            <div className="flex flex-row ms-5 mt-5 justify-around mb-2">
+                                                <span>
+                                                    <label>Age:</label>
+                                                    <Field name="age" disabled={isDisabled} className='body-field' />
+                                                </span>
+                                                <span>
+                                                    <label className="me-1">Gender:</label>
+                                                    {user.gender}
+                                                </span>
+                                            </div>
+                                            <div className="flex ms-5 mt-5 justify-around mb-2 ">
+                                                <span>
+                                                    <label>City:</label>
+                                                    <Field name="city" disabled={isDisabled} className='body-field' />
+                                                </span>
+                                                <span>
+                                                    <label>Goal: </label>
+                                                    {isDisabled ?
+                                                        <Field
+                                                            as="input"
+                                                            name="goal"
+                                                            className="body-field"
+                                                            disabled={isDisabled}>
+                                                        </Field>
+                                                        :
+                                                        <Field
+                                                            as="select"
+                                                            name="goal"
+                                                            className="body-select"
+                                                            disabled={isDisabled}>
+                                                            <option value="Build Mass" className="text-black">Build Mass</option>
+                                                            <option value="toning" className="text-black">toning</option>
+                                                        </Field>
+                                                    }
+                                                </span>
+                                            </div>
+                                            <span className="flex ms-5 mt-5 justify-center">
                                                 Body fat: {user.bodyFatPrecentage === 0 ? "N/A" : user.bodyFatPrecentage + '%'}
                                             </span>
+                                        </main>
+                                    </Card>
+                                    <Card title="Account info" className="profile-card mt-3 h-1/2">
+                                        <article className="flex flex-col h-full">
+                                            <span>
+                                                Email: {jwtDecode<TokenPayload>(token).email}
+                                            </span>
+                                        </article>
+                                    </Card>
+                                </section>
+
+                                <section className="flex flex-col w-1/2 ml-5">
+                                    <Card title="Measurments" className="profile-card">
+                                        <div className="flex flex-row justify-center">
+                                            <div className="flex flex-col">
+                                                <span className="flex mt-16 border-b-2 border-black">
+                                                    <label>Neck:</label>
+                                                    <Field name="neck" disabled={isDisabled} className='body-field' /> cm
+                                                </span>
+                                                <span className="flex mt-9 border-b-2 border-black">
+                                                    <label>Arm:</label>
+                                                    <Field name="arm" disabled={isDisabled} className="body-field" /> cm
+                                                </span>
+                                                <span className="flex mt-6 border-b-2 border-black">
+                                                    <label>Abdominal:</label>
+                                                    <Field name="abdominal" disabled={isDisabled} className="body-field" /> cm
+                                                </span>
+                                                <span className="flex mt-8 border-b-2 border-black">
+                                                    <label>Thighs:</label>
+                                                    <Field name="thighs" disabled={isDisabled} className="body-field" /> cm
+                                                </span>
+                                                <span className="flex mt-32">
+                                                    <label>Height:</label>
+                                                    <Field name="height" disabled={isDisabled} className="body-field" /> cm
+                                                </span>
+                                            </div>
+                                            <div className="flex">
+                                                <img src={bodyImage} alt="body" className="img" />
+                                            </div>
+                                            <div className="flex flex-col">
+                                                <span className="flex mt-28 border-b-2 border-black">
+                                                    <label>Chest:</label>
+                                                    <Field name="pecs" disabled={isDisabled} className="body-field" /> cm
+                                                </span>
+                                                <span className="flex mt-4 border-b-2 border-black">
+                                                    <label>Waist:</label>
+                                                    <Field name="waist" disabled={isDisabled} className="body-field" /> cm
+                                                </span>
+                                                <span className="flex mt-4 border-b-2 border-black">
+                                                    <label>Hips:</label>
+                                                    <Field name="hips" disabled={isDisabled} className="body-field" /> cm
+                                                </span>
+                                                <span className="flex mt-40">
+                                                    <label>Weight</label>
+                                                    <Field name="weight" disabled={isDisabled} className="body-field" /> kg
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </Card>
                                 </section>
                             </div>
-                            <div className="mt-10 ml-16 self-center">
+                            <div className="my-3 ml-16 self-center">
                                 {isDisabled && <button
                                     className="bg-gray-400 border-2 border-black rounded-lg p-2 font-semibold"
                                     type="button"
