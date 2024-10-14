@@ -11,6 +11,7 @@ import Card from "../components/Card";
 import "../styles/Card.scss";
 import { jwtDecode } from "jwt-decode";
 import { TokenPayload } from "../models/User";
+import { GiBodyHeight, GiMuscleFat, GiWeightScale } from "react-icons/gi";
 
 interface valuesType {
     city: string,
@@ -126,6 +127,9 @@ const Profile = () => {
                                                 </span>
                                             </div>
                                             <span className="flex ms-5 mt-5 justify-center">
+                                                <div className="pt-1 pr-1">
+                                                    <GiMuscleFat />
+                                                </div>
                                                 Body fat: {user.bodyFatPrecentage === 0 ? "N/A" : user.bodyFatPrecentage + '%'}
                                             </span>
                                         </main>
@@ -160,7 +164,10 @@ const Profile = () => {
                                                     <Field name="thighs" disabled={isDisabled} className="body-field" /> cm
                                                 </span>
                                                 <span className="flex mt-32">
-                                                    <label>Height:</label>
+                                                    <div className="pt-1 pr-1">
+                                                        <GiBodyHeight />
+                                                    </div>
+                                                    <label> Height:</label>
                                                     <Field name="height" disabled={isDisabled} className="body-field" /> cm
                                                 </span>
                                             </div>
@@ -181,6 +188,9 @@ const Profile = () => {
                                                     <Field name="hips" disabled={isDisabled} className="body-field" /> cm
                                                 </span>
                                                 <span className="flex mt-40">
+                                                    <div className="pt-1 pr-1">
+                                                        <GiWeightScale />
+                                                    </div>
                                                     <label>Weight</label>
                                                     <Field name="weight" disabled={isDisabled} className="body-field" /> kg
                                                 </span>
