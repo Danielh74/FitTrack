@@ -1,9 +1,10 @@
-.body-field {
+.profile-field {
     width: 3rem;
     text-align: center;
+    background-color: rgba($color: #ffffff, $alpha: 0);
 }
 
-.body-select:enabled {
+.profile-select:enabled {
     border-width: 2px;
     border-color: black;
     border-style: solid;
@@ -11,12 +12,30 @@
     margin-left: 0.325rem;
 }
 
-.body-field:enabled {
+.dark .profile-select:enabled {
     border-width: 2px;
     border-color: black;
     border-style: solid;
     border-radius: 0.325rem;
     margin-left: 0.325rem;
+    background-color: rgba(70, 70, 70, 0.3);
+}
+
+.profile-field:enabled {
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 0.325rem;
+    margin-left: 0.325rem;
+}
+
+.dark .profile-field:enabled {
+    border-width: 2px;
+    border-color: black;
+    border-style: solid;
+    border-radius: 0.325rem;
+    margin-left: 0.325rem;
+    background-color: rgba(70, 70, 70, 0.3);
 }
 
 .auth-field {
@@ -51,4 +70,44 @@
 .dark .auth-field:focus {
     border-color: #3B82F6;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+}
+
+.profile-button-edit {
+    border-radius: 0.5rem;
+    font-weight: 600;
+    background: #8B8C89;
+    color: black;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.dark .profile-button-edit {
+    border-radius: 0.5rem;
+    font-weight: 600;
+    background: #454644;
+    color: whitesmoke;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.profile-button-confirm {
+    border-radius: 0.5rem;
+    font-weight: 600;
+    background: #274C77;
+    color: whitesmoke;
+    padding: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+.dark .profile-button-confirm {
+    border-radius: 0.5rem;
+    font-weight: 600;
+    background: #13263C;
+    color: whitesmoke;
+    padding: 0.5rem;
+    padding-bottom: 0.5rem;
 }

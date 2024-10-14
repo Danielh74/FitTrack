@@ -1,9 +1,21 @@
+.app-bg {
+    background-color: rgb(228, 228, 228);
+    height: 100vh;
+}
+
+.dark .app-bg {
+    background-color: #5E7C8D
+}
+
+
 .home-bg {
+    position: fixed;
     background-image: url('../assets/background.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 100vh;
+    top: 4rem;
+    height: calc(100vh - 4rem);
     width: 100%;
 }
 
@@ -25,7 +37,27 @@
     width: 100%;
 }
 
-.img {
+.navbar-bg {
+    background-color: white;
+    color: #274C77;
+}
+
+.dark .navbar-bg {
+    background-color: black;
+    color: #E7ECEF;
+}
+
+.sidebar-bg {
+    background-color: #E7ECEF;
+    color: #274C77;
+}
+
+.dark .sidebar-bg {
+    background-color: #13263C;
+    color: white;
+}
+
+.body-img {
     height: 70vh;
     width: 250px;
 }

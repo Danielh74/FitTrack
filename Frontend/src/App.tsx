@@ -9,7 +9,7 @@ import useAuth from './hooks/useAuth';
 function App() {
   const { isLoggedIn } = useAuth();
   return (
-    <>
+    <div className='app-bg'>
       <Navbar />
       {isLoggedIn ?
         <>
@@ -22,7 +22,7 @@ function App() {
         <Outlet />
       }
       <ToastContainer />
-    </>
+    </div>
   )
 }
 

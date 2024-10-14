@@ -93,7 +93,7 @@ const Profile = () => {
                                             <div className="flex flex-row ms-5 mt-5 justify-around mb-2">
                                                 <span>
                                                     <label>Age:</label>
-                                                    <Field name="age" disabled={isDisabled} className='body-field' />
+                                                    <Field name="age" disabled={isDisabled} className='profile-field' />
                                                 </span>
                                                 <span>
                                                     <label className="me-1">Gender:</label>
@@ -103,7 +103,7 @@ const Profile = () => {
                                             <div className="flex ms-5 mt-5 justify-around mb-2 ">
                                                 <span>
                                                     <label>City:</label>
-                                                    <Field name="city" disabled={isDisabled} className='body-field' />
+                                                    <Field name="city" disabled={isDisabled} className='profile-field' />
                                                 </span>
                                                 <span>
                                                     <label>Goal: </label>
@@ -111,14 +111,14 @@ const Profile = () => {
                                                         <Field
                                                             as="input"
                                                             name="goal"
-                                                            className="body-field"
+                                                            className="profile-field"
                                                             disabled={isDisabled}>
                                                         </Field>
                                                         :
                                                         <Field
                                                             as="select"
                                                             name="goal"
-                                                            className="body-select"
+                                                            className="profile-select"
                                                             disabled={isDisabled}>
                                                             <option value="Build Mass" className="text-black">Build Mass</option>
                                                             <option value="toning" className="text-black">toning</option>
@@ -149,50 +149,50 @@ const Profile = () => {
                                             <div className="flex flex-col">
                                                 <span className="flex mt-16 border-b-2 border-black">
                                                     <label>Neck:</label>
-                                                    <Field name="neck" disabled={isDisabled} className='body-field' /> cm
+                                                    <Field name="neck" disabled={isDisabled} className='profile-field' /> cm
                                                 </span>
                                                 <span className="flex mt-9 border-b-2 border-black">
                                                     <label>Arm:</label>
-                                                    <Field name="arm" disabled={isDisabled} className="body-field" /> cm
+                                                    <Field name="arm" disabled={isDisabled} className="profile-field" /> cm
                                                 </span>
                                                 <span className="flex mt-6 border-b-2 border-black">
                                                     <label>Abdominal:</label>
-                                                    <Field name="abdominal" disabled={isDisabled} className="body-field" /> cm
+                                                    <Field name="abdominal" disabled={isDisabled} className="profile-field" /> cm
                                                 </span>
                                                 <span className="flex mt-8 border-b-2 border-black">
                                                     <label>Thighs:</label>
-                                                    <Field name="thighs" disabled={isDisabled} className="body-field" /> cm
+                                                    <Field name="thighs" disabled={isDisabled} className="profile-field" /> cm
                                                 </span>
                                                 <span className="flex mt-32">
                                                     <div className="pt-1 pr-1">
                                                         <GiBodyHeight />
                                                     </div>
                                                     <label> Height:</label>
-                                                    <Field name="height" disabled={isDisabled} className="body-field" /> cm
+                                                    <Field name="height" disabled={isDisabled} className="profile-field" /> cm
                                                 </span>
                                             </div>
                                             <div className="flex">
-                                                <img src={bodyImage} alt="body" className="img" />
+                                                <img src={bodyImage} alt="body" className="body-img" />
                                             </div>
                                             <div className="flex flex-col">
                                                 <span className="flex mt-28 border-b-2 border-black">
                                                     <label>Chest:</label>
-                                                    <Field name="pecs" disabled={isDisabled} className="body-field" /> cm
+                                                    <Field name="pecs" disabled={isDisabled} className="profile-field" /> cm
                                                 </span>
                                                 <span className="flex mt-4 border-b-2 border-black">
                                                     <label>Waist:</label>
-                                                    <Field name="waist" disabled={isDisabled} className="body-field" /> cm
+                                                    <Field name="waist" disabled={isDisabled} className="profile-field" /> cm
                                                 </span>
                                                 <span className="flex mt-4 border-b-2 border-black">
                                                     <label>Hips:</label>
-                                                    <Field name="hips" disabled={isDisabled} className="body-field" /> cm
+                                                    <Field name="hips" disabled={isDisabled} className="profile-field" /> cm
                                                 </span>
                                                 <span className="flex mt-40">
                                                     <div className="pt-1 pr-1">
                                                         <GiWeightScale />
                                                     </div>
                                                     <label>Weight</label>
-                                                    <Field name="weight" disabled={isDisabled} className="body-field" /> kg
+                                                    <Field name="weight" disabled={isDisabled} className="profile-field" /> kg
                                                 </span>
                                             </div>
                                         </div>
@@ -201,13 +201,13 @@ const Profile = () => {
                             </div>
                             <div className="my-3 ml-16 self-center">
                                 {isDisabled && <button
-                                    className="bg-gray-400 border-2 border-black rounded-lg p-2 font-semibold"
+                                    className="profile-button-edit"
                                     type="button"
                                     onClick={() => setIsDisabled(false)} >
                                     Edit information
                                 </button>}
                                 {!isDisabled && <button
-                                    className="bg-blue-400 border-2 border-black rounded-lg p-2 font-semibold"
+                                    className="profile-button-confirm"
                                     type="submit" >
                                     Confirm
                                 </button>
