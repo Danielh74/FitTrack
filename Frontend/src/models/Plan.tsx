@@ -1,6 +1,7 @@
 export interface Plan {
     id: number
     userName: string
+    isCompleted: boolean
     name: string
     planDetails: PlanDetails[]
 };

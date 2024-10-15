@@ -78,7 +78,7 @@ const Profile = () => {
     };
 
     return (
-        <div className="p-3 h-[calc(100vh-4rem)]">
+        <div className="p-3">
             <div className="flex flex-col w-full">
                 <Formik initialValues={initialValues} onSubmit={handleSubmit}>
                     {() => (
