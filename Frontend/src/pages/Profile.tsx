@@ -85,7 +85,7 @@ const Profile = () => {
                         <Form className="flex flex-col">
                             <div className="flex flex-row justify-between">
                                 <section className="flex flex-col w-1/2">
-                                    <Card title="User info" className="profile-card h-1/2">
+                                    <Card title="User info" customClass="profile-card h-1/2">
                                         <h1 className="flex flex-row font-medium text-2xl justify-center mb-4">
                                             {user.firstName + " " + user.lastName}
                                         </h1>
@@ -134,7 +134,7 @@ const Profile = () => {
                                             </span>
                                         </main>
                                     </Card>
-                                    <Card title="Account info" className="profile-card mt-3 h-1/2">
+                                    <Card title="Account info" customClass="profile-card mt-3 h-1/2">
                                         <article className="flex flex-col h-full">
                                             <span>
                                                 Email: {jwtDecode<TokenPayload>(token).email}
@@ -144,7 +144,7 @@ const Profile = () => {
                                 </section>
 
                                 <section className="flex flex-col w-1/2 ml-5">
-                                    <Card title="Measurments" className="profile-card">
+                                    <Card title="Measurments" customClass="profile-card">
                                         <div className="flex flex-row justify-center">
                                             <div className="flex flex-col">
                                                 <span className="flex mt-16 border-b-2 border-black">

@@ -67,14 +67,14 @@ function RegisterPage() {
     };
 
     return (
-        <div className="register-bg block w-full pt-20 text-gray-900 bg-white  border border-t-0 border-gray-200 rounded-t-none shadow-sm sm:text-sm dark:bg-gray-900 dark:border-gray-600 dark:text-white block-canvas">
+        <div className="register-bg">
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}>
                 {({ values }) => (
-                    <Form className="flex flex-col items-center">
-                        <Card title="Create an account" className="auth-card">
+                    <Form className="flex flex-col items-center pt-20">
+                        <Card title="Create an account" customClass="auth-card">
                             <div className="flex flex-row">
                                 <div className="flex flex-col gap-2 w-1/2 me-2 text-lg my-2">
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="firstName">First Name</label>

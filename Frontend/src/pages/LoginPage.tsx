@@ -61,14 +61,14 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="login-bg block w-full h-screen pt-20 text-gray-900 bg-white border border-t-0 border-gray-200 rounded-t-none shadow-sm sm:text-sm dark:bg-gray-900 dark:border-gray-600 dark:text-white block-canvas">
+        <div className="login-bg block w-full h-screen">
             <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}>
 
-                <Form className="flex flex-col items-center pt-20">
-                    <Card title="Log-in" className="auth-card">
+                <Form className="flex flex-col items-center pt-24">
+                    <Card title="Log-in" customClass="auth-card">
                         <div className="flex flex-col items-start my-2">
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="email">Email</label>
                             <Field
@@ -104,8 +104,6 @@ const LoginPage = () => {
                 </Form>
             </Formik>
         </div>
-
-
     )
 }
 
