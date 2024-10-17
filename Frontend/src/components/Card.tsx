@@ -9,7 +9,7 @@ interface Props {
 const Card = ({ children, title, customClass }: Props) => {
     return (
         <div className={`${customClass} card`}>
-            <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+            <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white">
                 {title}
             </h1>
             {children}

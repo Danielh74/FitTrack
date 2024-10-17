@@ -6,7 +6,6 @@ import { Weight } from '../models/Weight';
 import { Plan } from '../models/Plan';
 import 'chart.js/auto';
 import { Line } from "react-chartjs-2"
-import { FaDumbbell } from 'react-icons/fa';
 import Card from '../components/Card';
 
 const Dashboard = () => {
@@ -62,12 +61,31 @@ const Dashboard = () => {
                     }}
                 />
             </Card>
-            <div className='flex flex-row h-1/2'>
-                <div className='flex flex-col h-64 w-64'>
-                    <p className='flex flex-row items-center text-lg font-semibold gap-2 bg-white rounded-t-xl fixed ps-4'><FaDumbbell />Workout progression <FaDumbbell /> </p>
-                    <Card title='' customClass='bg-white'>
+            <div className='flex flex-row h-1/2 gap-3'>
+                <div className='flex flex-col h-64 w-68'>
+                    <Card title='Workout progression' customClass='dashboard-card'>
                         <CircularProgressbar
-                            className='pt-5 px-3'
+                            className='pt-3'
+                            value={plansAmount > 0 ? completedPlans / plansAmount * 100 : 0}
+                            text={`${completedPlans}/${plansAmount}`}
+                            styles={{
+                                path: {
+                                    stroke: `${completedPlans / plansAmount === 1 ? '#00ff00' : '#274C77'}`,
+                                    strokeLinecap: 'round',
+                                },
+                                text: {
+                                    fill: 'black',
+                                    fontWeight: 'bold',
+                                    fontSize: '16px',
+                                },
+                            }}
+                        />
+                    </Card>
+                </div>
+                <div className='flex flex-col h-64 w-68'>
+                    <Card title='Workout progression' customClass='dashboard-card'>
+                        <CircularProgressbar
+                            className='pt-3'
                             value={plansAmount > 0 ? completedPlans / plansAmount * 100 : 0}
                             text={`${completedPlans}/${plansAmount}`}
                             styles={{
