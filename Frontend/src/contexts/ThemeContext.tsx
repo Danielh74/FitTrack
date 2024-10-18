@@ -1,24 +1,26 @@
 import { createContext, useEffect, useState } from "react";
 
 interface Props {
-    darkMode: boolean,
+    darkMode: boolean
+    lightColor: string
     toggle: () => void
 }
 
 const initialValues: Props = {
     darkMode: false,
+    lightColor: '#E7ECEF',
     toggle: () => { }
 }
 
-const DarkModeContext = createContext(initialValues);
+const ThemeContext = createContext(initialValues);
 
-function DarkModeProvider({ children }) {
+function ThemeProvider({ children }) {
     const [darkMode, setDarkMode] = useState(false)
-
+    const lightColor = '#E7ECEF';
     useEffect(() => {
         const theme = localStorage.getItem("theme");
         if (theme === "dark") {
-            setDarkMode(false);
+            setDarkMode(true);
             document.body.classList.add("dark");
         }
     }, []);
@@ -29,7 +31,7 @@ function DarkModeProvider({ children }) {
         setDarkMode((prev) => !prev);
         document.body.classList.toggle("dark");
     }
-    return <DarkModeContext.Provider value={{ darkMode, toggle }}>{children}</DarkModeContext.Provider>
+    return <ThemeContext.Provider value={{ darkMode, lightColor, toggle }}>{children}</ThemeContext.Provider>
 }
 
-export { DarkModeContext, DarkModeProvider }
+export { ThemeContext, ThemeProvider }

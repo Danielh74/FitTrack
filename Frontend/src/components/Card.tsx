@@ -8,7 +8,7 @@ interface Props {
 
 const Card = ({ children, title, customClass }: Props) => {
     return (
-        <div className={`${customClass} card`}>
+        <div className={`${customClass} card shadow-xl`}>
             <h1 className="text-2xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white">
                 {title}
             </h1>

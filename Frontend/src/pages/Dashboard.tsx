@@ -7,17 +7,23 @@ import { Plan } from '../models/Plan';
 import 'chart.js/auto';
 import { Line } from "react-chartjs-2"
 import Card from '../components/Card';
+import useTheme from '../hooks/useTheme';
+import { MenuDetails } from '../models/Menu';
 
 const Dashboard = () => {
     const { user } = useAuth();
-    const [plansAmount, setPlansAmount] = useState<number>(0);
+    const { darkMode, lightColor } = useTheme();
+    const plansAmount = user.plans.length;
+    const mealsAmount = user.menu === null ? 0 : user.menu.menuDetails.length;
+    // const [plansAmount, setPlansAmount] = useState<number>(0);
     const [completedPlans, setCompletedPlans] = useState<number>(0);
+    const [completedMeals, setCompletedMeals] = useState<number>(0);
     const [weightList, setWeightList] = useState<number[]>([]);
     const [timeStamps, setTimeStamps] = useState<string[]>([]);
 
     useEffect(() => {
         const getValues = () => {
-            setPlansAmount(user.plans.length);
+            // setPlansAmount(user.plans.length);
 
             user.plans.forEach((plan: Plan) => {
 
@@ -25,6 +31,13 @@ const Dashboard = () => {
                     setCompletedPlans(prev => prev + 1);
                 }
             });
+
+            // user.menu.menuDetails.forEach((meal: MenuDetails) => {
+
+            //     if (meal.isCompleted) {
+            //         setCompletedPlans(prev => prev + 1);
+            //     }
+            // });
 
             user.weight.slice(user.weight.length - 10).forEach((weight: Weight) => {
                 setWeightList(prevWeights => [...prevWeights, weight.value]);
@@ -34,7 +47,8 @@ const Dashboard = () => {
         getValues();
 
         return () => {
-            setPlansAmount(0);
+            // setPlansAmount(0);
+            setCompletedMeals(0)
             setCompletedPlans(0);
             setWeightList([]);
             setTimeStamps([]);
@@ -43,26 +57,38 @@ const Dashboard = () => {
 
     return (
         <div className='p-3 h-[calc(100vh-4rem)]'>
-            <Card title='' customClass=' h-1/3 bg-white mb-3'>
+            <Card title='' customClass='dashboard-card h-1/3 mb-3'>
                 <Line
                     data={{
                         labels: timeStamps,
                         datasets: [{
                             label: `${weightList.length === 0 ? 'no data' : 'Weight progress'}`,
                             data: weightList,
-                            backgroundColor: `${weightList.length === 0 ? 'white' : '#274C77'}`,
-                            borderColor: `${weightList.length === 0 ? 'white' : '#274C77'}`,
+                            backgroundColor: `${weightList.length === 0 ? 'white' : `${darkMode ? lightColor : '#274C77'}`}`,
+                            borderColor: `${weightList.length === 0 ? 'white' : `${darkMode ? lightColor : '#274C77'}`}`,
                         }],
                     }}
                     options={{
                         responsive: true,
                         maintainAspectRatio: false,
-
+                        color: `${darkMode ? lightColor : 'black'}`,
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: `${darkMode ? lightColor : 'black'}`,
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    color: `${darkMode ? lightColor : 'black'}`,
+                                }
+                            }
+                        }
                     }}
                 />
             </Card>
-            <div className='flex flex-row h-1/2 gap-3'>
-                <div className='flex flex-col h-64 w-68'>
+            <div className='flex flex-row gap-3'>
+                <div className='flex flex-col'>
                     <Card title='Workout progression' customClass='dashboard-card'>
                         <CircularProgressbar
                             className='pt-3'
@@ -73,8 +99,11 @@ const Dashboard = () => {
                                     stroke: `${completedPlans / plansAmount === 1 ? '#00ff00' : '#274C77'}`,
                                     strokeLinecap: 'round',
                                 },
+                                trail: {
+                                    stroke: '#8B8C89'
+                                },
                                 text: {
-                                    fill: 'black',
+                                    fill: `${darkMode ? lightColor : 'black'}`,
                                     fontWeight: 'bold',
                                     fontSize: '16px',
                                 },
@@ -82,8 +111,32 @@ const Dashboard = () => {
                         />
                     </Card>
                 </div>
-                <div className='flex flex-col h-64 w-68'>
-                    <Card title='Workout progression' customClass='dashboard-card'>
+                <div className='flex flex-col'>
+                    <Card title='Meals progression' customClass='dashboard-card'>
+                        <CircularProgressbar
+                            className='pt-3'
+                            value={mealsAmount > 0 ? completedMeals / mealsAmount * 100 : 0}
+                            text={`${completedMeals}/${mealsAmount}`}
+                            styles={{
+                                path: {
+                                    stroke: `${completedMeals / mealsAmount === 1 ? '#00ff00' : '#274C77'}`,
+                                    strokeLinecap: 'round',
+
+                                },
+                                trail: {
+                                    stroke: '#8B8C89'
+                                },
+                                text: {
+                                    fill: `${darkMode ? lightColor : 'black'}`,
+                                    fontWeight: 'bold',
+                                    fontSize: '16px',
+                                },
+                            }}
+                        />
+                    </Card>
+                </div>
+                <div className='flex flex-col'>
+                    <Card title='water progression' customClass='dashboard-card'>
                         <CircularProgressbar
                             className='pt-3'
                             value={plansAmount > 0 ? completedPlans / plansAmount * 100 : 0}
@@ -93,8 +146,11 @@ const Dashboard = () => {
                                     stroke: `${completedPlans / plansAmount === 1 ? '#00ff00' : '#274C77'}`,
                                     strokeLinecap: 'round',
                                 },
+                                trail: {
+                                    stroke: '#8B8C89'
+                                },
                                 text: {
-                                    fill: 'black',
+                                    fill: `${darkMode ? lightColor : 'black'}`,
                                     fontWeight: 'bold',
                                     fontSize: '16px',
                                 },
@@ -102,36 +158,21 @@ const Dashboard = () => {
                         />
                     </Card>
                 </div>
-
-            </div>
-
-            {/* <div className='flex flex-row h-1/2 mt-20 p-3'>
-                <div className='bg-white flex flex-col h-64 w-64 rounded-xl'>
-                    <div className=' flex felx-row text-center text-lg justify-center font-medium pt-1'>
-                        <p className='flex items-center text-center flex-col'>Workout progression </p>
-                        <div className='flex flex-col justify-center ps-1'><FaDumbbell /></div>
-
+                <div className='flex flex-row '>
+                    <div className='flex flex-col gap-3'>
+                        <Card title='Info card' customClass='dashboard-card'>
+                            <span>Placeholder text that will be in this card</span>
+                        </Card>
+                        <Card title='Info card' customClass='dashboard-card'>
+                            <span>Placeholder text that will be in this card</span>
+                        </Card>
+                        <Card title='Info card' customClass='dashboard-card'>
+                            <span>Placeholder text that will be in this card</span>
+                        </Card>
                     </div>
-                    <CircularProgressbar
-                        className='p-3'
-                        value={plansAmount > 0 ? completedPlans / plansAmount * 100 : 0}
-                        text={`${completedPlans}/${plansAmount}`}
-                        styles={{
-                            path: {
-                                stroke: `${completedPlans / plansAmount === 1 ? '#00ff00' : '#274C77'}`,
-                                strokeLinecap: 'round',
-                            },
-                            text: {
-                                fill: 'black',
-                                fontWeight: 'bold',
-                                fontSize: '16px',
-                            },
-                        }}
-                    />
+
                 </div>
-
-            </div> */}
-
+            </div>
         </div>
     )
 }

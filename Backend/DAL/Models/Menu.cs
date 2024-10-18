@@ -12,7 +12,7 @@ namespace DAL.Models
 
         //Navigation properties:
         public AppUser? AppUser { get; set; }
-        public List<MenuDetails> MenuDetails { get; set; } = [];
+        public List<Meal> Meals { get; set; } = [];
 
     }
 }

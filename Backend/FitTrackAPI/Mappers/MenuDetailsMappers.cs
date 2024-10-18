@@ -5,7 +5,7 @@ namespace FitTrackAPI.Mappers
 {
 	public static class MenuDetailsMappers
 	{
-		public static MenuDetailsDto ToDto(this MenuDetails model)
+		public static MenuDetailsDto ToDto(this Meal model)
 		{
 			return new MenuDetailsDto
 			{
@@ -17,7 +17,7 @@ namespace FitTrackAPI.Mappers
 			};
 		}
 
-		public static MenuDetailsListDto ToListDto(this MenuDetails model)
+		public static MenuDetailsListDto ToListDto(this Meal model)
 		{
 			return new MenuDetailsListDto
 			{
@@ -27,9 +27,9 @@ namespace FitTrackAPI.Mappers
 			};
 		}
 
-		public static MenuDetails ToModelFromUpdate(this UpdateMenuDetailsRequestDto dto)
+		public static Meal ToModelFromUpdate(this UpdateMenuDetailsRequestDto dto)
 		{
-			return new MenuDetails
+			return new Meal
 			{
 				Order = dto.Order,
 				Name = dto.Name,
@@ -39,9 +39,9 @@ namespace FitTrackAPI.Mappers
 			};
 		}
 
-		public static MenuDetails ToModelFromCreate(this CreateMenuDetailsDto dto)
+		public static Meal ToModelFromCreate(this CreateMenuDetailsDto dto)
 		{
-			return new MenuDetails
+			return new Meal
 			{
 				MenuId = dto.MenuId,
 				Order = dto.Order,

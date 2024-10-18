@@ -84,16 +84,18 @@ public class AccountsController(
 			return NotFound("Email of the user was not found in the claims");
 		}
 
-		var user = await userManager.FindByIdAsync(userId);
+		var user = await userManager.Users
+			.Include(u=> u.Weight)
+			.FirstOrDefaultAsync(u=> u.Id == userId);
 		if (user is null)
 		{
 			return NotFound("User not found");
 		}
 
 		double updatedBodyFat = 0;
-		if (userDto.Height > 0 
+		if (userDto.Height > 0
 			&& userDto.WaistCircumference > 0
-			&& userDto.HipsCircumference > 0 
+			&& userDto.HipsCircumference > 0
 			&& userDto.NeckCircumference > 0)
 		{
 			updatedBodyFat = Utils.BodyFatPercentage(
@@ -104,12 +106,17 @@ public class AccountsController(
 				 user.Gender);
 		}
 
-		var updatedWeight = new UpdateWeightRequestDto { Value = userDto.Weight };
+		var updatedWeight = new UpdateWeightRequestDto { Value = userDto.Weight }.ToModelFromUpdate();
+
+		if (user.Weight[user.Weight.Count - 1].Value != updatedWeight.Value ||
+			user.Weight[user.Weight.Count - 1].TimeStamp != updatedWeight.TimeStamp)
+		{
+			user.Weight.Add(updatedWeight);
+		}
 
 		user.City = userDto.City;
 		user.Age = userDto.Age;
 		user.Height = userDto.Height;
-		user.Weight.Add(updatedWeight.ToModelFromUpdate());
 		user.Goal = userDto.Goal;
 		user.NeckCircumference = userDto.NeckCircumference;
 		user.PecsCircumference = userDto.PecsCircumference;
@@ -154,10 +161,10 @@ public class AccountsController(
 	}
 
 	[HttpDelete("{id}")]
-	[Authorize(Roles ="Admin")]
+	[Authorize(Roles = "Admin")]
 	public async Task<IActionResult> DeleteById(string id)
 	{
-		var user = await userManager.Users.FirstOrDefaultAsync(u=> u.Id == id);
+		var user = await userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
 		if (user is null)
 		{
 			return NotFound("User not found");
@@ -196,7 +203,7 @@ public class AccountsController(
 		}
 
 		var user = await userManager.Users
-			.Include(u=> u.Weight)
+			.Include(u => u.Weight)
 			.Include(u => u.Menu)
 				.ThenInclude(m => m.MenuDetails)
 			.Include(u => u.Plans)
@@ -204,7 +211,7 @@ public class AccountsController(
 					.ThenInclude(pd => pd.ExerciseDetails)
 						.ThenInclude(ed => ed.Exercise)
 			.FirstOrDefaultAsync(u => u.Id == userId);
-		
+
 		if (user is null)
 		{
 			return NotFound("User was not found.");

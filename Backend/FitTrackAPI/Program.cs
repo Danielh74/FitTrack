@@ -66,7 +66,7 @@ namespace FitTrackAPI
 			builder.Services.AddScoped<IPlanRepository, PlanRepository>();
 			builder.Services.AddScoped<IPlanDetailsRepository, PlanDetailsRepository>();
 			builder.Services.AddScoped<IMenuRepository,MenuRepository>();
-			builder.Services.AddScoped<IMenuDetailsRepository, MenuDetailsRepository>();
+			builder.Services.AddScoped<IMenuDetailsRepository, MealsRepository>();
 			builder.Services.AddScoped<TokenService>();
 
 			builder.Services.AddControllers();

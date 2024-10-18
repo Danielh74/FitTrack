@@ -4,14 +4,14 @@ import './index.css'
 import { RouterProvider } from 'react-router-dom'
 import { router } from './routes/Router.tsx'
 import { AuthProvider } from './contexts/AuthContext.tsx'
-import { DarkModeProvider } from './contexts/DarkModeContext.tsx'
+import { ThemeProvider } from './contexts/ThemeContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
-      <DarkModeProvider>
+      <ThemeProvider>
         <RouterProvider router={router} />
-      </DarkModeProvider>
+      </ThemeProvider>
     </AuthProvider>
   </StrictMode>,
 )

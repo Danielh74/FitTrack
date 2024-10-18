@@ -15,7 +15,7 @@ namespace DAL.Data
 		public DbSet<PlanDetails> PlansDetails { get; set; }
 		public DbSet<HealthDeclaration> HealthDeclarations { get; set; }
 		public DbSet<Menu> Menus { get; set; }
-		public DbSet<MenuDetails> MenuDetails { get; set; }
+		public DbSet<Meal> Meals { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{

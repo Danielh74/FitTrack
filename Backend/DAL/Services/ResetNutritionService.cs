@@ -1,27 +1,24 @@
-﻿
-using DAL.Data;
+﻿using DAL.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Services
 {
-	public class ResetPlansCompletedService(IServiceScopeFactory scopeFactory, ILogger<ResetPlansCompletedService> logger) : BackgroundService
+	public class ResetNutritionCompletedService(IServiceScopeFactory scopeFactory, ILogger<ResetPlansCompletedService> logger) : BackgroundService
 	{
 		protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 		{
 			while (!stoppingToken.IsCancellationRequested)
 			{
 				var now = DateTime.UtcNow;
-				var nextSunday = now.AddDays(((int)DayOfWeek.Sunday - (int)now.DayOfWeek + 7) % 7);
 				var tomorrow = now.AddDays(1);
 				tomorrow = new DateTime(tomorrow.Year, tomorrow.Month, tomorrow.Day, 0, 0, 0, DateTimeKind.Utc);
-				nextSunday = new DateTime(nextSunday.Year, nextSunday.Month, nextSunday.Day, 0, 0, 0, DateTimeKind.Utc);
 
-				var delay = nextSunday - now;
+				var delay = tomorrow - now;
 
 				if (delay.TotalMilliseconds < 0)
 				{
-					nextSunday = nextSunday.AddDays(7);
-					delay = nextSunday - now;
+					tomorrow = tomorrow.AddDays(1);
+					delay = tomorrow - now;
 				}
 
 				await Task.Delay(delay, stoppingToken);
@@ -30,27 +27,27 @@ namespace DAL.Services
 				{
 					using var scope = scopeFactory.CreateScope();
 					var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-					var plans = await dbContext.Plans.ToListAsync(stoppingToken);
+					var meals = await dbContext.Meals.ToListAsync(stoppingToken);
 
-					if (plans.Count == 0)
+					if (meals.Count == 0)
 					{
 						logger.LogInformation("No plans found to reset.");
 					}
 
-					foreach (var plan in plans)
+					foreach (var meal in meals)
 					{
-						plan.IsCompleted = false;
+						meal.IsCompleted = false;
 					}
 
 					await dbContext.SaveChangesAsync(stoppingToken);
-					logger.LogInformation("Plans reset successfully.");
+					logger.LogInformation("meals reset successfully.");
 				}
 				catch (Exception ex)
 				{
-					logger.LogError(ex, "Error resetting plans.");
+					logger.LogError(ex, "Error resetting meals.");
 				}
 
-				await Task.Delay(TimeSpan.FromDays(7), stoppingToken);
+				await Task.Delay(TimeSpan.FromDays(1), stoppingToken);
 			}
 		}
 	}

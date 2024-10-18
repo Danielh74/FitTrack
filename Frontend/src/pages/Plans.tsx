@@ -11,7 +11,7 @@ function Plans() {
     }, [user])
 
     return (
-        <div className="p-3 h-[calc(100vh-4rem)]">
+        <div className="p-3">
             {plans ? plans.map((plan, i) => {
                 const sortedPlanDetails = [...plan.planDetails].sort((a, b) => a.orderInPlan - b.orderInPlan)
                 return (
@@ -28,7 +28,6 @@ function Plans() {
                         )}
                     </div>
                 )
-
             }
             )
                 : "No plans"}

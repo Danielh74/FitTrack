@@ -1,12 +1,11 @@
-import { useContext } from "react"
 import { FaMoon, FaSun } from "react-icons/fa"
 import { NavLink } from "react-router-dom"
-import { DarkModeContext } from "../contexts/DarkModeContext"
 import useAuth from "../hooks/useAuth";
 import logo from "../assets/app_icon.png"
+import useTheme from "../hooks/useTheme";
 
 function Navbar() {
-    const { darkMode, toggle } = useContext(DarkModeContext);
+    const { darkMode, toggle } = useTheme();
     const { isLoggedIn, logoutUser, user } = useAuth();
     return (
         <nav id="app-nav" className="fixed top-0 left-0 w-full h-16 z-50 flex gap-3 p-2 navbar-bg items-center">

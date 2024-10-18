@@ -28,20 +28,28 @@
 }
 
 .profile-card {
-    background-color: rgba(255, 255, 255, 1);
-    box-shadow: 5px 0px 25px 10px rgba(0, 0, 0, 0.1), 5px 0px 10px 10px rgba(0, 0, 0, 0.04);
+    background-color: white;
 }
 
 .dark .profile-card {
     border-width: 1px;
     border-color: #374151;
-    background-color: rgba($color: #1F2937, $alpha: 0.3);
-    box-shadow: 5px 0px 25px 10px rgba(100, 100, 100, 0.1), 5px 0px 10px 10px rgba(100, 100, 100, 0.04);
-    color: white;
+    background-color: rgba($color: #1F2937, $alpha: 0.5);
+    color: #E7ECEF;
 }
 
 .dashboard-card {
     background-color: white;
+}
+
+.dark .dashboard-card {
+    border-width: 1px;
+    border-color: #374151;
+    background-color: rgba($color: #1F2937, $alpha: 0.5);
+}
+
+.dark .dashboard-card span {
+    color: #E7ECEF;
 }
 
 .dashboard-card h1 {

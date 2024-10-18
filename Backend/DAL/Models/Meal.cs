@@ -2,7 +2,7 @@
 
 namespace DAL.Models
 {
-	public class MenuDetails
+	public class Meal
 	{
         [Key]
         public int Id { get; set; }
@@ -11,6 +11,7 @@ namespace DAL.Models
 		public int ProteinPoints { get; set; }
         public int CarbsPoints { get; set; }
         public int FatsPoints { get; set; }
+        public bool IsCompleted { get; set; } = false;
 
         //Foreign key:
         public int MenuId { get; set; }
