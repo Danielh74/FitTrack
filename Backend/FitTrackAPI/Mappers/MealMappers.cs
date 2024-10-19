@@ -1,13 +1,13 @@
 ﻿using DAL.Models;
-using FitTrackAPI.DTOs.MenuDetailsDTOs;
+using FitTrackAPI.DTOs.MealDTOs;
 
 namespace FitTrackAPI.Mappers
 {
-	public static class MenuDetailsMappers
+	public static class MealMappers
 	{
-		public static MenuDetailsDto ToDto(this Meal model)
+		public static MealDto ToDto(this Meal model)
 		{
-			return new MenuDetailsDto
+			return new MealDto
 			{
 				Order = model.Order,
 				Name = model.Name,
@@ -17,9 +17,9 @@ namespace FitTrackAPI.Mappers
 			};
 		}
 
-		public static MenuDetailsListDto ToListDto(this Meal model)
+		public static MealsListDto ToListDto(this Meal model)
 		{
-			return new MenuDetailsListDto
+			return new MealsListDto
 			{
 				Id = model.Id,
 				MenuId = model.MenuId,
@@ -27,7 +27,7 @@ namespace FitTrackAPI.Mappers
 			};
 		}
 
-		public static Meal ToModelFromUpdate(this UpdateMenuDetailsRequestDto dto)
+		public static Meal ToModelFromUpdate(this UpdateMealRequestDto dto)
 		{
 			return new Meal
 			{
@@ -39,7 +39,7 @@ namespace FitTrackAPI.Mappers
 			};
 		}
 
-		public static Meal ToModelFromCreate(this CreateMenuDetailsDto dto)
+		public static Meal ToModelFromCreate(this CreateMealDto dto)
 		{
 			return new Meal
 			{

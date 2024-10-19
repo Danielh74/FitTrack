@@ -50,7 +50,7 @@ namespace DAL.Repositories
 			return plan;
 		}
 
-		public async Task<List<Plan?>> GetByUserIdAsync(string userId)
+		public async Task<List<Plan?>> GetByUserIdAsync(int userId)
 		{
 			var plans = await context.Plans
 				.Include(p => p.AppUser)

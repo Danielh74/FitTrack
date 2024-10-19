@@ -29,7 +29,7 @@ namespace FitTrackAPI.Mappers
 			};
 		}
 
-		public static HealthDeclaration ToModelFromCreate(this CreateHealthDeclarationDto createDto, string userId)
+		public static HealthDeclaration ToModelFromCreate(this CreateHealthDeclarationDto createDto, int userId)
 		{
 			return new HealthDeclaration
 			{

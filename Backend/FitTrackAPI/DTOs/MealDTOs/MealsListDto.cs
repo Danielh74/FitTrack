@@ -1,6 +1,6 @@
-﻿namespace FitTrackAPI.DTOs.MenuDetailsDTOs
+﻿namespace FitTrackAPI.DTOs.MealDTOs
 {
-	public class MenuDetailsListDto
+	public class MealsListDto
 	{
         public int Id { get; set; }
 		public int MenuId { get; set; }

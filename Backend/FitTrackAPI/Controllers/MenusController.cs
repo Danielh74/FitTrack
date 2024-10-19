@@ -25,22 +25,9 @@ namespace FitTrackAPI.Controllers
 			return Ok(menus.Select(m=> m.ToListDto()));
 		}
 
-		[HttpGet("{id:int}")]
-		[Authorize("Admin")]
-		public async Task<IActionResult> GetById([FromRoute] int id)
-		{
-			var menu = await repo.GetByIdAsync(id);
-			if (menu is null)
-			{
-				return NoContent();
-			}
-
-			return Ok(menu.ToDto());
-		}
-
 		[HttpGet("{userId}")]
 		[Authorize]
-		public async Task<IActionResult> GetById([FromRoute] string userId)
+		public async Task<IActionResult> GetById([FromRoute] int userId)
 		{
 			var menu = await repo.GetByUserIdAsync(userId);
 			if (menu is null)
@@ -48,7 +35,7 @@ namespace FitTrackAPI.Controllers
 				return NoContent();
 			}
 
-			var loggedInUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var loggedInUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 			if (menu.UserId != loggedInUserId || !User.IsInRole("Admin"))
 			{
 				return Forbid();

@@ -47,7 +47,7 @@ namespace DAL.Repositories
 			return healthDec;
 		}
 
-		public async Task<HealthDeclaration?> GetByUserIdAsync(string userId)
+		public async Task<HealthDeclaration?> GetByUserIdAsync(int userId)
 		{
 			var healthDec = await context.HealthDeclarations.FirstOrDefaultAsync(hd => hd.AppUserId == userId);
 			if (healthDec is null)

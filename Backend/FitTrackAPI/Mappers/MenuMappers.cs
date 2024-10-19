@@ -21,7 +21,7 @@ namespace FitTrackAPI.Mappers
 			{
 				Id = menu.Id,
 				UserName = Utils.UserFullName(menu.AppUser.FirstName, menu.AppUser.LastName),
-				MenuDetails = menu.MenuDetails.Select(md=> md.ToDto()).ToList()
+				MenuDetails = menu.Meals.Select(md=> md.ToDto()).ToList()
 			};
 		}
 

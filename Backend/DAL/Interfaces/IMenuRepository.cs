@@ -6,7 +6,7 @@ namespace DAL.Interfaces
 	{
 		Task<List<Menu>> GetAllAsync();
 		Task<Menu?> GetByIdAsync(int id);
-		Task<Menu?> GetByUserIdAsync(string userId);
+		Task<Menu?> GetByUserIdAsync(int userId);
 		Task<Menu> CreateAsync(Menu menu);
 		Task<Menu?> DeleteAsync(Menu menu);
 

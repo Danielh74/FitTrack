@@ -3,6 +3,7 @@ using DAL.Data;
 using DAL.Interfaces;
 using DAL.Models;
 using DAL.Repositories;
+using DAL.Services;
 using FitTrackAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -25,7 +26,7 @@ namespace FitTrackAPI
 			?? throw new InvalidOperationException("Connection string 'DataContext' not found.")));
 
 			//Add identity services to DI. (Enables UserManager, SignInManager)
-			builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
+			builder.Services.AddIdentity<AppUser, IdentityRole<int>>(options =>
 			{
 				options.User.RequireUniqueEmail = true;
 				options.Password.RequireNonAlphanumeric = true;
@@ -66,8 +67,9 @@ namespace FitTrackAPI
 			builder.Services.AddScoped<IPlanRepository, PlanRepository>();
 			builder.Services.AddScoped<IPlanDetailsRepository, PlanDetailsRepository>();
 			builder.Services.AddScoped<IMenuRepository,MenuRepository>();
-			builder.Services.AddScoped<IMenuDetailsRepository, MealsRepository>();
+			builder.Services.AddScoped<IMealRepository, MealRepository>();
 			builder.Services.AddScoped<TokenService>();
+			builder.Services.AddHostedService<ResetPlansCompletedService>();
 
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

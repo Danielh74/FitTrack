@@ -5,7 +5,7 @@ namespace FitTrackAPI.DTOs.PlanDTOs
 	public class CreatePlanDto
 	{
 		[Required]
-		public string UserId { get; set; } = string.Empty;
+		public int UserId { get; set; }
 
 		[Required]
 		[MinLength(1)]

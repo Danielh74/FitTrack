@@ -12,7 +12,7 @@ namespace DAL.Models
 		public bool IsCompleted { get; set; } = false;
 
 		//Foreign key:
-		public string? AppUserId { get; set; }
+		public int AppUserId { get; set; }
 
         //Navigation Property:
         public AppUser? AppUser { get; set; }

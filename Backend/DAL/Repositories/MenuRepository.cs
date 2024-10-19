@@ -40,7 +40,7 @@ namespace DAL.Repositories
 		{
 			var menu = await context.Menus
 				.Include(m=> m.AppUser)
-				.Include(m=> m.MenuDetails)
+				.Include(m=> m.Meals)
 				.FirstOrDefaultAsync(m => m.Id == id);
 
 			if(menu is null)
@@ -51,11 +51,11 @@ namespace DAL.Repositories
 			return menu;
 		}
 
-		public async Task<Menu?> GetByUserIdAsync(string userId)
+		public async Task<Menu?> GetByUserIdAsync(int userId)
 		{
 			var menu = await context.Menus
 				.Include(m => m.AppUser)
-				.Include(m => m.MenuDetails)
+				.Include(m => m.Meals)
 				.FirstOrDefaultAsync(m => m.UserId == userId);
 
 			if (menu is null)

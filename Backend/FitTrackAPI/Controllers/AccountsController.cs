@@ -78,7 +78,7 @@ public class AccountsController(
 		{
 			return BadRequest(ModelState);
 		}
-		var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+		var userId = User.FindFirstValue(ClaimTypes.Email);
 		if (userId is null)
 		{
 			return NotFound("Email of the user was not found in the claims");
@@ -86,7 +86,7 @@ public class AccountsController(
 
 		var user = await userManager.Users
 			.Include(u=> u.Weight)
-			.FirstOrDefaultAsync(u=> u.Id == userId);
+			.FirstOrDefaultAsync(u=> u.Email == userId);
 		if (user is null)
 		{
 			return NotFound("User not found");
@@ -108,7 +108,8 @@ public class AccountsController(
 
 		var updatedWeight = new UpdateWeightRequestDto { Value = userDto.Weight }.ToModelFromUpdate();
 
-		if (user.Weight[user.Weight.Count - 1].Value != updatedWeight.Value ||
+		if (user.Weight.Count == 0 ||
+			user.Weight[user.Weight.Count - 1].Value != updatedWeight.Value ||
 			user.Weight[user.Weight.Count - 1].TimeStamp != updatedWeight.TimeStamp)
 		{
 			user.Weight.Add(updatedWeight);
@@ -162,7 +163,7 @@ public class AccountsController(
 
 	[HttpDelete("{id}")]
 	[Authorize(Roles = "Admin")]
-	public async Task<IActionResult> DeleteById(string id)
+	public async Task<IActionResult> DeleteById(int id)
 	{
 		var user = await userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
 		if (user is null)
@@ -194,9 +195,9 @@ public class AccountsController(
 
 	[HttpGet("{userId}")]
 	[Authorize]
-	public async Task<IActionResult> GetById(string userId)
+	public async Task<IActionResult> GetById(int userId)
 	{
-		var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+		var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 		if ((currentUserId != userId) && (!User.IsInRole("Admin")))
 		{
 			return Forbid();
@@ -205,7 +206,7 @@ public class AccountsController(
 		var user = await userManager.Users
 			.Include(u => u.Weight)
 			.Include(u => u.Menu)
-				.ThenInclude(m => m.MenuDetails)
+				.ThenInclude(m => m.Meals)
 			.Include(u => u.Plans)
 				.ThenInclude(p => p.PlanDetails)
 					.ThenInclude(pd => pd.ExerciseDetails)

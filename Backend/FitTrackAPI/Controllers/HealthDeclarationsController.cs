@@ -30,7 +30,7 @@ namespace FitTrackAPI.Controllers
 
 		[HttpGet("{userId}")]
 		[Authorize(Roles ="Admin")]
-		public async Task<IActionResult> GetByUserId(string userId)
+		public async Task<IActionResult> GetByUserId(int userId)
 		{
 			var healthDec = await repo.GetByUserIdAsync(userId);
 

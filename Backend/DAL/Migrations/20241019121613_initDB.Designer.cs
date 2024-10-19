@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241007175944_updatedPlans")]
-    partial class updatedPlans
+    [Migration("20241019121613_initDB")]
+    partial class initDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,8 +27,11 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Models.AppUser", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<double>("AbdominalCircumference")
                         .HasColumnType("float");
@@ -136,9 +139,6 @@ namespace DAL.Migrations
                     b.Property<double>("WaistCircumference")
                         .HasColumnType("float");
 
-                    b.Property<double>("Weight")
-                        .HasColumnType("float");
-
                     b.HasKey("Id");
 
                     b.HasIndex("HealthDeclarationId")
@@ -158,6 +158,72 @@ namespace DAL.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AbdominalCircumference = 0.0,
+                            AccessFailedCount = 0,
+                            Age = 0,
+                            AgreedToTerms = false,
+                            ArmCircumference = 0.0,
+                            BodyFatPrecentage = 0.0,
+                            City = "",
+                            ConcurrencyStamp = "74f3fcaa-5a38-4934-9afe-13e61c642f06",
+                            Email = "a@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Avner",
+                            Gender = "",
+                            Goal = "",
+                            Height = 0,
+                            HipsCircumference = 0.0,
+                            LastName = "Hazan",
+                            LockoutEnabled = false,
+                            NeckCircumference = 0.0,
+                            NormalizedEmail = "A@GMAIL.COM",
+                            NormalizedUserName = "A@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAECGXgRJQH2N/+Y6g4/k7i2pzyfzHbUzs6Eq9Om0PRqfkAkSFeQsF44BTqMAu0oEu+Q==",
+                            PecsCircumference = 0.0,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "f1887762-bdb9-4913-8561-a487fd7bc627",
+                            ThighsCircumference = 0.0,
+                            TwoFactorEnabled = false,
+                            UserName = "a@gmail.com",
+                            WaistCircumference = 0.0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AbdominalCircumference = 0.0,
+                            AccessFailedCount = 0,
+                            Age = 0,
+                            AgreedToTerms = false,
+                            ArmCircumference = 0.0,
+                            BodyFatPrecentage = 0.0,
+                            City = "",
+                            ConcurrencyStamp = "5db66e66-6d16-44fc-a14f-920cea7a3a1e",
+                            Email = "d@gmail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Daniel",
+                            Gender = "",
+                            Goal = "",
+                            Height = 0,
+                            HipsCircumference = 0.0,
+                            LastName = "Hazan",
+                            LockoutEnabled = false,
+                            NeckCircumference = 0.0,
+                            NormalizedEmail = "D@GMAIL.COM",
+                            NormalizedUserName = "D@GMAIL.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAELx45fgDYmQ2tqBdaVNiv68WoCew9kzz+wbhpgM52XnZKtNOy22RVB1F0JBVfDfwMg==",
+                            PecsCircumference = 0.0,
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "2f65bdd3-db38-474e-841e-269989471ba0",
+                            ThighsCircumference = 0.0,
+                            TwoFactorEnabled = false,
+                            UserName = "d@gmail.com",
+                            WaistCircumference = 0.0
+                        });
                 });
 
             modelBuilder.Entity("DAL.Models.Exercise", b =>
@@ -180,6 +246,50 @@ namespace DAL.Migrations
                     b.HasIndex("MuscleGroupId");
 
                     b.ToTable("Exercises");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            MuscleGroupId = 7,
+                            Name = "Leg curls"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            MuscleGroupId = 1,
+                            Name = "Bench press"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            MuscleGroupId = 3,
+                            Name = "Hammer curls"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            MuscleGroupId = 4,
+                            Name = "Skull Crushers"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            MuscleGroupId = 6,
+                            Name = "Arnold press"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            MuscleGroupId = 5,
+                            Name = "Plank"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            MuscleGroupId = 2,
+                            Name = "Pull-down"
+                        });
                 });
 
             modelBuilder.Entity("DAL.Models.ExerciseDetails", b =>
@@ -208,6 +318,48 @@ namespace DAL.Migrations
                     b.HasIndex("ExerciseId");
 
                     b.ToTable("ExercisesDetails");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Lie down with dumbbells and push it up from the line of the chest",
+                            ExerciseId = 2,
+                            Reps = 12,
+                            Sets = 4
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Sit and pull the bar to your chest",
+                            ExerciseId = 7,
+                            Reps = 10,
+                            Sets = 3
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "With dumbbells in hands parallel to the body curl them up",
+                            ExerciseId = 3,
+                            Reps = 12,
+                            Sets = 4
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "Lie on your back with a barbell above your head and curl the bar behind your head",
+                            ExerciseId = 4,
+                            Reps = 12,
+                            Sets = 3
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "With dumbbells in your hands and chest level move them outwards and above your head",
+                            ExerciseId = 5,
+                            Reps = 10,
+                            Sets = 4
+                        });
                 });
 
             modelBuilder.Entity("DAL.Models.HealthDeclaration", b =>
@@ -218,9 +370,8 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("AsthmaTreatment")
                         .HasColumnType("bit");
@@ -269,24 +420,7 @@ namespace DAL.Migrations
                     b.ToTable("HealthDeclarations");
                 });
 
-            modelBuilder.Entity("DAL.Models.Menu", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Menus");
-                });
-
-            modelBuilder.Entity("DAL.Models.MenuDetails", b =>
+            modelBuilder.Entity("DAL.Models.Meal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -299,6 +433,9 @@ namespace DAL.Migrations
 
                     b.Property<int>("FatsPoints")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("MenuId")
                         .HasColumnType("int");
@@ -317,7 +454,23 @@ namespace DAL.Migrations
 
                     b.HasIndex("MenuId");
 
-                    b.ToTable("MenuDetails");
+                    b.ToTable("Meals");
+                });
+
+            modelBuilder.Entity("DAL.Models.Menu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Menus");
                 });
 
             modelBuilder.Entity("DAL.Models.MuscleGroup", b =>
@@ -382,8 +535,8 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("bit");
@@ -397,6 +550,22 @@ namespace DAL.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("Plans");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AppUserId = 2,
+                            IsCompleted = false,
+                            Name = "Push"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AppUserId = 2,
+                            IsCompleted = false,
+                            Name = "Pull"
+                        });
                 });
 
             modelBuilder.Entity("DAL.Models.PlanDetails", b =>
@@ -415,12 +584,66 @@ namespace DAL.Migrations
                     b.HasIndex("ExerciseDetailsId");
 
                     b.ToTable("PlansDetails");
+
+                    b.HasData(
+                        new
+                        {
+                            PlanId = 1,
+                            ExerciseDetailsId = 1,
+                            OrederInPlan = 1
+                        },
+                        new
+                        {
+                            PlanId = 1,
+                            ExerciseDetailsId = 5,
+                            OrederInPlan = 2
+                        },
+                        new
+                        {
+                            PlanId = 2,
+                            ExerciseDetailsId = 2,
+                            OrederInPlan = 1
+                        },
+                        new
+                        {
+                            PlanId = 2,
+                            ExerciseDetailsId = 3,
+                            OrederInPlan = 2
+                        });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+            modelBuilder.Entity("DAL.Models.Weight", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AppUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TimeStamp")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Value")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Weight");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -446,21 +669,21 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "89f90131-f854-4473-9184-f050b59bb8ad",
-                            ConcurrencyStamp = "27a9bf54-8fb8-4e24-8a82-ef43014017bc",
+                            Id = 1,
+                            ConcurrencyStamp = "298131ca-533c-4a3e-ba72-98012eed368e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "a8dd0af2-00e3-4f6d-992c-9de208211e82",
-                            ConcurrencyStamp = "300e21a9-791d-48e4-b0fa-bba7122df150",
+                            Id = 2,
+                            ConcurrencyStamp = "1529c953-007e-4c31-85d9-475106838fd7",
                             Name = "User",
                             NormalizedName = "USER"
                         });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -474,9 +697,8 @@ namespace DAL.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -485,7 +707,7 @@ namespace DAL.Migrations
                     b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -499,9 +721,8 @@ namespace DAL.Migrations
                     b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -510,7 +731,7 @@ namespace DAL.Migrations
                     b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -521,9 +742,8 @@ namespace DAL.Migrations
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -532,25 +752,37 @@ namespace DAL.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("RoleId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            RoleId = 1
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            RoleId = 2
+                        });
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -603,10 +835,10 @@ namespace DAL.Migrations
                     b.Navigation("Exercise");
                 });
 
-            modelBuilder.Entity("DAL.Models.MenuDetails", b =>
+            modelBuilder.Entity("DAL.Models.Meal", b =>
                 {
                     b.HasOne("DAL.Models.Menu", "Menu")
-                        .WithMany("MenuDetails")
+                        .WithMany("Meals")
                         .HasForeignKey("MenuId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -618,7 +850,9 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Models.AppUser", "AppUser")
                         .WithMany("Plans")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AppUser");
                 });
@@ -642,16 +876,23 @@ namespace DAL.Migrations
                     b.Navigation("Plan");
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+            modelBuilder.Entity("DAL.Models.Weight", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("DAL.Models.AppUser", null)
+                        .WithMany("Weight")
+                        .HasForeignKey("AppUserId");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
                     b.HasOne("DAL.Models.AppUser", null)
                         .WithMany()
@@ -660,7 +901,7 @@ namespace DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
                 {
                     b.HasOne("DAL.Models.AppUser", null)
                         .WithMany()
@@ -669,9 +910,9 @@ namespace DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<int>", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -684,7 +925,7 @@ namespace DAL.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.HasOne("DAL.Models.AppUser", null)
                         .WithMany()
@@ -696,6 +937,8 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Models.AppUser", b =>
                 {
                     b.Navigation("Plans");
+
+                    b.Navigation("Weight");
                 });
 
             modelBuilder.Entity("DAL.Models.Exercise", b =>
@@ -717,7 +960,7 @@ namespace DAL.Migrations
                 {
                     b.Navigation("AppUser");
 
-                    b.Navigation("MenuDetails");
+                    b.Navigation("Meals");
                 });
 
             modelBuilder.Entity("DAL.Models.MuscleGroup", b =>

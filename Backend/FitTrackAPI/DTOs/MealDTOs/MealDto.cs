@@ -1,6 +1,6 @@
-﻿namespace FitTrackAPI.DTOs.MenuDetailsDTOs
+﻿namespace FitTrackAPI.DTOs.MealDTOs
 {
-	public class MenuDetailsDto
+	public class MealDto
 	{
         public int Order { get; set; }
         public string Name { get; set; } = string.Empty;

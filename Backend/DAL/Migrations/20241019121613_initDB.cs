@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class InitDb : Migration
+    public partial class initDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +17,8 @@ namespace DAL.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -47,7 +48,7 @@ namespace DAL.Migrations
                     ChronicIllness = table.Column<bool>(type: "bit", nullable: false),
                     IsPregnant = table.Column<bool>(type: "bit", nullable: false),
                     DateOfSignature = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    AppUserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,7 +61,7 @@ namespace DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,7 +74,7 @@ namespace DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,7 +87,7 @@ namespace DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -105,7 +106,8 @@ namespace DAL.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -113,7 +115,6 @@ namespace DAL.Migrations
                     Goal = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
                     Height = table.Column<int>(type: "int", nullable: false),
-                    Weight = table.Column<double>(type: "float", nullable: false),
                     NeckCircumference = table.Column<double>(type: "float", nullable: false),
                     PecsCircumference = table.Column<double>(type: "float", nullable: false),
                     WaistCircumference = table.Column<double>(type: "float", nullable: false),
@@ -156,7 +157,7 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MenuDetails",
+                name: "Meals",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -166,13 +167,14 @@ namespace DAL.Migrations
                     ProteinPoints = table.Column<int>(type: "int", nullable: false),
                     CarbsPoints = table.Column<int>(type: "int", nullable: false),
                     FatsPoints = table.Column<int>(type: "int", nullable: false),
+                    IsCompleted = table.Column<bool>(type: "bit", nullable: false),
                     MenuId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MenuDetails", x => x.Id);
+                    table.PrimaryKey("PK_Meals", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MenuDetails_Menus_MenuId",
+                        name: "FK_Meals_Menus_MenuId",
                         column: x => x.MenuId,
                         principalTable: "Menus",
                         principalColumn: "Id",
@@ -205,7 +207,7 @@ namespace DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -227,7 +229,7 @@ namespace DAL.Migrations
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -244,8 +246,8 @@ namespace DAL.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -268,7 +270,7 @@ namespace DAL.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -291,7 +293,8 @@ namespace DAL.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    IsCompleted = table.Column<bool>(type: "bit", nullable: false),
+                    AppUserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -302,6 +305,26 @@ namespace DAL.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Weight",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Value = table.Column<double>(type: "float", nullable: false),
+                    TimeStamp = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AppUserId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Weight", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Weight_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -332,7 +355,6 @@ namespace DAL.Migrations
                 {
                     PlanId = table.Column<int>(type: "int", nullable: false),
                     ExerciseDetailsId = table.Column<int>(type: "int", nullable: false),
-                    Id = table.Column<int>(type: "int", nullable: false),
                     OrederInPlan = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -357,8 +379,17 @@ namespace DAL.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "d5a9a6be-74d8-46b7-92f9-8f90c934b992", "e73769ea-3cac-4342-9cb8-a4724fb87f8f", "User", "USER" },
-                    { "f6c53209-dcf6-4ff3-b714-cc228a9bdf17", "bf1a3f84-849b-485c-942b-9cffa27d35bd", "Admin", "ADMIN" }
+                    { 1, "298131ca-533c-4a3e-ba72-98012eed368e", "Admin", "ADMIN" },
+                    { 2, "1529c953-007e-4c31-85d9-475106838fd7", "User", "USER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AbdominalCircumference", "AccessFailedCount", "Age", "AgreedToTerms", "ArmCircumference", "BodyFatPrecentage", "City", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "Gender", "Goal", "HealthDeclarationId", "Height", "HipsCircumference", "LastName", "LockoutEnabled", "LockoutEnd", "MenuId", "NeckCircumference", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PecsCircumference", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "ThighsCircumference", "TwoFactorEnabled", "UserName", "WaistCircumference" },
+                values: new object[,]
+                {
+                    { 1, 0.0, 0, 0, false, 0.0, 0.0, "", "74f3fcaa-5a38-4934-9afe-13e61c642f06", "a@gmail.com", false, "Avner", "", "", null, 0, 0.0, "Hazan", false, null, null, 0.0, "A@GMAIL.COM", "A@GMAIL.COM", "AQAAAAIAAYagAAAAECGXgRJQH2N/+Y6g4/k7i2pzyfzHbUzs6Eq9Om0PRqfkAkSFeQsF44BTqMAu0oEu+Q==", 0.0, null, false, "f1887762-bdb9-4913-8561-a487fd7bc627", 0.0, false, "a@gmail.com", 0.0 },
+                    { 2, 0.0, 0, 0, false, 0.0, 0.0, "", "5db66e66-6d16-44fc-a14f-920cea7a3a1e", "d@gmail.com", false, "Daniel", "", "", null, 0, 0.0, "Hazan", false, null, null, 0.0, "D@GMAIL.COM", "D@GMAIL.COM", "AQAAAAIAAYagAAAAELx45fgDYmQ2tqBdaVNiv68WoCew9kzz+wbhpgM52XnZKtNOy22RVB1F0JBVfDfwMg==", 0.0, null, false, "2f65bdd3-db38-474e-841e-269989471ba0", 0.0, false, "d@gmail.com", 0.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -373,6 +404,61 @@ namespace DAL.Migrations
                     { 5, "Abs" },
                     { 6, "Shoulders" },
                     { 7, "Legs" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 2, 2 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Exercises",
+                columns: new[] { "Id", "MuscleGroupId", "Name" },
+                values: new object[,]
+                {
+                    { 1, 7, "Leg curls" },
+                    { 2, 1, "Bench press" },
+                    { 3, 3, "Hammer curls" },
+                    { 4, 4, "Skull Crushers" },
+                    { 5, 6, "Arnold press" },
+                    { 6, 5, "Plank" },
+                    { 7, 2, "Pull-down" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Plans",
+                columns: new[] { "Id", "AppUserId", "IsCompleted", "Name" },
+                values: new object[,]
+                {
+                    { 1, 2, false, "Push" },
+                    { 2, 2, false, "Pull" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "ExercisesDetails",
+                columns: new[] { "Id", "Description", "ExerciseId", "Reps", "Sets" },
+                values: new object[,]
+                {
+                    { 1, "Lie down with dumbbells and push it up from the line of the chest", 2, 12, 4 },
+                    { 2, "Sit and pull the bar to your chest", 7, 10, 3 },
+                    { 3, "With dumbbells in hands parallel to the body curl them up", 3, 12, 4 },
+                    { 4, "Lie on your back with a barbell above your head and curl the bar behind your head", 4, 12, 3 },
+                    { 5, "With dumbbells in your hands and chest level move them outwards and above your head", 5, 10, 4 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "PlansDetails",
+                columns: new[] { "ExerciseDetailsId", "PlanId", "OrederInPlan" },
+                values: new object[,]
+                {
+                    { 1, 1, 1 },
+                    { 5, 1, 2 },
+                    { 2, 2, 1 },
+                    { 3, 2, 2 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -439,8 +525,8 @@ namespace DAL.Migrations
                 column: "ExerciseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MenuDetails_MenuId",
-                table: "MenuDetails",
+                name: "IX_Meals_MenuId",
+                table: "Meals",
                 column: "MenuId");
 
             migrationBuilder.CreateIndex(
@@ -452,6 +538,11 @@ namespace DAL.Migrations
                 name: "IX_PlansDetails_ExerciseDetailsId",
                 table: "PlansDetails",
                 column: "ExerciseDetailsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Weight_AppUserId",
+                table: "Weight",
+                column: "AppUserId");
         }
 
         /// <inheritdoc />
@@ -473,10 +564,13 @@ namespace DAL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "MenuDetails");
+                name: "Meals");
 
             migrationBuilder.DropTable(
                 name: "PlansDetails");
+
+            migrationBuilder.DropTable(
+                name: "Weight");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

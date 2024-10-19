@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FitTrackAPI.DTOs.MenuDetailsDTOs
+namespace FitTrackAPI.DTOs.MealDTOs
 {
-	public class UpdateMenuDetailsRequestDto
+	public class UpdateMealRequestDto
 	{
 		[Required]
 		[MinLength(2)]

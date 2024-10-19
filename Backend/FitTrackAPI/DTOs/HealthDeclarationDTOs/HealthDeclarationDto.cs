@@ -31,7 +31,7 @@ namespace FitTrackAPI.DTOs.Health_Declaration
 		public bool ChronicIllness { get; set; }
 
 		public bool IsPregnant { get; set; }
-		public string AppUserId { get; set; } = string.Empty;
+		public int AppUserId { get; set; }
 		public string UserName { get; set; } = string.Empty;
 	}
 }

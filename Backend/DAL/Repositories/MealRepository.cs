@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
-	public class MealsRepository(AppDbContext context) : IMenuDetailsRepository
+	public class MealRepository(AppDbContext context) : IMealRepository
 	{
 		public async Task<Meal> CreateAsync(Meal meal)
 		{
@@ -26,7 +26,7 @@ namespace DAL.Repositories
 		public async Task<List<Meal>> GetAllAsync()
 		{
 			var mealsList = await context.Meals
-				.Include(md => md.Menu)
+				.Include(m => m.Menu)
 				.ToListAsync();
 			if (mealsList.Count == 0)
 			{

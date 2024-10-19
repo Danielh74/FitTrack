@@ -3,7 +3,7 @@ using DAL.Models;
 
 namespace DAL.Interfaces
 {
-	public interface IMenuDetailsRepository
+	public interface IMealRepository
 	{
 		Task<List<Meal>> GetAllAsync();
 		Task<Meal?> GetByIdAsync(int id);

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FitTrackAPI.DTOs.MenuDetailsDTOs
+namespace FitTrackAPI.DTOs.MealDTOs
 {
-	public class CreateMenuDetailsDto
+	public class CreateMealDto
 	{
 		[Required]
 		[Range(1,int.MaxValue)]

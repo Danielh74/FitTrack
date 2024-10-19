@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 
 namespace DAL.Data
 {
-	public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<AppUser>(options)
+	public class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<AppUser, IdentityRole<int>, int>(options)
 	{
 		public DbSet<MuscleGroup> MuscleGroups { get; set; }
 		public DbSet<Exercise> Exercises { get; set; }
@@ -57,30 +57,64 @@ namespace DAL.Data
 				.WithOne(e => e.MuscleGroup)
 				.HasForeignKey(e => e.MuscleGroupId);
 
-			builder.Entity<Menu>().HasMany(m => m.MenuDetails)
+			builder.Entity<Menu>().HasMany(m => m.Meals)
 				.WithOne(md => md.Menu)
 				.HasForeignKey(md => md.MenuId);
 
-			List<IdentityRole> roles = new List<IdentityRole>
-			{
-				new IdentityRole
+			builder.Entity<IdentityRole<int>>().HasData([
+				new IdentityRole<int>
 				{
+					Id = 1,
 					Name = "Admin",
 					NormalizedName = "ADMIN",
 					ConcurrencyStamp = Guid.NewGuid().ToString()
 				},
-				new IdentityRole
+				new IdentityRole<int>
 				{
+					Id = 2,
 					Name = "User",
 					NormalizedName = "USER",
 					ConcurrencyStamp = Guid.NewGuid().ToString()
 				},
-			};
+			]);
 
-			builder.Entity<IdentityRole>().HasData(roles);
+			builder.Entity<AppUser>().HasData([
+				new AppUser(){
+					Id = 1,
+					FirstName="Avner",
+					LastName="Hazan",
+					Email = "a@gmail.com",
+					NormalizedEmail = "A@GMAIL.COM",
+					UserName = "a@gmail.com",
+					NormalizedUserName = "A@GMAIL.COM",
+					SecurityStamp = Guid.NewGuid().ToString(),
+					PasswordHash = new PasswordHasher<AppUser>().HashPassword(null,"#Aa123456")
+				},
+				new AppUser(){
+					Id = 2,
+					FirstName="Daniel",
+					LastName="Hazan",
+					Email = "d@gmail.com",
+					NormalizedEmail = "D@GMAIL.COM",
+					UserName = "d@gmail.com",
+					NormalizedUserName = "D@GMAIL.COM",
+					SecurityStamp = Guid.NewGuid().ToString(),
+					PasswordHash = new PasswordHasher<AppUser>().HashPassword(null,"#Aa123456")
+				}
+			]);
 
-			List<MuscleGroup> muscleGroups = new List<MuscleGroup>
-			{
+			builder.Entity<IdentityUserRole<int>>().HasData([
+				new IdentityUserRole<int>(){
+					RoleId = 1,
+					UserId = 1
+				},
+				new IdentityUserRole<int>(){
+					RoleId = 2,
+					UserId = 2
+				}
+				]);
+
+			builder.Entity<MuscleGroup>().HasData([
 				new MuscleGroup
 				{
 					Id = 1,
@@ -116,10 +150,121 @@ namespace DAL.Data
 					Id = 7,
 					Name = "Legs"
 				},
-			};
+			]);
 
-			builder.Entity<MuscleGroup>().HasData(muscleGroups);
+			builder.Entity<Exercise>().HasData([
+				new Exercise(){
+					Id = 1,
+					Name = "Leg curls",
+					MuscleGroupId = 7
+				},
+				new Exercise(){
+					Id = 2,
+					Name = "Bench press",
+					MuscleGroupId = 1
+				},
+				new Exercise(){
+					Id = 3,
+					Name = "Hammer curls",
+					MuscleGroupId = 3
+				},
+				new Exercise(){
+					Id = 4,
+					Name = "Skull Crushers",
+					MuscleGroupId = 4
+				},
+				new Exercise(){
+					Id = 5,
+					Name = "Arnold press",
+					MuscleGroupId = 6
+				},
+				new Exercise(){
+					Id = 6,
+					Name = "Plank",
+					MuscleGroupId = 5
+				},
+				new Exercise(){
+					Id = 7,
+					Name = "Pull-down",
+					MuscleGroupId = 2
+				}
+			]);
+
+			builder.Entity<ExerciseDetails>().HasData([
+				new ExerciseDetails(){
+					Id = 1,
+					ExerciseId = 2,
+					Reps = 12,
+					Sets = 4,
+					Description = "Lie down with dumbbells and push it up from the line of the chest"
+				},
+				new ExerciseDetails(){
+					Id = 2,
+					ExerciseId = 7,
+					Reps = 10,
+					Sets = 3,
+					Description = "Sit and pull the bar to your chest"
+				},
+				new ExerciseDetails(){
+					Id = 3,
+					ExerciseId = 3,
+					Reps = 12,
+					Sets = 4,
+					Description = "With dumbbells in hands parallel to the body curl them up"
+				},
+				new ExerciseDetails(){
+					Id = 4,
+					ExerciseId = 4,
+					Reps = 12,
+					Sets = 3,
+					Description = "Lie on your back with a barbell above your head and curl the bar behind your head"
+				},
+				new ExerciseDetails(){
+					Id = 5,
+					ExerciseId = 5,
+					Reps = 10,
+					Sets = 4,
+					Description = "With dumbbells in your hands and chest level move them outwards and above your head"
+				},
+			]);
+
+			builder.Entity<Plan>().HasData([
+				new Plan(){
+					Id = 1,
+					Name = "Push",
+					AppUserId = 2,
+					IsCompleted = false,
+				},
+				new Plan(){
+					Id = 2,
+					Name = "Pull",
+					AppUserId = 2,
+					IsCompleted= false,
+				}
+				]);
+
+			builder.Entity<PlanDetails>().HasData([
+				new PlanDetails(){
+					ExerciseDetailsId = 1,
+					PlanId = 1,
+					OrederInPlan = 1
+				},
+				new PlanDetails(){
+					ExerciseDetailsId = 5,
+					PlanId = 1,
+					OrederInPlan = 2
+				},
+				new PlanDetails(){
+					ExerciseDetailsId = 2,
+					PlanId = 2,
+					OrederInPlan = 1
+				},
+				new PlanDetails(){
+					ExerciseDetailsId = 3,
+					PlanId = 2,
+					OrederInPlan = 2
+				}
+			]);
 		}
-
 	}
 }

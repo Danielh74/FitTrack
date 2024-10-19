@@ -44,9 +44,9 @@ namespace FitTrackAPI.Controllers
 
 		[HttpGet("{userId}")]
 		[Authorize]
-		public async Task<IActionResult> GetByUserId(string userId)
+		public async Task<IActionResult> GetByUserId(int userId)
 		{
-			var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+			var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
 			var plans = await repo.GetByUserIdAsync(userId);
 			if (plans is null)

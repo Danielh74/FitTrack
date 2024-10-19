@@ -8,7 +8,7 @@ namespace DAL.Models
         public int Id { get; set; }
 
         //Foreign Key:
-        public string UserId { get; set; } = string.Empty;
+        public int UserId { get; set; }
 
         //Navigation properties:
         public AppUser? AppUser { get; set; }

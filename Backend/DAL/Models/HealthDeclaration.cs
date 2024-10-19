@@ -36,7 +36,7 @@ namespace DAL.Models
 		public DateTime DateOfSignature { get; set; }
 
         //Foreign key:
-        public string AppUserId { get; set; } = string.Empty;
+        public int AppUserId { get; set; }
 
         //Navigation property:
         public AppUser? AppUser { get; set; }
