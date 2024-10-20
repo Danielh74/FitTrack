@@ -36,10 +36,10 @@ function AuthProvider({ children }: Props) {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const fetchUserData = async () => {
+        const fetchUserData = () => {
             const storedToken = localStorage.getItem("token");
             if (storedToken) {
-                await auth.getLoggedInUser(storedToken)
+                auth.getLoggedInUser(storedToken)
                     .then((userData) => {
                         console.log(userData);
                         setIsLoggedIn(true);

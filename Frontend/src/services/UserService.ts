@@ -19,10 +19,14 @@ interface updatedUserProps {
 
 const baseUrl = import.meta.env.VITE_BASE_URL + "/accounts";
 
-const getUserInfo = async (payload: TokenPayload) => {
-    return await axios.get(`${baseUrl}/${payload.nameid}`, {
+const getUserInfo = (payload: TokenPayload) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+        throw new Error("No token found. User is not authenticated.");
+    }
+    return axios.get(`${baseUrl}/${payload.nameid}`, {
         headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`
+            Authorization: `Bearer ${token}`
         }
     }).then((response) => {
         return response.data

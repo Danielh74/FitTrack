@@ -4,6 +4,16 @@
     width: 100%;
 }
 
+.card h1 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 700;
+}
+
+.dark .card h1 {
+    color: white;
+}
+
 .auth-card {
     background-color: rgba(255, 255, 255, 0.3);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
@@ -64,4 +74,33 @@
     @media (min-width: 705px) {
         font-size: 24px;
     }
+}
+
+.plan-card {
+    background-color: white;
+}
+
+.dark .plan-card {
+    border-width: 1px;
+    border-color: #374151;
+    background-color: rgba($color: #1F2937, $alpha: 0.5);
+    color: #E7ECEF;
+}
+
+.plan-checkbox {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid black;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+.plan-checkbox:checked {
+    appearance: auto;
+    clip-path: circle(50% at 50% 50%);
+    background-color: rgb(0, 218, 0);
 }

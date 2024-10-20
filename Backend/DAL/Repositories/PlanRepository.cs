@@ -71,6 +71,9 @@ namespace DAL.Repositories
 		{
 			var currentPlan = await context.Plans
 				.Include(p=> p.AppUser)
+				.Include (p=> p.PlanDetails)
+				.ThenInclude (pd => pd.ExerciseDetails)
+				.ThenInclude(ed => ed.Exercise)
 				.FirstOrDefaultAsync(p=> p.Id == id);
 			if(currentPlan is null)
 			{

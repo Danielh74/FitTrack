@@ -78,15 +78,15 @@ public class AccountsController(
 		{
 			return BadRequest(ModelState);
 		}
-		var userId = User.FindFirstValue(ClaimTypes.Email);
-		if (userId is null)
+		var userEmail = User.FindFirstValue(ClaimTypes.Email);
+		if (userEmail is null)
 		{
 			return NotFound("Email of the user was not found in the claims");
 		}
 
 		var user = await userManager.Users
 			.Include(u=> u.Weight)
-			.FirstOrDefaultAsync(u=> u.Email == userId);
+			.FirstOrDefaultAsync(u=> u.Email == userEmail);
 		if (user is null)
 		{
 			return NotFound("User not found");

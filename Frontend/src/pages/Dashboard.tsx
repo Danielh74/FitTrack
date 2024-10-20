@@ -8,7 +8,6 @@ import 'chart.js/auto';
 import { Line } from "react-chartjs-2"
 import Card from '../components/Card';
 import useTheme from '../hooks/useTheme';
-import { MenuDetails } from '../models/Menu';
 
 const Dashboard = () => {
     const { user } = useAuth();
