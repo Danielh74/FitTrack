@@ -10,11 +10,12 @@ namespace FitTrackAPI.Mappers
 		{
 			return new PlanDetailsDto
 			{
-				OrderInPlan = model.OrederInPlan,
-				ExerciseName = model.ExerciseDetails.Exercise.Name,
-				Reps = model.ExerciseDetails.Reps,
-				Sets = model.ExerciseDetails.Sets,
-				Description = model.ExerciseDetails.Description,	
+				OrderInPlan = model.OrderInPlan,
+				ExerciseName = model.Exercise.Name,
+				Reps = model.Reps,
+				Sets = model.Sets,
+				CurrentWeight = model.CurrentWeight,
+				PreviousWeight = model.PreviousWeight
 			};
 		}
 
@@ -22,9 +23,9 @@ namespace FitTrackAPI.Mappers
 		{
 			return new PlanDetails
 			{
-				ExerciseDetailsId = dto.ExerciseDetailsId,
+				ExerciseId = dto.ExerciseId,
 				PlanId = dto.PlanId,
-				OrederInPlan = dto.OrderInPlan,
+				OrderInPlan = dto.OrderInPlan,
 			};
 		}
 
@@ -32,7 +33,18 @@ namespace FitTrackAPI.Mappers
 		{
 			return new PlanDetails
 			{
-				OrederInPlan = dto.OrderInPlanId
+				CurrentWeight = dto.CurrentWeight,
+				PreviousWeight = dto.PreviousWeight,
+			};
+		}
+
+		public static PlanDetails ToModelFromUpdate(this AdminUpdatePlanDetailsRequestDto dto)
+		{
+			return new PlanDetails
+			{
+				OrderInPlan = dto.OrderInPlan,
+				Reps = dto.Reps,
+				Sets = dto.Sets
 			};
 		}
 	}

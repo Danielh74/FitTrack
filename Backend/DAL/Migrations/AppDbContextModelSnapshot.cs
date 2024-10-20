@@ -167,7 +167,7 @@ namespace DAL.Migrations
                             ArmCircumference = 0.0,
                             BodyFatPrecentage = 0.0,
                             City = "",
-                            ConcurrencyStamp = "74f3fcaa-5a38-4934-9afe-13e61c642f06",
+                            ConcurrencyStamp = "147f9546-3a81-4420-a084-c337672fd390",
                             Email = "a@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Avner",
@@ -180,10 +180,10 @@ namespace DAL.Migrations
                             NeckCircumference = 0.0,
                             NormalizedEmail = "A@GMAIL.COM",
                             NormalizedUserName = "A@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAECGXgRJQH2N/+Y6g4/k7i2pzyfzHbUzs6Eq9Om0PRqfkAkSFeQsF44BTqMAu0oEu+Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEMexqKO+WTrXsdh6uVSUO8HSEd9MhkhS/TD1oHcJ2kgj/uPgFYhDDowsMp1orB9png==",
                             PecsCircumference = 0.0,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f1887762-bdb9-4913-8561-a487fd7bc627",
+                            SecurityStamp = "87d23c3b-d911-44c0-9d80-ae291a217166",
                             ThighsCircumference = 0.0,
                             TwoFactorEnabled = false,
                             UserName = "a@gmail.com",
@@ -199,7 +199,7 @@ namespace DAL.Migrations
                             ArmCircumference = 0.0,
                             BodyFatPrecentage = 0.0,
                             City = "",
-                            ConcurrencyStamp = "5db66e66-6d16-44fc-a14f-920cea7a3a1e",
+                            ConcurrencyStamp = "5f78c918-55d8-4853-bc0a-2caf4285a448",
                             Email = "d@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Daniel",
@@ -212,10 +212,10 @@ namespace DAL.Migrations
                             NeckCircumference = 0.0,
                             NormalizedEmail = "D@GMAIL.COM",
                             NormalizedUserName = "D@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAELx45fgDYmQ2tqBdaVNiv68WoCew9kzz+wbhpgM52XnZKtNOy22RVB1F0JBVfDfwMg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHRpCzchIxjLgflzSfWSx30pyehgX7xUL1Xa7lpG9hW0mSBA5lEAt4l20N3KRiKRDA==",
                             PecsCircumference = 0.0,
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "2f65bdd3-db38-474e-841e-269989471ba0",
+                            SecurityStamp = "0f6042b6-27f3-40bb-a2ce-93800773f2bf",
                             ThighsCircumference = 0.0,
                             TwoFactorEnabled = false,
                             UserName = "d@gmail.com",
@@ -286,76 +286,6 @@ namespace DAL.Migrations
                             Id = 7,
                             MuscleGroupId = 2,
                             Name = "Pull-down"
-                        });
-                });
-
-            modelBuilder.Entity("DAL.Models.ExerciseDetails", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ExerciseId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Reps")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Sets")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExerciseId");
-
-                    b.ToTable("ExercisesDetails");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Lie down with dumbbells and push it up from the line of the chest",
-                            ExerciseId = 2,
-                            Reps = 12,
-                            Sets = 4
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Sit and pull the bar to your chest",
-                            ExerciseId = 7,
-                            Reps = 10,
-                            Sets = 3
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "With dumbbells in hands parallel to the body curl them up",
-                            ExerciseId = 3,
-                            Reps = 12,
-                            Sets = 4
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Description = "Lie on your back with a barbell above your head and curl the bar behind your head",
-                            ExerciseId = 4,
-                            Reps = 12,
-                            Sets = 3
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "With dumbbells in your hands and chest level move them outwards and above your head",
-                            ExerciseId = 5,
-                            Reps = 10,
-                            Sets = 4
                         });
                 });
 
@@ -567,45 +497,79 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Models.PlanDetails", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double?>("CurrentWeight")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderInPlan")
+                        .HasColumnType("int");
+
                     b.Property<int>("PlanId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ExerciseDetailsId")
+                    b.Property<double?>("PreviousWeight")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Reps")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrederInPlan")
+                    b.Property<int>("Sets")
                         .HasColumnType("int");
 
-                    b.HasKey("PlanId", "ExerciseDetailsId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("ExerciseDetailsId");
+                    b.HasIndex("ExerciseId");
+
+                    b.HasIndex("PlanId");
 
                     b.ToTable("PlansDetails");
 
                     b.HasData(
                         new
                         {
+                            Id = 1,
+                            CurrentWeight = 15.0,
+                            ExerciseId = 2,
+                            OrderInPlan = 1,
                             PlanId = 1,
-                            ExerciseDetailsId = 1,
-                            OrederInPlan = 1
+                            PreviousWeight = 12.5,
+                            Reps = 12,
+                            Sets = 4
                         },
                         new
                         {
+                            Id = 2,
+                            ExerciseId = 5,
+                            OrderInPlan = 2,
                             PlanId = 1,
-                            ExerciseDetailsId = 5,
-                            OrederInPlan = 2
+                            Reps = 10,
+                            Sets = 4
                         },
                         new
                         {
+                            Id = 3,
+                            ExerciseId = 3,
+                            OrderInPlan = 1,
                             PlanId = 2,
-                            ExerciseDetailsId = 2,
-                            OrederInPlan = 1
+                            Reps = 10,
+                            Sets = 4
                         },
                         new
                         {
+                            Id = 4,
+                            ExerciseId = 7,
+                            OrderInPlan = 2,
                             PlanId = 2,
-                            ExerciseDetailsId = 3,
-                            OrederInPlan = 2
+                            Reps = 10,
+                            Sets = 3
                         });
                 });
 
@@ -667,14 +631,14 @@ namespace DAL.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "298131ca-533c-4a3e-ba72-98012eed368e",
+                            ConcurrencyStamp = "ed3c2fe3-eeee-4fc2-a631-87833bbc8173",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "1529c953-007e-4c31-85d9-475106838fd7",
+                            ConcurrencyStamp = "875d2510-f59e-4a78-8341-ff0dc7f76974",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -821,17 +785,6 @@ namespace DAL.Migrations
                     b.Navigation("MuscleGroup");
                 });
 
-            modelBuilder.Entity("DAL.Models.ExerciseDetails", b =>
-                {
-                    b.HasOne("DAL.Models.Exercise", "Exercise")
-                        .WithMany("ExerciseDetails")
-                        .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Exercise");
-                });
-
             modelBuilder.Entity("DAL.Models.Meal", b =>
                 {
                     b.HasOne("DAL.Models.Menu", "Menu")
@@ -856,9 +809,9 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Models.PlanDetails", b =>
                 {
-                    b.HasOne("DAL.Models.ExerciseDetails", "ExerciseDetails")
+                    b.HasOne("DAL.Models.Exercise", "Exercise")
                         .WithMany("PlanDetails")
-                        .HasForeignKey("ExerciseDetailsId")
+                        .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -868,7 +821,7 @@ namespace DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ExerciseDetails");
+                    b.Navigation("Exercise");
 
                     b.Navigation("Plan");
                 });
@@ -939,11 +892,6 @@ namespace DAL.Migrations
                 });
 
             modelBuilder.Entity("DAL.Models.Exercise", b =>
-                {
-                    b.Navigation("ExerciseDetails");
-                });
-
-            modelBuilder.Entity("DAL.Models.ExerciseDetails", b =>
                 {
                     b.Navigation("PlanDetails");
                 });

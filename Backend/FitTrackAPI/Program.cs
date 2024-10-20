@@ -62,7 +62,6 @@ namespace FitTrackAPI
 			// Add services to the container.
 			builder.Services.AddScoped<IExerciseRepository, ExerciseRepository>();
 			builder.Services.AddScoped<IMuscleGroupRepository, MuscleGroupRepository>();
-			builder.Services.AddScoped<IExerciseDetailsRepository, ExerciseDetailsRepository>();
 			builder.Services.AddScoped<IHealthDeclarationRepository, HealthDeclarationRepository>();
 			builder.Services.AddScoped<IPlanRepository, PlanRepository>();
 			builder.Services.AddScoped<IPlanDetailsRepository, PlanDetailsRepository>();

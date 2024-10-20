@@ -13,7 +13,7 @@ namespace DAL.Models;
     public int MuscleGroupId { get; set; }
 
     //Navigation property:
-    public List<ExerciseDetails> ExerciseDetails { get; set; } = [];
+    public List<PlanDetails> PlanDetails { get; set; } = [];
 	public MuscleGroup? MuscleGroup { get; set; }
 
 }

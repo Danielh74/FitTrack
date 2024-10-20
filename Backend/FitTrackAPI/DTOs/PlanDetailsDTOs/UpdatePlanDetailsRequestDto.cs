@@ -4,8 +4,10 @@ namespace FitTrackAPI.DTOs.PlanDetailsDTOs
 {
 	public class UpdatePlanDetailsRequestDto
 	{
-		[Required]
-		[Range(1, int.MaxValue)]
-		public int OrderInPlanId { get; set; }
+		[Range(1, double.MaxValue)]
+		public double? CurrentWeight { get; set; } = null;
+
+		[Range(1, double.MaxValue)]
+		public double? PreviousWeight { get; set; } = null;
 	}
 }

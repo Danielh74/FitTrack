@@ -209,8 +209,7 @@ public class AccountsController(
 				.ThenInclude(m => m.Meals)
 			.Include(u => u.Plans)
 				.ThenInclude(p => p.PlanDetails)
-					.ThenInclude(pd => pd.ExerciseDetails)
-						.ThenInclude(ed => ed.Exercise)
+					.ThenInclude(pd => pd.Exercise)
 			.FirstOrDefaultAsync(u => u.Id == userId);
 
 		if (user is null)

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class initDB : Migration
+    public partial class initDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -328,42 +328,26 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExercisesDetails",
+                name: "PlansDetails",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Reps = table.Column<int>(type: "int", nullable: false),
                     Sets = table.Column<int>(type: "int", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OrderInPlan = table.Column<int>(type: "int", nullable: false),
+                    CurrentWeight = table.Column<double>(type: "float", nullable: true),
+                    PreviousWeight = table.Column<double>(type: "float", nullable: true),
+                    PlanId = table.Column<int>(type: "int", nullable: false),
                     ExerciseId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExercisesDetails", x => x.Id);
+                    table.PrimaryKey("PK_PlansDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ExercisesDetails_Exercises_ExerciseId",
+                        name: "FK_PlansDetails_Exercises_ExerciseId",
                         column: x => x.ExerciseId,
                         principalTable: "Exercises",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PlansDetails",
-                columns: table => new
-                {
-                    PlanId = table.Column<int>(type: "int", nullable: false),
-                    ExerciseDetailsId = table.Column<int>(type: "int", nullable: false),
-                    OrederInPlan = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PlansDetails", x => new { x.PlanId, x.ExerciseDetailsId });
-                    table.ForeignKey(
-                        name: "FK_PlansDetails_ExercisesDetails_ExerciseDetailsId",
-                        column: x => x.ExerciseDetailsId,
-                        principalTable: "ExercisesDetails",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -379,8 +363,8 @@ namespace DAL.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "298131ca-533c-4a3e-ba72-98012eed368e", "Admin", "ADMIN" },
-                    { 2, "1529c953-007e-4c31-85d9-475106838fd7", "User", "USER" }
+                    { 1, "ed3c2fe3-eeee-4fc2-a631-87833bbc8173", "Admin", "ADMIN" },
+                    { 2, "875d2510-f59e-4a78-8341-ff0dc7f76974", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
@@ -388,8 +372,8 @@ namespace DAL.Migrations
                 columns: new[] { "Id", "AbdominalCircumference", "AccessFailedCount", "Age", "AgreedToTerms", "ArmCircumference", "BodyFatPrecentage", "City", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "Gender", "Goal", "HealthDeclarationId", "Height", "HipsCircumference", "LastName", "LockoutEnabled", "LockoutEnd", "MenuId", "NeckCircumference", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PecsCircumference", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "ThighsCircumference", "TwoFactorEnabled", "UserName", "WaistCircumference" },
                 values: new object[,]
                 {
-                    { 1, 0.0, 0, 0, false, 0.0, 0.0, "", "74f3fcaa-5a38-4934-9afe-13e61c642f06", "a@gmail.com", false, "Avner", "", "", null, 0, 0.0, "Hazan", false, null, null, 0.0, "A@GMAIL.COM", "A@GMAIL.COM", "AQAAAAIAAYagAAAAECGXgRJQH2N/+Y6g4/k7i2pzyfzHbUzs6Eq9Om0PRqfkAkSFeQsF44BTqMAu0oEu+Q==", 0.0, null, false, "f1887762-bdb9-4913-8561-a487fd7bc627", 0.0, false, "a@gmail.com", 0.0 },
-                    { 2, 0.0, 0, 0, false, 0.0, 0.0, "", "5db66e66-6d16-44fc-a14f-920cea7a3a1e", "d@gmail.com", false, "Daniel", "", "", null, 0, 0.0, "Hazan", false, null, null, 0.0, "D@GMAIL.COM", "D@GMAIL.COM", "AQAAAAIAAYagAAAAELx45fgDYmQ2tqBdaVNiv68WoCew9kzz+wbhpgM52XnZKtNOy22RVB1F0JBVfDfwMg==", 0.0, null, false, "2f65bdd3-db38-474e-841e-269989471ba0", 0.0, false, "d@gmail.com", 0.0 }
+                    { 1, 0.0, 0, 0, false, 0.0, 0.0, "", "147f9546-3a81-4420-a084-c337672fd390", "a@gmail.com", false, "Avner", "", "", null, 0, 0.0, "Hazan", false, null, null, 0.0, "A@GMAIL.COM", "A@GMAIL.COM", "AQAAAAIAAYagAAAAEMexqKO+WTrXsdh6uVSUO8HSEd9MhkhS/TD1oHcJ2kgj/uPgFYhDDowsMp1orB9png==", 0.0, null, false, "87d23c3b-d911-44c0-9d80-ae291a217166", 0.0, false, "a@gmail.com", 0.0 },
+                    { 2, 0.0, 0, 0, false, 0.0, 0.0, "", "5f78c918-55d8-4853-bc0a-2caf4285a448", "d@gmail.com", false, "Daniel", "", "", null, 0, 0.0, "Hazan", false, null, null, 0.0, "D@GMAIL.COM", "D@GMAIL.COM", "AQAAAAIAAYagAAAAEHRpCzchIxjLgflzSfWSx30pyehgX7xUL1Xa7lpG9hW0mSBA5lEAt4l20N3KRiKRDA==", 0.0, null, false, "0f6042b6-27f3-40bb-a2ce-93800773f2bf", 0.0, false, "d@gmail.com", 0.0 }
                 });
 
             migrationBuilder.InsertData(
@@ -439,26 +423,14 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "ExercisesDetails",
-                columns: new[] { "Id", "Description", "ExerciseId", "Reps", "Sets" },
-                values: new object[,]
-                {
-                    { 1, "Lie down with dumbbells and push it up from the line of the chest", 2, 12, 4 },
-                    { 2, "Sit and pull the bar to your chest", 7, 10, 3 },
-                    { 3, "With dumbbells in hands parallel to the body curl them up", 3, 12, 4 },
-                    { 4, "Lie on your back with a barbell above your head and curl the bar behind your head", 4, 12, 3 },
-                    { 5, "With dumbbells in your hands and chest level move them outwards and above your head", 5, 10, 4 }
-                });
-
-            migrationBuilder.InsertData(
                 table: "PlansDetails",
-                columns: new[] { "ExerciseDetailsId", "PlanId", "OrederInPlan" },
+                columns: new[] { "Id", "CurrentWeight", "ExerciseId", "OrderInPlan", "PlanId", "PreviousWeight", "Reps", "Sets" },
                 values: new object[,]
                 {
-                    { 1, 1, 1 },
-                    { 5, 1, 2 },
-                    { 2, 2, 1 },
-                    { 3, 2, 2 }
+                    { 1, 15.0, 2, 1, 1, 12.5, 12, 4 },
+                    { 2, null, 5, 2, 1, null, 10, 4 },
+                    { 3, null, 3, 1, 2, null, 10, 4 },
+                    { 4, null, 7, 2, 2, null, 10, 3 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -520,11 +492,6 @@ namespace DAL.Migrations
                 column: "MuscleGroupId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExercisesDetails_ExerciseId",
-                table: "ExercisesDetails",
-                column: "ExerciseId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Meals_MenuId",
                 table: "Meals",
                 column: "MenuId");
@@ -535,9 +502,14 @@ namespace DAL.Migrations
                 column: "AppUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PlansDetails_ExerciseDetailsId",
+                name: "IX_PlansDetails_ExerciseId",
                 table: "PlansDetails",
-                column: "ExerciseDetailsId");
+                column: "ExerciseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PlansDetails_PlanId",
+                table: "PlansDetails",
+                column: "PlanId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Weight_AppUserId",
@@ -576,19 +548,16 @@ namespace DAL.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "ExercisesDetails");
+                name: "Exercises");
 
             migrationBuilder.DropTable(
                 name: "Plans");
 
             migrationBuilder.DropTable(
-                name: "Exercises");
+                name: "MuscleGroups");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "MuscleGroups");
 
             migrationBuilder.DropTable(
                 name: "HealthDeclarations");

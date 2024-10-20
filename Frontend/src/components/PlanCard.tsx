@@ -88,10 +88,10 @@ const PlanCard = ({ name, id, isCompleted, planDetails, customClass = '' }: Prop
                         </div>
                         <div className="flex flex-row gap-10 text-sm">
                             <div>
-                                Previews weight:
+                                Previews weight: {ex.previousWeight ? ex.previousWeight + ' kg' : '--'}
                             </div>
                             <div>
-                                Current weight:
+                                Current weight: {ex.currentWeight ? ex.currentWeight + ' kg' : '--'}
                             </div>
                         </div>
                     </div>

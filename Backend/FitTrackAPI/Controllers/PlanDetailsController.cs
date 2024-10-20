@@ -10,10 +10,11 @@ namespace FitTrackAPI.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	[Authorize(Roles = "Admin")]
+	[Authorize]
 	public class PlanDetailsController(IPlanDetailsRepository repo) : ControllerBase
 	{
 		[HttpGet]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> GetAll()
 		{
 			var planDetailsList = await repo.GetAllAsync();
@@ -25,22 +26,10 @@ namespace FitTrackAPI.Controllers
 			return Ok(planDetailsList.Select(pd => pd.ToDto()));
 		}
 
-		[HttpGet("{planId}&{exDetailsId}")]
-		public async Task<IActionResult> GetByKey([FromRoute] int planId, [FromRoute] int exDetailsId)
+		[HttpGet("{id}")]
+		public async Task<IActionResult> GetById([FromRoute] int id)
 		{
-			var planDetails = await repo.GetByKeyAsync(planId, exDetailsId);
-			if (planDetails is null)
-			{
-				return NoContent();
-			}
-
-			return Ok(planDetails.ToDto());
-		}
-
-		[HttpGet("{planId}")]
-		public async Task<IActionResult> GetByPlanId(int planId)
-		{
-			var planDetails = await repo.GetByPlanIdAsync(planId);
+			var planDetails = await repo.GetByIdAsync(id);
 			if (planDetails is null)
 			{
 				return NoContent();
@@ -50,6 +39,7 @@ namespace FitTrackAPI.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Create([FromBody] CreatePlanDetailsDto dto)
 		{
 			if (!ModelState.IsValid)
@@ -62,15 +52,15 @@ namespace FitTrackAPI.Controllers
 			return Created();
 		}
 
-		[HttpPut("{planId}&{exDetailsId}")]
-		public async Task<IActionResult> Update([FromRoute] int planId, [FromRoute] int exDetailsId, [FromBody] UpdatePlanDetailsRequestDto dto)
+		[HttpPut("{id}")]
+		public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdatePlanDetailsRequestDto dto)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
 
-			var planDetails = await repo.UpdateAsync(planId,exDetailsId,dto.ToModelFromUpdate());
+			var planDetails = await repo.UpdateAsync(id,dto.ToModelFromUpdate());
 			if(planDetails is null)
 			{
 				return NoContent();
@@ -78,10 +68,28 @@ namespace FitTrackAPI.Controllers
 			return Ok(planDetails.ToDto());
 		}
 
-		[HttpDelete("{planId}&{exDetailsId}")]
-		public async Task<IActionResult> Delete([FromRoute] int planId, [FromRoute] int exDetailsId)
+		[HttpPut("admin/{id}")]
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> AdminUpdate([FromRoute] int id, [FromBody] AdminUpdatePlanDetailsRequestDto dto)
 		{
-			var planDetails = await repo.GetByKeyAsync(planId, exDetailsId);
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			var planDetails = await repo.UpdateAsync(id, dto.ToModelFromUpdate());
+			if (planDetails is null)
+			{
+				return NoContent();
+			}
+			return Ok(planDetails.ToDto());
+		}
+
+		[HttpDelete("{id}")]
+		[Authorize(Roles = "Admin")]
+		public async Task<IActionResult> Delete([FromRoute] int id)
+		{
+			var planDetails = await repo.GetByIdAsync(id);
 			if (planDetails is null)
 			{
 				return NoContent();

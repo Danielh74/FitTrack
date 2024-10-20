@@ -11,5 +11,6 @@ export interface PlanDetails {
     exerciseName: string
     reps: number
     sets: number
-    description: string
+    currentWeight: number
+    previousWeight: number
 };

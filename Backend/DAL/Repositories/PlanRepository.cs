@@ -39,8 +39,7 @@ namespace DAL.Repositories
 			var plan = await context.Plans
 				.Include(p=> p.AppUser)
 				.Include(p=> p.PlanDetails)
-					.ThenInclude(pd=> pd.ExerciseDetails)
-						.ThenInclude(ed=> ed.Exercise)
+					.ThenInclude(pd=> pd.Exercise)
 				.FirstOrDefaultAsync(p=> p.Id == id);
 			if(plan is null)
 			{
@@ -55,8 +54,7 @@ namespace DAL.Repositories
 			var plans = await context.Plans
 				.Include(p => p.AppUser)
 				.Include(p => p.PlanDetails)
-					.ThenInclude(pd => pd.ExerciseDetails)
-						.ThenInclude(ed => ed.Exercise)
+					.ThenInclude(pd => pd.Exercise)
 				.Where(p => p.AppUserId == userId)
 				.ToListAsync();
 			if(plans.Count == 0)
@@ -72,8 +70,7 @@ namespace DAL.Repositories
 			var currentPlan = await context.Plans
 				.Include(p=> p.AppUser)
 				.Include (p=> p.PlanDetails)
-				.ThenInclude (pd => pd.ExerciseDetails)
-				.ThenInclude(ed => ed.Exercise)
+					.ThenInclude (pd => pd.Exercise)
 				.FirstOrDefaultAsync(p=> p.Id == id);
 			if(currentPlan is null)
 			{

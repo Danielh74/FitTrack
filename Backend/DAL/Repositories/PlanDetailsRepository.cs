@@ -28,8 +28,7 @@ namespace DAL.Repositories
 		public async Task<List<PlanDetails?>> GetAllAsync()
 		{
 			var planDetailsList = await context.PlansDetails
-				.Include(pd => pd.ExerciseDetails)
-					.ThenInclude(ed => ed.Exercise)
+				.Include(pd => pd.Exercise)
 				.ToListAsync();
 			if (planDetailsList.Count == 0)
 			{
@@ -39,17 +38,11 @@ namespace DAL.Repositories
 			return planDetailsList;
 		}
 
-		public async Task<PlanDetails?> GetByKeyAsync(int planId, int exDetailsId)
+		public async Task<PlanDetails?> GetByIdAsync(int id)
 		{
-			if (planId <= 0 || exDetailsId <= 0)
-			{
-				return null;
-			}
-
 			var planDetails = await context.PlansDetails
-				.Include(pd => pd.ExerciseDetails)
-					.ThenInclude(ed => ed.Exercise)
-				.FirstOrDefaultAsync(pd => pd.PlanId == planId && pd.ExerciseDetailsId == exDetailsId);
+				.Include(pd => pd.Exercise)
+				.FirstOrDefaultAsync(pd => pd.Id == id);
 
 			if (planDetails is null)
 			{
@@ -62,8 +55,7 @@ namespace DAL.Repositories
 		public async Task<PlanDetails?> GetByPlanIdAsync(int planId)
 		{
 			var planDetails = await context.PlansDetails
-				.Include(pd => pd.ExerciseDetails)
-					.ThenInclude(ed => ed.Exercise)
+				.Include(pd => pd.Exercise)
 				.FirstOrDefaultAsync(pd => pd.PlanId == planId);
 
 			if (planDetails is null)
@@ -74,18 +66,21 @@ namespace DAL.Repositories
 			return planDetails;
 		}
 
-		public async Task<PlanDetails?> UpdateAsync(int planId,int exDetailsId, PlanDetails planDetailsModel)
+		public async Task<PlanDetails?> UpdateAsync(int id, PlanDetails planDetailsModel)
 		{
 			var currentPlanDetails = await context.PlansDetails
-				.Include(pd => pd.ExerciseDetails)
-					.ThenInclude(ed => ed.Exercise)
-				.FirstOrDefaultAsync(pd => pd.PlanId == planId && pd.ExerciseDetailsId == exDetailsId);
+				.Include(pd => pd.Exercise)
+				.FirstOrDefaultAsync(pd => pd.Id == id);
 			if (currentPlanDetails is null)
 			{
 				return null;
 			}
-
-			currentPlanDetails.OrederInPlan = planDetailsModel.OrederInPlan;
+			currentPlanDetails.ExerciseId = planDetailsModel.ExerciseId;
+			currentPlanDetails.Reps = planDetailsModel.Reps;
+			currentPlanDetails.Sets = planDetailsModel.Sets;
+			currentPlanDetails.OrderInPlan = planDetailsModel.OrderInPlan;
+			currentPlanDetails.PreviousWeight = planDetailsModel.PreviousWeight;
+			currentPlanDetails.CurrentWeight = planDetailsModel.CurrentWeight;
 
 			await context.SaveChangesAsync();
 

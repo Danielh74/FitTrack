@@ -10,7 +10,6 @@ namespace DAL.Data
 	{
 		public DbSet<MuscleGroup> MuscleGroups { get; set; }
 		public DbSet<Exercise> Exercises { get; set; }
-		public DbSet<ExerciseDetails> ExercisesDetails { get; set; }
 		public DbSet<Plan> Plans { get; set; }
 		public DbSet<PlanDetails> PlansDetails { get; set; }
 		public DbSet<HealthDeclaration> HealthDeclarations { get; set; }
@@ -20,16 +19,6 @@ namespace DAL.Data
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);
-
-			builder.Entity<PlanDetails>(x => x.HasKey(p => new { p.PlanId, p.ExerciseDetailsId }));
-
-			builder.Entity<PlanDetails>().HasOne(pd => pd.Plan)
-				.WithMany(p => p.PlanDetails)
-				.HasForeignKey(pd => pd.PlanId);
-
-			builder.Entity<PlanDetails>().HasOne(pd => pd.ExerciseDetails)
-				.WithMany(e => e.PlanDetails)
-				.HasForeignKey(pd => pd.ExerciseDetailsId);
 
 			builder.Entity<AppUser>().HasMany(u => u.Plans)
 				.WithOne(p => p.AppUser);
@@ -45,13 +34,13 @@ namespace DAL.Data
 				.WithOne(m => m.AppUser)
 				.HasForeignKey<AppUser>(u => u.MenuId);
 
+			builder.Entity<PlanDetails>().HasOne(pd => pd.Exercise)
+				.WithMany(e => e.PlanDetails)
+				.HasForeignKey(pd => pd.ExerciseId);
+
 			builder.Entity<Plan>().HasMany(p => p.PlanDetails)
 				.WithOne(pd => pd.Plan)
 				.HasForeignKey(pd => pd.PlanId);
-
-			builder.Entity<ExerciseDetails>().HasMany(e => e.PlanDetails)
-				.WithOne(pd => pd.ExerciseDetails)
-				.HasForeignKey(pd => pd.ExerciseDetailsId);
 
 			builder.Entity<MuscleGroup>().HasMany(m => m.Exercises)
 				.WithOne(e => e.MuscleGroup)
@@ -190,44 +179,6 @@ namespace DAL.Data
 				}
 			]);
 
-			builder.Entity<ExerciseDetails>().HasData([
-				new ExerciseDetails(){
-					Id = 1,
-					ExerciseId = 2,
-					Reps = 12,
-					Sets = 4,
-					Description = "Lie down with dumbbells and push it up from the line of the chest"
-				},
-				new ExerciseDetails(){
-					Id = 2,
-					ExerciseId = 7,
-					Reps = 10,
-					Sets = 3,
-					Description = "Sit and pull the bar to your chest"
-				},
-				new ExerciseDetails(){
-					Id = 3,
-					ExerciseId = 3,
-					Reps = 12,
-					Sets = 4,
-					Description = "With dumbbells in hands parallel to the body curl them up"
-				},
-				new ExerciseDetails(){
-					Id = 4,
-					ExerciseId = 4,
-					Reps = 12,
-					Sets = 3,
-					Description = "Lie on your back with a barbell above your head and curl the bar behind your head"
-				},
-				new ExerciseDetails(){
-					Id = 5,
-					ExerciseId = 5,
-					Reps = 10,
-					Sets = 4,
-					Description = "With dumbbells in your hands and chest level move them outwards and above your head"
-				},
-			]);
-
 			builder.Entity<Plan>().HasData([
 				new Plan(){
 					Id = 1,
@@ -245,24 +196,44 @@ namespace DAL.Data
 
 			builder.Entity<PlanDetails>().HasData([
 				new PlanDetails(){
-					ExerciseDetailsId = 1,
+					Id = 1,
+					ExerciseId = 2,
 					PlanId = 1,
-					OrederInPlan = 1
+					OrderInPlan = 1,
+					Reps = 12,
+					Sets = 4,
+					CurrentWeight = 15,
+					PreviousWeight = 12.5
 				},
 				new PlanDetails(){
-					ExerciseDetailsId = 5,
+					Id = 2,
+					ExerciseId = 5,
 					PlanId = 1,
-					OrederInPlan = 2
+					OrderInPlan = 2,
+					Reps = 10,
+					Sets = 4,
+					CurrentWeight = null,
+					PreviousWeight = null
 				},
 				new PlanDetails(){
-					ExerciseDetailsId = 2,
+					Id = 3,
+					ExerciseId = 3,
 					PlanId = 2,
-					OrederInPlan = 1
+					OrderInPlan = 1,
+					Reps = 10,
+					Sets = 4,
+					CurrentWeight = null,
+					PreviousWeight = null
 				},
 				new PlanDetails(){
-					ExerciseDetailsId = 3,
+					Id = 4,
+					ExerciseId = 7,
 					PlanId = 2,
-					OrederInPlan = 2
+					OrderInPlan = 2,
+					Reps = 10,
+					Sets = 3,
+					CurrentWeight = null,
+					PreviousWeight = null
 				}
 			]);
 		}

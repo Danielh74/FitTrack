@@ -1,9 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace FitTrackAPI.DTOs.ExerciseDetails
+namespace FitTrackAPI.DTOs.PlanDetailsDTOs
 {
-	public class UpdateExerciseDetailsRequestDto
+	public class AdminUpdatePlanDetailsRequestDto
 	{
+		[Required]
+		[Range(1, int.MaxValue)]
+		public int OrderInPlan { get; set; }
+
 		[Required]
 		[Range(1, int.MaxValue)]
 		public int Reps { get; set; }
@@ -11,8 +15,5 @@ namespace FitTrackAPI.DTOs.ExerciseDetails
 		[Required]
 		[Range(1, int.MaxValue)]
 		public int Sets { get; set; }
-
-		[MinLength(2), MaxLength(200)]
-		public string Description { get; set; } = string.Empty;
 	}
 }

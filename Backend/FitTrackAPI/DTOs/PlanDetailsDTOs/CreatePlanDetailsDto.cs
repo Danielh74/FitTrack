@@ -6,7 +6,7 @@ namespace FitTrackAPI.DTOs.PlanDetailsDTOs
 	{
 		[Required]
 		[Range(1,int.MaxValue)]
-        public int ExerciseDetailsId { get; set; }
+        public int ExerciseId { get; set; }
 
 		[Required]
 		[Range(1, int.MaxValue)]
@@ -15,5 +15,13 @@ namespace FitTrackAPI.DTOs.PlanDetailsDTOs
 		[Required]
 		[Range(1, int.MaxValue)]
 		public int OrderInPlan { get; set; }
+
+		[Required]
+		[Range(1, int.MaxValue)]
+		public int Reps { get; set; }
+
+		[Required]
+		[Range(1, int.MaxValue)]
+		public int Sets { get; set; }
 	}
 }
