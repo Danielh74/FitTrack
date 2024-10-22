@@ -15,7 +15,7 @@ namespace FitTrackAPI.Controllers
 	[Authorize( Roles = "Admin")]
 	public class ExercisesController(IExerciseRepository exerciseRepo, IMuscleGroupRepository muscleGroupRepo) : ControllerBase
 	{
-		[HttpGet]
+		[HttpGet("admin")]
 		public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
 		{
 			if (!ModelState.IsValid)
@@ -28,7 +28,7 @@ namespace FitTrackAPI.Controllers
 			return Ok(exercises.Select(e => e.ToDto()).ToList());
 		}
 
-		[HttpGet("{id:int}")]
+		[HttpGet("admin/{id:int}")]
 		public async Task<IActionResult> GetById([FromRoute] int id)
 		{
 			if (!ModelState.IsValid)
@@ -45,7 +45,7 @@ namespace FitTrackAPI.Controllers
 			return Ok(exercise.ToDto());
 		}
 
-		[HttpPost]
+		[HttpPost("admin")]
 		public async Task<IActionResult> Create([FromBody] CreateExerciseDto exerciseDto)
 		{
 			if (!ModelState.IsValid)
@@ -65,7 +65,7 @@ namespace FitTrackAPI.Controllers
 			return CreatedAtAction(nameof(GetById), new { Id = exercise.Id }, exercise.ToDto());
 		}
 
-		[HttpPut("{id:int}")]
+		[HttpPut("admin/{id:int}")]
 		public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateExerciseRequestDto exerciseDto)
 		{
 			if (!ModelState.IsValid)
@@ -88,7 +88,7 @@ namespace FitTrackAPI.Controllers
 			return Ok(exercise.ToDto());
 		}
 
-		[HttpDelete("{id:int}")]
+		[HttpDelete("admin/{id:int}")]
 		public async Task<IActionResult> Delete([FromRoute] int id)
 		{
 			if (!ModelState.IsValid)

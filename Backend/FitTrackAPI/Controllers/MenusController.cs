@@ -10,10 +10,11 @@ namespace FitTrackAPI.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class MenusController(IMenuRepository repo) : ControllerBase
 	{
-		[HttpGet]
-		[Authorize("Admin")]
+		[HttpGet("admin")]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> GetAll()
 		{
 			var menus = await repo.GetAllAsync();
@@ -26,7 +27,6 @@ namespace FitTrackAPI.Controllers
 		}
 
 		[HttpGet("{userId}")]
-		[Authorize]
 		public async Task<IActionResult> GetById([FromRoute] int userId)
 		{
 			var menu = await repo.GetByUserIdAsync(userId);
@@ -35,7 +35,13 @@ namespace FitTrackAPI.Controllers
 				return NoContent();
 			}
 
-			var loggedInUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+			var validLoggedInUserId = int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier),out int loggedInUserId);
+
+			if (!validLoggedInUserId) 
+			{
+				return BadRequest("Invalid user Id");
+			}
+
 			if (menu.UserId != loggedInUserId || !User.IsInRole("Admin"))
 			{
 				return Forbid();
@@ -44,8 +50,8 @@ namespace FitTrackAPI.Controllers
 			return Ok(menu.ToDto());
 		}
 
-		[HttpPost]
-		[Authorize("Admin")]
+		[HttpPost("admin")]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Create([FromBody] CreateMenuDto dto)
 		{
             if (!ModelState.IsValid)
@@ -58,8 +64,8 @@ namespace FitTrackAPI.Controllers
 			return CreatedAtAction(nameof(GetById), new {Id = menu.Id}, menu.ToDto());
 		}
 
-		[HttpDelete("{id}")]
-		[Authorize("Admin")]
+		[HttpDelete("admin/{id}")]
+		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Delete([FromRoute] int id)
 		{
 			var menu = await repo.GetByIdAsync(id);

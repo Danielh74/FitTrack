@@ -13,7 +13,7 @@ namespace FitTrackAPI.Controllers
 	[Authorize]
 	public class PlanDetailsController(IPlanDetailsRepository repo) : ControllerBase
 	{
-		[HttpGet]
+		[HttpGet("admin")]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> GetAll()
 		{
@@ -38,7 +38,7 @@ namespace FitTrackAPI.Controllers
 			return Ok(planDetails.ToDto());
 		}
 
-		[HttpPost]
+		[HttpPost("admin")]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Create([FromBody] CreatePlanDetailsDto dto)
 		{
@@ -85,7 +85,7 @@ namespace FitTrackAPI.Controllers
 			return Ok(planDetails.ToDto());
 		}
 
-		[HttpDelete("{id}")]
+		[HttpDelete("admin/{id}")]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Delete([FromRoute] int id)
 		{

@@ -4,10 +4,10 @@ import useAuth from '../hooks/useAuth';
 import { useEffect, useState } from 'react';
 import { Weight } from '../models/Weight';
 import { Plan } from '../models/Plan';
-import 'chart.js/auto';
-import { Line } from "react-chartjs-2"
 import Card from '../components/Card';
 import useTheme from '../hooks/useTheme';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import CustomTooltip from '../components/CustomTooltip';
 
 const Dashboard = () => {
     const { user } = useAuth();
@@ -17,8 +17,7 @@ const Dashboard = () => {
     // const [plansAmount, setPlansAmount] = useState<number>(0);
     const [completedPlans, setCompletedPlans] = useState<number>(0);
     const [completedMeals, setCompletedMeals] = useState<number>(0);
-    const [weightList, setWeightList] = useState<number[]>([]);
-    const [timeStamps, setTimeStamps] = useState<string[]>([]);
+    const [weightList, setWeightList] = useState<Weight[]>([]);
 
     useEffect(() => {
         const getValues = () => {
@@ -39,8 +38,7 @@ const Dashboard = () => {
             // });
 
             user.weight.slice(user.weight.length - 10).forEach((weight: Weight) => {
-                setWeightList(prevWeights => [...prevWeights, weight.value]);
-                setTimeStamps(prevTimeStamps => [...prevTimeStamps, weight.timeStamp]);
+                setWeightList(prevWeights => [...prevWeights, weight]);
             });
         };
         getValues();
@@ -50,41 +48,21 @@ const Dashboard = () => {
             setCompletedMeals(0)
             setCompletedPlans(0);
             setWeightList([]);
-            setTimeStamps([]);
         }
     }, [user]);
 
     return (
         <div className='p-3 h-[calc(100vh-4rem)]'>
             <Card title='' customClass='dashboard-card h-1/3 mb-3'>
-                <Line
-                    data={{
-                        labels: timeStamps,
-                        datasets: [{
-                            label: `${weightList.length === 0 ? 'no data' : 'Weight progress'}`,
-                            data: weightList,
-                            backgroundColor: `${weightList.length === 0 ? 'white' : `${darkMode ? lightColor : '#274C77'}`}`,
-                            borderColor: `${weightList.length === 0 ? 'white' : `${darkMode ? lightColor : '#274C77'}`}`,
-                        }],
-                    }}
-                    options={{
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        color: `${darkMode ? lightColor : 'black'}`,
-                        scales: {
-                            x: {
-                                ticks: {
-                                    color: `${darkMode ? lightColor : 'black'}`,
-                                }
-                            },
-                            y: {
-                                ticks: {
-                                    color: `${darkMode ? lightColor : 'black'}`,
-                                }
-                            }
-                        }
-                    }}
-                />
+                <ResponsiveContainer>
+                    <LineChart data={weightList}>
+                        <XAxis dataKey="timeStamp" stroke={`${darkMode ? lightColor : 'black'}`} />
+                        <YAxis dataKey="value" stroke={`${darkMode ? lightColor : 'black'}`} />
+                        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                        <Line type="monotone" dataKey="value" stroke={`${darkMode ? '#2563eb' : '#274C77'}`} />
+                        <Tooltip content={<CustomTooltip active={true} payload={weightList.map((w) => w.value)} label={weightList.map((w) => w.timeStamp)} />} />
+                    </LineChart>
+                </ResponsiveContainer>
             </Card>
             <div className='flex flex-row gap-3'>
                 <div className='flex flex-col'>

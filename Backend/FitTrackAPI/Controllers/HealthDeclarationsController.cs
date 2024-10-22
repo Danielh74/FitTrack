@@ -13,9 +13,10 @@ namespace FitTrackAPI.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class HealthDeclarationsController(IHealthDeclarationRepository repo, UserManager<AppUser> userManager) : ControllerBase
 	{
-		[HttpGet]
+		[HttpGet("admin")]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> GetAll()
 		{
@@ -28,7 +29,7 @@ namespace FitTrackAPI.Controllers
 			return Ok(healthDecs.Select(h=> h.ToDto()));
 		}
 
-		[HttpGet("{userId}")]
+		[HttpGet("admin/{userId}")]
 		[Authorize(Roles ="Admin")]
 		public async Task<IActionResult> GetByUserId(int userId)
 		{
@@ -42,8 +43,7 @@ namespace FitTrackAPI.Controllers
 			return Ok(healthDec.ToDto());
 		}
 
-		[HttpPost]
-		[Authorize]
+		[HttpPost("admin")]
 		public async Task<IActionResult> Create([FromBody]CreateHealthDeclarationDto createDto)
 		{
 			if (!ModelState.IsValid)
@@ -78,7 +78,7 @@ namespace FitTrackAPI.Controllers
 			return Created();
 		}
 
-		[HttpDelete("{id}")]
+		[HttpDelete("admin/{id}")]
 		[Authorize(Roles ="Admin")]
 		public async Task<IActionResult> Delete(int id)
 		{

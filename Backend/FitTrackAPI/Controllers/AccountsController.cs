@@ -161,7 +161,7 @@ public class AccountsController(
 		return Ok("User was deleted successfully");
 	}
 
-	[HttpDelete("{id}")]
+	[HttpDelete("admin/{id}")]
 	[Authorize(Roles = "Admin")]
 	public async Task<IActionResult> DeleteById(int id)
 	{

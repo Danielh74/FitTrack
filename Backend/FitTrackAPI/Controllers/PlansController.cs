@@ -12,9 +12,10 @@ namespace FitTrackAPI.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
+	[Authorize]
 	public class PlansController(IPlanRepository repo) : ControllerBase
 	{
-		[HttpGet]
+		[HttpGet("admin")]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> GetAll()
 		{
@@ -28,7 +29,7 @@ namespace FitTrackAPI.Controllers
 
 		}
 
-		[HttpGet("{id:int}")]
+		[HttpGet("admin/{id:int}")]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> GetById(int id)
 		{
@@ -43,10 +44,14 @@ namespace FitTrackAPI.Controllers
 		}
 
 		[HttpGet("{userId}")]
-		[Authorize]
 		public async Task<IActionResult> GetByUserId(int userId)
 		{
-			var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+			var validUserId = int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier) ,out int currentUserId);
+
+			if (!validUserId)
+			{
+				return BadRequest("Invalid user Id");
+			}
 
 			var plans = await repo.GetByUserIdAsync(userId);
 			if (plans is null)
@@ -62,7 +67,7 @@ namespace FitTrackAPI.Controllers
 			return Ok(plans.Select(p=> p.ToPlanDto()));
 		}
 
-		[HttpPost]
+		[HttpPost("admin")]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Create([FromBody] CreatePlanDto planDto)
 		{
@@ -77,7 +82,6 @@ namespace FitTrackAPI.Controllers
 		}
 
 		[HttpPut("{id:int}")]
-		[Authorize]
 		public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdatePlanRequestDto planDto)
 		{
 			if (!ModelState.IsValid)
@@ -94,7 +98,7 @@ namespace FitTrackAPI.Controllers
 			return Ok(plan.ToPlanDto());
 		}
 
-		[HttpDelete("{id:int}")]
+		[HttpDelete("admin/{id:int}")]
 		[Authorize(Roles = "Admin")]
 		public async Task<IActionResult> Delete([FromRoute] int id)
 		{

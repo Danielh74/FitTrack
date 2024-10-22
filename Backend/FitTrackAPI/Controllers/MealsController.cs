@@ -12,7 +12,7 @@ namespace FitTrackAPI.Controllers
 	[Authorize(Roles = "Admin")]
 	public class MealsController(IMealRepository repo) : ControllerBase
 	{
-		[HttpGet]
+		[HttpGet("admin")]
 		public async Task<IActionResult> GetAll()
 		{
 			var mealsList = await repo.GetAllAsync();
@@ -24,7 +24,7 @@ namespace FitTrackAPI.Controllers
 			return Ok(mealsList.Select(md=> md.ToListDto()));
 		}
 
-		[HttpGet("{id}")]
+		[HttpGet("admin/{id}")]
 		public async Task<IActionResult> GetById([FromRoute] int id)
 		{
 			var meal = await repo.GetByIdAsync(id);
@@ -36,7 +36,7 @@ namespace FitTrackAPI.Controllers
 			return Ok(meal.ToDto());
 		}
 
-		[HttpPost]
+		[HttpPost("admin")]
 		public async Task<IActionResult> Create([FromBody] CreateMealDto createDto)
 		{
 			if (ModelState.IsValid)
@@ -49,7 +49,7 @@ namespace FitTrackAPI.Controllers
 			return CreatedAtAction(nameof(GetById), new { Id = meal.Id }, meal.ToDto());
 		}
 
-		[HttpPut("{id}")]
+		[HttpPut("admin/{id}")]
 		public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateMealRequestDto updateDto)
 		{
 			if (ModelState.IsValid)
@@ -66,7 +66,7 @@ namespace FitTrackAPI.Controllers
 			return Ok(meal.ToDto());
 		}
 
-		[HttpDelete("{id}")]
+		[HttpDelete("admin/{id}")]
 		public async Task<IActionResult> Delete([FromRoute] int id)
 		{
 
