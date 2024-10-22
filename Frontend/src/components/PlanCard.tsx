@@ -8,6 +8,7 @@ import { Plan, PlanDetails } from "../models/Plan";
 import { handleApiErrors } from "../utils/Helpers";
 import { FaRegCirclePlay } from "react-icons/fa6";
 import Card from "./Card";
+import Loader from "../components/Loader";
 
 interface Props {
     id: number,
@@ -21,8 +22,10 @@ const PlanCard = ({ name, id, isCompleted, planDetails, customClass = '' }: Prop
     const { darkMode } = useTheme();
     const { user, reloadUser } = useAuth();
     const [isChecked, setIsChecked] = useState(isCompleted);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleChecked = (e) => {
+        setIsLoading(true);
         const checked = e.target.checked;
         setIsChecked(checked);
 
@@ -50,6 +53,8 @@ const PlanCard = ({ name, id, isCompleted, planDetails, customClass = '' }: Prop
                 const errorMsg = handleApiErrors(error);
                 toast.error(errorMsg);
                 console.error('Update Plan Error:', error);
+            }).finally(() => {
+                setIsLoading(false);
             });
     };
 
@@ -57,6 +62,11 @@ const PlanCard = ({ name, id, isCompleted, planDetails, customClass = '' }: Prop
         <div
             style={{ backgroundColor: isChecked && (darkMode ? '#2b7a40' : 'lightgreen') }}
             className={`${customClass} plan-card card shadow-xl`}>
+            {isLoading &&
+                (<div className="absolute inset-0 flex justify-center items-center">
+                    <Loader />
+                </div>)}
+
             <h1>
                 <input
                     type="checkbox"
@@ -88,7 +98,7 @@ const PlanCard = ({ name, id, isCompleted, planDetails, customClass = '' }: Prop
                         </div>
                         <div className="flex flex-row gap-10 text-sm">
                             <div>
-                                Previews weight: {ex.previousWeight ? ex.previousWeight + ' kg' : '--'}
+                                Previous weight: {ex.previousWeight ? ex.previousWeight + ' kg' : '--'}
                             </div>
                             <div>
                                 Current weight: {ex.currentWeight ? ex.currentWeight + ' kg' : '--'}
@@ -99,6 +109,7 @@ const PlanCard = ({ name, id, isCompleted, planDetails, customClass = '' }: Prop
             ))}
 
             Completed? {isCompleted ? 'yes' : 'no'}
+
         </div>
     );
 };

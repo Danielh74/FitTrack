@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as Yup from 'yup';
 import { auth } from "../services/UserService";
 import Card from "../components/Card";
@@ -22,7 +22,6 @@ const LoginPage = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const navigate = useNavigate();
     const { loginUser } = useAuth();
 
     const validationSchema = Yup.object({
@@ -45,7 +44,6 @@ const LoginPage = () => {
             auth.getLoggedInUser(response.data.token).then((userRes) => {
                 toast.success("Login Successful");
                 loginUser(response.data.token, userRes);
-                navigate("/dashboard");
             }).catch((userErr) => {
                 const errorMsg = handleApiErrors(userErr);
                 toast.error(errorMsg);

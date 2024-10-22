@@ -12,6 +12,7 @@ function MenuPage() {
     return (
         <div className="p-3 h-[calc(100vh-4rem)]">
             {menu ? <>menu</> : <>no menu</>}
+            {user.role}
         </div>
     )
 }

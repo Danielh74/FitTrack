@@ -5,10 +5,13 @@ import Loader from "../components/Loader";
 import { handleApiErrors } from "../utils/Helpers";
 import { dialogs } from "../dialogs/Dialogs";
 import { Navigate } from "react-router-dom";
+import { TokenPayload } from "../models/User";
+import { jwtDecode } from "jwt-decode";
 
 
 interface AuthContextType {
     isLoggedIn: boolean,
+    isAdmin: boolean,
     token: string | null,
     user: User | null,
     loginUser: (token: string, userData: User) => void,
@@ -20,6 +23,7 @@ interface Props {
 }
 const initialValues: AuthContextType = {
     isLoggedIn: false,
+    isAdmin: false,
     token: null,
     user: null,
     loginUser: () => { },
@@ -34,6 +38,7 @@ function AuthProvider({ children }: Props) {
     const [token, setToken] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchUserData = () => {
@@ -44,7 +49,14 @@ function AuthProvider({ children }: Props) {
                         console.log(userData);
                         setIsLoggedIn(true);
                         setToken(storedToken);
-                        setUser(userData);
+                        const payload: TokenPayload = jwtDecode<TokenPayload>(storedToken);
+                        if (payload.role && payload.role === "Admin") {
+                            setUser({ ...userData, role: "Admin" });
+                            setIsAdmin(true);
+                        } else {
+                            setUser({ ...userData, role: "User" });
+                            setIsAdmin(false);
+                        }
                     })
                     .catch((error) => {
                         const errorMsg = handleApiErrors(error);
@@ -64,6 +76,12 @@ function AuthProvider({ children }: Props) {
 
     const loginUser = (token: string, userData: User) => {
         localStorage.setItem("token", token);
+        const payload: TokenPayload = jwtDecode(token);
+        if (payload.role && payload.role === "Admin") {
+            setIsAdmin(true);
+        } else {
+            setIsAdmin(false);
+        }
         setUser(userData);
         setIsLoggedIn(true);
         setToken(token);
@@ -73,7 +91,7 @@ function AuthProvider({ children }: Props) {
     const logoutUser = () => {
         localStorage.removeItem("token");
         setIsLoggedIn(false);
-        setToken("");
+        setToken(null);
         setUser(null);
     };
 
@@ -86,7 +104,7 @@ function AuthProvider({ children }: Props) {
             <Loader />
         </div>
 
-    return <AuthContext.Provider value={{ isLoggedIn, token, user, reloadUser, loginUser, logoutUser }}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{ isLoggedIn, token, user, isAdmin, reloadUser, loginUser, logoutUser }}>{children}</AuthContext.Provider>
 };
 
 export { AuthContext, AuthProvider }

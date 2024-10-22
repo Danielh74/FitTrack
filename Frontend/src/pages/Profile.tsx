@@ -111,7 +111,7 @@ const Profile = () => {
                                                         <Field
                                                             as="input"
                                                             name="goal"
-                                                            className="profile-field"
+                                                            className="w-20"
                                                             disabled={isDisabled}>
                                                         </Field>
                                                         :

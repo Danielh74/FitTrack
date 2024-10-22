@@ -3,12 +3,13 @@ import App from "../App";
 import Home from "../pages/Home";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
-import { AuthRoute, NotAuthRoute } from "./ProtectedRoutes";
+import { AdminRoute, AuthRoute, NotAuthRoute } from "./ProtectedRoutes";
 import Dashboard from "../pages/Dashboard";
 import Plans from "../pages/Plans";
 import Profile from "../pages/Profile";
 import MenuPage from "../pages/MenuPage";
 import NotFound from "../pages/NotFound";
+import AdminDashboard from "../adminPages/AdminDashboard";
 
 export const router = createBrowserRouter([
     {
@@ -20,9 +21,8 @@ export const router = createBrowserRouter([
             { path: "/plans", element: <AuthRoute><Plans /> </AuthRoute> },
             { path: "/profile", element: <AuthRoute><Profile /> </AuthRoute> },
             { path: "/menu", element: <AuthRoute><MenuPage /> </AuthRoute> },
-
+            { path: "/admin/dashboard", element: <AdminRoute><AdminDashboard /></AdminRoute> }
         ]
-
     },
     { path: "*", element: <NotFound /> }
 ]); 
