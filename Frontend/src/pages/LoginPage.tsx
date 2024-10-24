@@ -11,7 +11,6 @@ import "../styles/background.scss";
 import "../styles/Form.scss";
 import "../styles/Card.scss";
 import { handleApiErrors } from "../utils/Helpers";
-import axios from "axios";
 
 const LoginPage = () => {
     interface LoginInputs {
@@ -20,9 +19,9 @@ const LoginPage = () => {
     }
 
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string>(null);
 
-    const { loginUser } = useAuth();
+    const { handleLogin } = useAuth();
 
     const validationSchema = Yup.object({
         email: Yup.string().email("Invalid email").required("Email is required").matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Invalid email"),
@@ -34,21 +33,14 @@ const LoginPage = () => {
         password: ""
     };
 
-
-
     const handleSubmit = ({ email, password }: LoginInputs) => {
         setIsLoading(true);
         setError(null);
 
-        axios.post(`${auth.baseUrl}/login`, { email, password }).then((response) => {
-            auth.getLoggedInUser(response.data.token).then((userRes) => {
-                toast.success("Login Successful");
-                loginUser(response.data.token, userRes);
-            }).catch((userErr) => {
-                const errorMsg = handleApiErrors(userErr);
-                toast.error(errorMsg);
-                setError(errorMsg);
-            });
+        auth.login({ email, password }).then((response) => {
+            console.log(response);
+            toast.success("Login Successful");
+            handleLogin(response.token, response.user);
         }).catch((error) => {
             const errorMsg = handleApiErrors(error);
             toast.error(errorMsg);

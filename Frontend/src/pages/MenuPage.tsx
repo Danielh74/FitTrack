@@ -3,16 +3,15 @@ import useAuth from "../hooks/useAuth"
 import { Menu } from "../models/Menu";
 
 function MenuPage() {
-    const { user } = useAuth();
+    const { currentUser } = useAuth();
     const [menu, setMenu] = useState<Menu | null>(null);
     useEffect(() => {
-        setMenu(user.menu);
-    }, [user.menu])
+        setMenu(currentUser.menu);
+    }, [currentUser.menu])
 
     return (
         <div className="p-3 h-[calc(100vh-4rem)]">
             {menu ? <>menu</> : <>no menu</>}
-            {user.role}
         </div>
     )
 }

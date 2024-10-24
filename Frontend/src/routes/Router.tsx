@@ -10,6 +10,7 @@ import Profile from "../pages/Profile";
 import MenuPage from "../pages/MenuPage";
 import NotFound from "../pages/NotFound";
 import AdminDashboard from "../adminPages/AdminDashboard";
+import AdminApp from "../AdminApp";
 
 export const router = createBrowserRouter([
     {
@@ -20,7 +21,11 @@ export const router = createBrowserRouter([
             { path: "/dashboard", element: <AuthRoute><Dashboard /> </AuthRoute> },
             { path: "/plans", element: <AuthRoute><Plans /> </AuthRoute> },
             { path: "/profile", element: <AuthRoute><Profile /> </AuthRoute> },
-            { path: "/menu", element: <AuthRoute><MenuPage /> </AuthRoute> },
+            { path: "/menu", element: <AuthRoute><MenuPage /> </AuthRoute> }
+        ]
+    },
+    {
+        path: "/admin", element: <AdminApp />, children: [
             { path: "/admin/dashboard", element: <AdminRoute><AdminDashboard /></AdminRoute> }
         ]
     },

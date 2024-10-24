@@ -7,26 +7,26 @@ interface Props {
 }
 
 export const AuthRoute = ({ children }: Props) => {
-    const { isLoggedIn, isAdmin, user } = useAuth();
+    const { isAdmin, currentUser } = useAuth();
 
-    if (isLoggedIn && isAdmin) {
+    if (currentUser && isAdmin) {
         return <Navigate to="/admin/dashboard" />
     }
 
-    return isLoggedIn && user ? children : <Navigate to="/login" />
+    return currentUser ? children : <Navigate to="/login" />
 };
 
 export const NotAuthRoute = ({ children }: Props) => {
-    const { isLoggedIn, user } = useAuth();
+    const { currentUser } = useAuth();
 
-    return !isLoggedIn && !user ? children : <Navigate to="/dashboard" />;
+    return !currentUser ? children : <Navigate to="/dashboard" />;
 };
 
 export const AdminRoute = ({ children }: Props) => {
-    const { user, isAdmin } = useAuth();
+    const { currentUser, isAdmin } = useAuth();
 
 
-    if (user && !isAdmin) {
+    if (currentUser && !isAdmin) {
         return <Navigate to="/dashboard" />
     }
     return children;

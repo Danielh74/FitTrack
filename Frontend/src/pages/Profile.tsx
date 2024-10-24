@@ -29,22 +29,22 @@ interface valuesType {
 }
 
 const Profile = () => {
-    const { user, reloadUser, token } = useAuth();
+    const { currentUser, reloadUser, token } = useAuth();
     const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
     const initialValues = {
-        city: user.city,
-        age: user.age,
-        goal: user.goal,
-        height: user.height,
-        neck: user.neckCircumference,
-        pecs: user.pecsCircumference,
-        arm: user.armCircumference,
-        waist: user.waistCircumference,
-        abdominal: user.abdominalCircumference,
-        thighs: user.thighsCircumference,
-        hips: user.hipsCircumference,
-        weight: user.weight[user.weight.length - 1]?.value ?? 0
+        city: currentUser.city,
+        age: currentUser.age,
+        goal: currentUser.goal,
+        height: currentUser.height,
+        neck: currentUser.neckCircumference,
+        pecs: currentUser.pecsCircumference,
+        arm: currentUser.armCircumference,
+        waist: currentUser.waistCircumference,
+        abdominal: currentUser.abdominalCircumference,
+        thighs: currentUser.thighsCircumference,
+        hips: currentUser.hipsCircumference,
+        weight: currentUser.weight[currentUser.weight.length - 1]?.value ?? 0
     }
 
 
@@ -66,7 +66,7 @@ const Profile = () => {
 
         };
 
-        auth.updateUser(updatedValues).then((response) => {
+        auth.updateCurrentUser(updatedValues).then((response) => {
             toast.success('Measurements updated successfully');
             reloadUser(response.data);
         }).catch((error) => {
@@ -87,7 +87,7 @@ const Profile = () => {
                                 <section className="flex flex-col w-1/2">
                                     <Card title="User info" customClass="profile-card h-1/2">
                                         <h1 className="flex flex-row font-medium text-2xl justify-center mb-4">
-                                            {user.firstName + " " + user.lastName}
+                                            {currentUser.firstName + " " + currentUser.lastName}
                                         </h1>
                                         <main className="flex flex-col">
                                             <div className="flex flex-row ms-5 mt-5 justify-around mb-2">
@@ -97,7 +97,7 @@ const Profile = () => {
                                                 </span>
                                                 <span>
                                                     <label className="me-1">Gender:</label>
-                                                    {user.gender}
+                                                    {currentUser.gender}
                                                 </span>
                                             </div>
                                             <div className="flex ms-5 mt-5 justify-around mb-2 ">
@@ -130,7 +130,7 @@ const Profile = () => {
                                                 <div className="pt-1 pr-1">
                                                     <GiMuscleFat />
                                                 </div>
-                                                Body fat: {user.bodyFatPrecentage === 0 ? "N/A" : user.bodyFatPrecentage + '%'}
+                                                Body fat: {currentUser.bodyFatPrecentage === 0 ? "N/A" : currentUser.bodyFatPrecentage + '%'}
                                             </span>
                                         </main>
                                     </Card>

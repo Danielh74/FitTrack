@@ -20,7 +20,7 @@ interface Props {
 
 const PlanCard = ({ name, id, isCompleted, planDetails, customClass = '' }: Props) => {
     const { darkMode } = useTheme();
-    const { user, reloadUser } = useAuth();
+    const { currentUser, reloadUser } = useAuth();
     const [isChecked, setIsChecked] = useState(isCompleted);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -37,14 +37,14 @@ const PlanCard = ({ name, id, isCompleted, planDetails, customClass = '' }: Prop
 
         planService.updatePlanComplete(updatedPlan)
             .then((response) => {
-                const updatedList: Plan[] = user.plans.map((p) => {
+                const updatedList: Plan[] = currentUser.plans.map((p) => {
                     if (p.id === updatedPlan.id) {
                         return response.data;
                     }
                     return p;
                 });
 
-                reloadUser({ ...user, plans: updatedList });
+                reloadUser({ ...currentUser, plans: updatedList });
 
                 if (checked) {
                     toast.success('Plan completed, good job!');

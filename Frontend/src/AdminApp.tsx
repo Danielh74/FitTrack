@@ -7,11 +7,11 @@ import Sidebar from './components/Sidebar';
 import useAuth from './hooks/useAuth';
 
 function AdminApp() {
-    const { isLoggedIn } = useAuth();
+    const { currentUser } = useAuth();
     return (
         <div className='app-bg'>
             <Navbar />
-            {isLoggedIn ?
+            {currentUser ?
                 <>
                     <Sidebar />
                     <div className="pl-32 pt-16">

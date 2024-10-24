@@ -7,7 +7,6 @@ import Card from "../components/Card";
 import { dialogs } from "../dialogs/Dialogs";
 import Loader from "../components/Loader";
 import { handleApiErrors } from "../utils/Helpers";
-import axios from "axios";
 import "../styles/Card.scss";
 
 function RegisterPage() {
@@ -55,14 +54,16 @@ function RegisterPage() {
     const handleSubmit = (inputs: RegisterInputs) => {
         setIsLoading(true);
 
-        axios.post(`${auth.baseUrl}/register`, inputs).then(() => {
-            dialogs.SuccessAlert("Registration Successful");
-            navigate("/login");
+        auth.register(inputs).then((response) => {
+            if (response.status === 200) {
+                dialogs.SuccessAlert("Registration Successful");
+                navigate("/login");
+            }
         }).catch((error) => {
             const errorMsg = handleApiErrors(error)
             dialogs.errorAlert(errorMsg);
         }).finally(() => {
-            setIsLoading(false)
+            setIsLoading(false);
         });
     };
 

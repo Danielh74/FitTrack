@@ -10,11 +10,10 @@ import { jwtDecode } from "jwt-decode";
 
 
 interface AuthContextType {
-    isLoggedIn: boolean,
     isAdmin: boolean,
-    token: string | null,
-    user: User | null,
-    loginUser: (token: string, userData: User) => void,
+    token?: string | null,
+    currentUser?: User | null,
+    handleLogin: (token: string, userData: User) => void,
     logoutUser: () => void,
     reloadUser: (data: User) => void
 }
@@ -22,11 +21,10 @@ interface Props {
     children: ReactNode
 }
 const initialValues: AuthContextType = {
-    isLoggedIn: false,
     isAdmin: false,
     token: null,
-    user: null,
-    loginUser: () => { },
+    currentUser: null,
+    handleLogin: () => { },
     logoutUser: () => { },
     reloadUser: () => { }
 }
@@ -34,9 +32,8 @@ const initialValues: AuthContextType = {
 const AuthContext = createContext(initialValues);
 
 function AuthProvider({ children }: Props) {
-    const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
     const [token, setToken] = useState<string | null>(null);
-    const [user, setUser] = useState<User | null>(null);
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
@@ -44,17 +41,16 @@ function AuthProvider({ children }: Props) {
         const fetchUserData = () => {
             const storedToken = localStorage.getItem("token");
             if (storedToken) {
-                auth.getLoggedInUser(storedToken)
+                auth.getCurrentUser(storedToken)
                     .then((userData) => {
                         console.log(userData);
-                        setIsLoggedIn(true);
                         setToken(storedToken);
                         const payload: TokenPayload = jwtDecode<TokenPayload>(storedToken);
                         if (payload.role && payload.role === "Admin") {
-                            setUser({ ...userData, role: "Admin" });
+                            setCurrentUser(userData);
                             setIsAdmin(true);
                         } else {
-                            setUser({ ...userData, role: "User" });
+                            setCurrentUser(userData);
                             setIsAdmin(false);
                         }
                     })
@@ -65,38 +61,35 @@ function AuthProvider({ children }: Props) {
                         return <Navigate to="/" />;
                     });
             } else {
-                setIsLoggedIn(false);
                 setToken(null);
-                setUser(null);
+                setCurrentUser(null);
             }
             setIsLoading(false);
         };
         fetchUserData();
     }, []);
 
-    const loginUser = (token: string, userData: User) => {
+    const handleLogin = (token: string, userData: User) => {
         localStorage.setItem("token", token);
         const payload: TokenPayload = jwtDecode(token);
         if (payload.role && payload.role === "Admin") {
             setIsAdmin(true);
+            setCurrentUser(userData);
         } else {
             setIsAdmin(false);
+            setCurrentUser(userData);
         }
-        setUser(userData);
-        setIsLoggedIn(true);
         setToken(token);
-        console.log(userData);
     };
 
     const logoutUser = () => {
         localStorage.removeItem("token");
-        setIsLoggedIn(false);
         setToken(null);
-        setUser(null);
+        setCurrentUser(null);
     };
 
     const reloadUser = (data: User) => {
-        setUser(data);
+        setCurrentUser(data);
     };
 
     if (isLoading)
@@ -104,7 +97,7 @@ function AuthProvider({ children }: Props) {
             <Loader />
         </div>
 
-    return <AuthContext.Provider value={{ isLoggedIn, token, user, isAdmin, reloadUser, loginUser, logoutUser }}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{ token, currentUser, isAdmin, reloadUser, handleLogin, logoutUser }}>{children}</AuthContext.Provider>
 };
 
 export { AuthContext, AuthProvider }

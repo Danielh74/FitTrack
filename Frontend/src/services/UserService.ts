@@ -19,6 +19,23 @@ interface updatedUserProps {
 
 const baseUrl = import.meta.env.VITE_BASE_URL + "/accounts";
 
+const register = (registerInputs) => {
+
+    return axios.post(`${baseUrl}/register`, registerInputs).then((response) => {
+        return response
+    }).catch((error) => {
+        throw error;
+    });
+};
+const login = ({ email, password }) => {
+
+    return axios.post(`${baseUrl}/login`, { email, password }).then((response) => {
+        return response.data
+    }).catch((error) => {
+        throw error;
+    });
+};
+
 const getUserInfo = (payload: TokenPayload) => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -35,7 +52,7 @@ const getUserInfo = (payload: TokenPayload) => {
     });
 };
 
-const getLoggedInUser = (token: string) => {
+const getCurrentUser = (token: string) => {
     const payload: TokenPayload = jwtDecode<TokenPayload>(token);
     return axios.get(`${baseUrl}/${payload.nameid}`, {
         headers: {
@@ -48,7 +65,7 @@ const getLoggedInUser = (token: string) => {
     });
 };
 
-const updateUser = (updatedUser: updatedUserProps) => {
+const updateCurrentUser = (updatedUser: updatedUserProps) => {
     return axios.put(`${baseUrl}`, updatedUser, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -56,6 +73,6 @@ const updateUser = (updatedUser: updatedUserProps) => {
     });
 };
 
-export const auth = { baseUrl, getUserInfo, getLoggedInUser, updateUser }
+export const auth = { register, login, getUserInfo, getCurrentUser, updateCurrentUser }
 
 

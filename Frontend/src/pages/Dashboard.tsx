@@ -10,10 +10,10 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContai
 import CustomTooltip from '../components/CustomTooltip';
 
 const Dashboard = () => {
-    const { user } = useAuth();
+    const { currentUser } = useAuth();
     const { darkMode, lightColor } = useTheme();
-    const plansAmount = user.plans.length;
-    const mealsAmount = user.menu === null ? 0 : user.menu.menuDetails.length;
+    const plansAmount = currentUser.plans.length;
+    const mealsAmount = currentUser.menu === null ? 0 : currentUser.menu.menuDetails.length;
     // const [plansAmount, setPlansAmount] = useState<number>(0);
     const [completedPlans, setCompletedPlans] = useState<number>(0);
     const [completedMeals, setCompletedMeals] = useState<number>(0);
@@ -23,7 +23,7 @@ const Dashboard = () => {
         const getValues = () => {
             // setPlansAmount(user.plans.length);
 
-            user.plans.forEach((plan: Plan) => {
+            currentUser.plans.forEach((plan: Plan) => {
 
                 if (plan.isCompleted) {
                     setCompletedPlans(prev => prev + 1);
@@ -37,7 +37,7 @@ const Dashboard = () => {
             //     }
             // });
 
-            user.weight.slice(user.weight.length - 10).forEach((weight: Weight) => {
+            currentUser.weight.slice(currentUser.weight.length - 10).forEach((weight: Weight) => {
                 setWeightList(prevWeights => [...prevWeights, weight]);
             });
         };
@@ -49,7 +49,7 @@ const Dashboard = () => {
             setCompletedPlans(0);
             setWeightList([]);
         }
-    }, [user]);
+    }, [currentUser]);
 
     return (
         <div className='p-3 h-[calc(100vh-4rem)]'>

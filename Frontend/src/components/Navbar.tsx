@@ -6,15 +6,15 @@ import useTheme from "../hooks/useTheme";
 
 function Navbar() {
     const { darkMode, toggle } = useTheme();
-    const { isLoggedIn, logoutUser, user } = useAuth();
+    const { logoutUser, currentUser } = useAuth();
     return (
         <nav id="app-nav" className="fixed top-0 left-0 w-full h-16 z-50 flex gap-3 p-2 navbar-bg items-center">
-            <NavLink to={`${isLoggedIn ? "/dashboard" : "/"}`} className="p-2">
+            <NavLink to={`${currentUser ? "/dashboard" : "/"}`} className="p-2">
                 <img src={logo} alt="logo" className="w-10" />
             </NavLink>
-            {isLoggedIn ?
+            {currentUser ?
                 <>
-                    <div>Welcome, {user.firstName} {user.lastName}</div>
+                    <div>Welcome, {currentUser.firstName} {currentUser.lastName}</div>
                     <div className="flex-1" />
                     <div className="hidden sm:flex items-center">
                         <NavLink to="/" className="p-2"><button onClick={logoutUser}>Logout</button></NavLink>

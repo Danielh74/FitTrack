@@ -67,7 +67,7 @@ public class AccountsController(
 
 		var token = await tokenService.CreateTokenAsync(user);
 
-		return Ok(new { Token = token });
+		return Ok(new { Token = token, User = user });
 	}
 
 	[HttpPut]
@@ -179,7 +179,7 @@ public class AccountsController(
 		return Ok("User was deleted successfully");
 	}
 
-	[HttpGet]
+	[HttpGet("admin")]
 	[Authorize(Roles = "Admin")]
 	public async Task<IActionResult> GetAll()
 	{
@@ -197,7 +197,12 @@ public class AccountsController(
 	[Authorize]
 	public async Task<IActionResult> GetById(int userId)
 	{
-		var currentUserId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+		var validUserId = int.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out int currentUserId);
+		if (!validUserId)
+		{
+			return NotFound($"User with id: {userId} was not found");
+		}
+
 		if ((currentUserId != userId) && (!User.IsInRole("Admin")))
 		{
 			return Forbid();

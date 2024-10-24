@@ -4,12 +4,12 @@ import { Plan } from "../models/Plan";
 import PlanCard from "../components/PlanCard";
 
 function Plans() {
-    const { user } = useAuth();
+    const { currentUser } = useAuth();
     const [plans, setPlans] = useState<Plan[]>([]);
 
     useEffect(() => {
-        setPlans(user.plans);
-    }, [user])
+        setPlans(currentUser.plans);
+    }, [currentUser])
 
     return (
         <main className="flex flex-row p-3 items-center">

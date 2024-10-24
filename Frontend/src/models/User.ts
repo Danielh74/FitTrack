@@ -23,7 +23,6 @@ export interface User {
     plans: Plan[]
     thighsCircumference: number
     waistCircumference: number
-    role: string
 };
 
 export interface TokenPayload {
