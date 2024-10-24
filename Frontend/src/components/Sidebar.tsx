@@ -35,9 +35,9 @@ const Sidebar = () => {
 
                                 <h6 className="ml-3">Admin Dashboard</h6>
                             </NavLink>
-                            <NavLink to="/profile" className={({ isActive }) => `${isActive ? 'text-blue-600 text-lg' : 'text-md'} font-bold block pt-1 pb-4`}>
+                            <NavLink to="/admin/users" className={({ isActive }) => `${isActive ? 'text-blue-600 text-lg' : 'text-md'} font-bold block pt-1 pb-4`}>
 
-                                <h6 className="ml-3">Profile</h6>
+                                <h6 className="ml-3">Users</h6>
                             </NavLink>
                             <NavLink to="/plans" className={({ isActive }) => `${isActive ? 'text-blue-600 text-lg' : 'text-md '} font-bold block pt-1 pb-4`}>
 

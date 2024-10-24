@@ -25,6 +25,17 @@ export interface User {
     waistCircumference: number
 };
 
+export interface UsersList {
+    id: number
+    firstName: string
+    lastName: string
+    age: number
+    gender: string
+    city: string
+    agreedToTerms: boolean
+    healthDeclarationId: number | null
+};
+
 export interface TokenPayload {
     aud: string
     email: string

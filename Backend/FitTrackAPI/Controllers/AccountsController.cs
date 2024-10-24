@@ -53,7 +53,12 @@ public class AccountsController(
 			return BadRequest(ModelState);
 		}
 
-		var user = await userManager.FindByEmailAsync(loginDto.Email);
+		var user = await userManager.Users
+			.Include(u=>u.Weight)
+			.Include(u=>u.Plans)
+			.Include(u=> u.Menu)
+				.ThenInclude(m=>m.Meals)
+			.FirstOrDefaultAsync(u=>u.Email == loginDto.Email);
 		if (user is null)
 		{
 			return Unauthorized("User does not exist.");
@@ -67,7 +72,7 @@ public class AccountsController(
 
 		var token = await tokenService.CreateTokenAsync(user);
 
-		return Ok(new { Token = token, User = user });
+		return Ok(new { Token = token, User = user.ToDto() });
 	}
 
 	[HttpPut]

@@ -11,6 +11,7 @@ import MenuPage from "../pages/MenuPage";
 import NotFound from "../pages/NotFound";
 import AdminDashboard from "../adminPages/AdminDashboard";
 import AdminApp from "../AdminApp";
+import Users from "../adminPages/Users";
 
 export const router = createBrowserRouter([
     {
@@ -26,7 +27,8 @@ export const router = createBrowserRouter([
     },
     {
         path: "/admin", element: <AdminApp />, children: [
-            { path: "/admin/dashboard", element: <AdminRoute><AdminDashboard /></AdminRoute> }
+            { path: "/admin/dashboard", element: <AdminRoute><AdminDashboard /></AdminRoute> },
+            { path: "/admin/users", element: <AdminRoute><Users /></AdminRoute> },
         ]
     },
     { path: "*", element: <NotFound /> }

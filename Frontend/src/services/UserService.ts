@@ -65,6 +65,19 @@ const getCurrentUser = (token: string) => {
     });
 };
 
+const getAllUsers = () => {
+    const token = localStorage.getItem("token");
+    return axios.get(`${baseUrl}/admin`, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }).then((response) => {
+        return response.data;
+    }).catch((error) => {
+        throw error;
+    });
+};
+
 const updateCurrentUser = (updatedUser: updatedUserProps) => {
     return axios.put(`${baseUrl}`, updatedUser, {
         headers: {
@@ -73,6 +86,6 @@ const updateCurrentUser = (updatedUser: updatedUserProps) => {
     });
 };
 
-export const auth = { register, login, getUserInfo, getCurrentUser, updateCurrentUser }
+export const auth = { register, login, getUserInfo, getCurrentUser, getAllUsers, updateCurrentUser }
 
 

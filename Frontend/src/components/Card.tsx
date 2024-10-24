@@ -1,12 +1,12 @@
 import { ReactNode } from "react"
 
 interface Props {
-    title: string,
+    title?: string,
     children: ReactNode,
     customClass?: string
 }
 
-const Card = ({ children, title, customClass = '' }: Props) => {
+const Card = ({ children, title, customClass }: Props) => {
     return (
         <div className={`${customClass} card shadow-xl`}>
             <h1>

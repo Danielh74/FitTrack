@@ -78,7 +78,7 @@ const PlanCard = ({ name, id, isCompleted, planDetails, customClass = '' }: Prop
                 <label htmlFor={`${id}`}>{name}</label>
             </h1>
             {planDetails.map((ex) => (
-                <Card title='' customClass="mb-2" key={ex.orderInPlan}>
+                <Card customClass="mb-2" key={ex.orderInPlan}>
                     <div>
                         <div className="flex flex-row justify-between">
                             <div className="flex flex-col">
