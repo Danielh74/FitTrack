@@ -36,7 +36,7 @@ function Users() {
         <div className="flex">
             {isLoading && <Loader />}
             {users ?
-                <Card title="Users" customClass="m-2 dashboard-card">
+                <Card title="Users" customClass="m-2 plan-card">
                     <div className="overflow-x-auto rounded-md border mt-3 dark:border-black">
                         <table className="w-full text-sm text-center font-medium">
                             <thead className="text-xs bg-gray-200 dark:bg-gray-800 uppercase border-b">
